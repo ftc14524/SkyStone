@@ -87,7 +87,7 @@ public class Hardware {
         //constrictR = hwmp.servo.get("Constriction Right");
 
         //Camera
-        cameraName = hwmp.get(WebcamName.class, "Webcam");
+        cameraName = hwmp.get(WebcamName.class, "Webcam 1");
 
         gate = hwmp.servo.get("Gate");
 

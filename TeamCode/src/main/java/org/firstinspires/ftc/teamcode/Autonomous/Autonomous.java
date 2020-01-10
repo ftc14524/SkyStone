@@ -155,19 +155,16 @@ public class Autonomous extends LinearOpMode {
 
 
     public void rotate(boolean right, double time, double power) {
-        if(right)
-        {
-            rightFront.setPower(1*(power*.5));
-            rightBack.setPower(1*(power*.5));
-            leftFront.setPower(-1*(power));
-            leftBack.setPower(-1*(power));
-        }
-        else
-        {
-            rightFront.setPower(-1*(power));
-            rightBack.setPower(-1*(power));
-            leftFront.setPower(1*(power*.5));
-            leftBack.setPower(1*(power*.5));
+        if (right) {
+            rightFront.setPower(1 * (power * .5));
+            rightBack.setPower(1 * (power * .5));
+            leftFront.setPower(-1 * (power));
+            leftBack.setPower(-1 * (power));
+        } else {
+            rightFront.setPower(-1 * (power));
+            rightBack.setPower(-1 * (power));
+            leftFront.setPower(1 * (power * .5));
+            leftBack.setPower(1 * (power * .5));
         }
 
         waitFor(time);
@@ -564,3 +561,4 @@ public class Autonomous extends LinearOpMode {
         leftBack.setPower(0);
         rightBack.setPower(0);
     }
+}

@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Hardware;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import java.lang.Math;
 
 /*
@@ -25,7 +27,7 @@ public class MainTeleOp extends OpMode {
 
     //Create a robot---responsible for connecting hardware of Hardware class to methods
     Hardware robot;
-
+    private ElapsedTime runtime = new ElapsedTime();
     //private ElaspedTime runTime; for if you need to drive by time
 
     //Directions
@@ -183,6 +185,13 @@ public class MainTeleOp extends OpMode {
         }
 
     }
+
+    @Override
+    public void start() {
+        runtime.reset();
+    }
+
+
     public void automatedMotions(){
         //TODO Move verticalLifts and armRotate
         if(gamepad2.x) {
@@ -191,6 +200,16 @@ public class MainTeleOp extends OpMode {
         }if (gamepad2.y){
             stoneGripper.setPosition(Servo.MIN_POSITION);
         }
+
+        if(gamepad2.dpad_up){
+            double current = runtime.milliseconds();
+            stoneGripper.setPosition(Servo.MAX_POSITION);
+            pusher.setPosition(Servo.MIN_POSITION);
+            while(runtime.milliseconds() < current + 1000);
+
+            stoneGripper.setPosition(Servo.MIN_POSITION);
+        }
+
     }
 
     public void DriveControl() {
@@ -212,6 +231,7 @@ public class MainTeleOp extends OpMode {
         double rb = magnitude * Math.sin(direction + Math.PI / 4) + rotation;
         double hypot = Math.hypot(movement, strafe);
         double ratio;
+
         if (movement == 0 && strafe == 0)
             ratio = 1;
         else
@@ -492,3 +512,5 @@ public class MainTeleOp extends OpMode {
         }
     }
 }
+
+
