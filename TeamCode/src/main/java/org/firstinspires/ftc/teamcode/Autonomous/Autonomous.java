@@ -34,7 +34,7 @@ public class Autonomous extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime();
     DcMotor leftFront, rightFront, leftBack, rightBack;
     Servo arm;
-    public Servo platformL, platformR;
+    public Servo platform, stoneGripper;
     protected CameraName cameraName;
 
     public enum SkyStonePosition {
@@ -70,9 +70,10 @@ public class Autonomous extends LinearOpMode {
         rightFront = robot.rightFront;
         leftBack = robot.leftBack;
         rightBack = robot.rightBack;
-        //platformL = robot.platformL;
+        platform = robot.platform;
         //platformR = robot.platformR;
         //arm = robot.arm;
+        stoneGripper = robot.stoneGripper;
 
         telemetry.addData("Motor Status", rightBack == null);
         telemetry.addData("Motor Status", rightFront == null);

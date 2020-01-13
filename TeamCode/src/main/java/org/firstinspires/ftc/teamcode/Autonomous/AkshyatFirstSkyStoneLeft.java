@@ -6,8 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name = "Testing One", group = "Autonomous")
 
-public class FirstSkyStone extends org.firstinspires.ftc.teamcode.Autonomous.Autonomous {
-
+public class AkshyatFirstSkyStoneLeft extends org.firstinspires.ftc.teamcode.Autonomous.Autonomous {
     @Override
     public void runOpMode() {
 
@@ -22,7 +21,7 @@ public class FirstSkyStone extends org.firstinspires.ftc.teamcode.Autonomous.Aut
         //Lower the arm
         arm.setPosition(Servo.MAX_POSITION);
         //Grabs block
-        stoneGrabber.setPosition(Servo.MAX_POSITION);
+        stoneGripper.setPosition(Servo.MAX_POSITION);
         //Lifts Arm
         arm.setPosition(Servo.MIN_POSITION);
         //Strafe right for .2 seconds.
@@ -34,7 +33,7 @@ public class FirstSkyStone extends org.firstinspires.ftc.teamcode.Autonomous.Aut
 
         //Option 1
         //Release Grabber
-        stoneGrabber.setPosition(Servo.MIN_Position);
+        stoneGripper.setPosition(Servo.MIN_POSITION);
 
         /*Other Option
         //Drop arm
@@ -54,19 +53,19 @@ public class FirstSkyStone extends org.firstinspires.ftc.teamcode.Autonomous.Aut
         //Lower the arm
         arm.setPosition(Servo.MAX_POSITION);
         //Grabs block
-        stoneGrabber.setPosition(Servo.MAX_POSITION);
+        stoneGripper.setPosition(Servo.MAX_POSITION);
         //Lifts Arm
         arm.setPosition(Servo.MIN_POSITION);
         //Strafe right for .2 seconds.
         strafe(0, 1, 1, .2);
-        //Go forward for 3 seconds
-        strafe(1, 0, 1, 3);
+        //Go forward for 1.5 seconds
+        strafe(1, 0, 1, 1.5);
         //Strage left for .2 seconds
         strafe(0, -1, 1, .2);
 
         //Option 1
         //Release Grabber
-        stoneGrabber.setPosition(Servo.MIN_Position);
+        stoneGripper.setPosition(Servo.MIN_POSITION);
 
         /*Other Option
         //Drop arm
@@ -76,13 +75,13 @@ public class FirstSkyStone extends org.firstinspires.ftc.teamcode.Autonomous.Aut
         */
 
         //Grip Platform
-        platformServo.setPosition(Servo.MAX_position);
-        //Go Backwards and strafe Right for 3 seconds
-        strafe(-1, 1, .5, 3);
+        platform.setPosition(Servo.MAX_POSITION);
+        //Turn clockwise 90 degrees
+        timeTurn(1, .5);
         //Go forward and strafe left for 1 second
-        strafe(1, -1, .5, 3);
+        strafe(1, -1, .5, 1);
         //Ungrip Platform
-        platformServo.setPosition(Servo.MIN_position);
+        platform.setPosition(Servo.MIN_POSITION);
         //Strafe Left for .75 seconds
         strafe(0, -1, 1, .75);
         stop();
