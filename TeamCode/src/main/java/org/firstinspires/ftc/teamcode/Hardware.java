@@ -65,7 +65,7 @@ public class Hardware {
 
         //Lift
         //horizontalLift = hwmp.dcMotor.get("Horizontal Lift");
-        verticalLift = hwmp.dcMotor.get("Vertical Lift");
+        verticalLift = hwmp.dcMotor.get("Lift");
         pusher = hwmp.servo.get("Stone Pusher");
 
         //Arm to grip the stone
