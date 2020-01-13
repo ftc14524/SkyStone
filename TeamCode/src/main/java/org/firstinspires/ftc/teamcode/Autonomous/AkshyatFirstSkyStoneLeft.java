@@ -79,7 +79,7 @@ public class FirstSkyStone extends org.firstinspires.ftc.teamcode.Autonomous.Aut
         platformServo.setPosition(Servo.MAX_position);
         //Go Backwards and strafe Right for 3 seconds
         strafe(-1, 1, .5, 3);
-        //Go forward and strafe left for 1 seconds
+        //Go forward and strafe left for 1 second
         strafe(1, -1, .5, 3);
         //Ungrip Platform
         platformServo.setPosition(Servo.MIN_position);
