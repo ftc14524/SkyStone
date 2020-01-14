@@ -3,9 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-
 
 /**
  * This class defines all the hardware components of the robot. It has eight DcMotors, five Servos, and one WebcamName. It can reset drive encoders and stop all motors
@@ -19,32 +17,15 @@ public class Hardware {
     //Intake
     public DcMotor greenWheelLeft, greenWheelRight;
     //Lift
-    public DcMotor horizontalLift, verticalLift;
-    //Arm
-    //public Servo armLift;
-    //public Servo armClamp;
-    public Servo stoneGripper;
-    //Platform
-    public Servo platform;
-    //SkyBlock Holders
-    public Servo constrictL;
+    public DcMotor lift;
+    //Lift Servos
+    public Servo liftGripper, liftRotate, pushToLift;
+    //Intake Servos
+    public Servo leftIntake, rightIntake;
+    //Side Arm and Platform Servos
+    public Servo armPivot, armClasp, platform;
     //Camera
     public WebcamName cameraName;
-
-    //TODO ask if gate is a servo that exists
-    public Servo gate;
-
-    //Arm mechanism to push in the brick further
-    public Servo pusher;
-
-    public Servo suctionPlatformR, suctionPlatformL;
-
-    public Servo armRotate;
-   /*
-   Extra motors and servos in case we add them later on
-       public DcMotor verticalIntake, horizontalIntake;
-        public Servo extrusionL, extrusionR;
-    */
 
     /**
      * Creates a new Hardware with all parts connected to a name
@@ -58,68 +39,31 @@ public class Hardware {
         rightFront = hwmp.dcMotor.get("Right Front");
         rightBack = hwmp.dcMotor.get("Right Back");
         leftBack = hwmp.dcMotor.get("Left Back");
-
         //Intake
         greenWheelLeft = hwmp.dcMotor.get("Green Wheel Left");
         greenWheelRight = hwmp.dcMotor.get("Green Wheel Right");
-
         //Lift
-        //horizontalLift = hwmp.dcMotor.get("Horizontal Lift");
-        verticalLift = hwmp.dcMotor.get("Lift");
-        pusher = hwmp.servo.get("Stone Pusher");
-
-        //Arm to grip the stone
-        stoneGripper = hwmp.servo.get("Stone Gripper");
-
-        //Suction Platform
-        suctionPlatformL = hwmp.servo.get("Suction Platform Left");
-        suctionPlatformR = hwmp.servo.get("Suction Platform Right");
-
-        //Arm that holds the brick and rotates.
-        armRotate = hwmp.servo.get("Arm Rotate");
-
-        //Platform
+        lift = hwmp.dcMotor.get("Lift");
+        //Lift Servos
+        liftGripper = hwmp.servo.get("Lift Gripper");
+        liftRotate = hwmp.servo.get("Lift Rotate");
+        pushToLift = hwmp.servo.get("Push to Lift");
+        //Intake Servos
+        leftIntake = hwmp.servo.get("Left Intake");
+        rightIntake = hwmp.servo.get("Right Intake");
+        //Side Arm and Platform Servos
+        armPivot = hwmp.servo.get("Arm Pivot");
+        armClasp = hwmp.servo.get("Arm Clasp");
         platform = hwmp.servo.get("Platform");
-        //platformR = hwmp.servo.get("Platform Right");
-
-        //SkyBlock Holders
-        //constrictL = hwmp.servo.get("Constriction Left");
-        //constrictR = hwmp.servo.get("Constriction Right");
-
         //Camera
         cameraName = hwmp.get(WebcamName.class, "Webcam 1");
-
-        gate = hwmp.servo.get("Gate");
-
-
-       /*
-       Extra motors and servos in case we add them later on
-           horizontalIntake = hwmp.dcMotor.get("Horizontal Intake");
-           verticalIntake = hwmp.dcMotor.get("Vertical Intake");
-           liftServo = hwmp.servo.get("Lift Servo");
-           gate = hwmp.servo.get("Gate");
-           extrusion = hwmp.servo.get("Extrusion Servo");
-           extrusionL = hwmp.servo.get("Extrusion Left");
-           extrusionR = hwmp.servo.get("Extrusion Right");
-        */
 
         //Flips motors because they are placed in the opposite direction on the robot---allows for all motors to move in the same direction for one value
         rightBack.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
-        //leftFront.setDirection(DcMotor.Direction.REVERSE);
-        //leftBack.setDirection(DcMotor.Direction.REVERSE);
 
-        //Set all servo directions
-        armRotate.setDirection(Servo.Direction.FORWARD);
-        //arm.setDirection(Servo.Direction.FORWARD);
-        constrictL.setDirection(Servo.Direction.FORWARD);
-        //constrictR.setDirection(Servo.Direction.FORWARD);
+        //Programming of Platform needs to be set
         platform.setDirection(Servo.Direction.FORWARD);
-        stoneGripper.setDirection(Servo.Direction.FORWARD);
-        suctionPlatformR.setDirection(Servo.Direction.FORWARD);
-        suctionPlatformR.setDirection(Servo.Direction.FORWARD);
-        //platformR.setDirection(Servo.Direction.FORWARD);
-        pusher.setDirection(Servo.Direction.FORWARD);
 
     }
 
@@ -134,8 +78,7 @@ public class Hardware {
         leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        horizontalLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        verticalLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //greenWheelLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //greenWheelRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -144,8 +87,7 @@ public class Hardware {
         leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        horizontalLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        verticalLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         greenWheelRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         greenWheelLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -164,17 +106,14 @@ public class Hardware {
         rightFront.setPower(0);
         rightBack.setPower(0);
         leftBack.setPower(0);
-        verticalLift.setPower(0);
-        horizontalLift.setPower(0);
+        lift.setPower(0);
 
         //Servos
         //arm.setPosition(0);
         //constrictR.setPosition(0);
-        constrictL.setPosition(0);
+
         platform.setPosition(0);
-        stoneGripper.setPosition(0);
-        pusher.setPosition(0);
-        armRotate.setPosition(0);
+
     }
 
 }
