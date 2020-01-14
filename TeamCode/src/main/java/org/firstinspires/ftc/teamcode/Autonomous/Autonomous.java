@@ -73,7 +73,7 @@ public class Autonomous extends LinearOpMode {
         platform = robot.platform;
         //platformR = robot.platformR;
         //arm = robot.arm;
-        stoneGripper = robot.stoneGripper;
+        stoneGripper = robot.liftGripper;
 
         telemetry.addData("Motor Status", rightBack == null);
         telemetry.addData("Motor Status", rightFront == null);

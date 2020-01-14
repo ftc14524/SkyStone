@@ -27,7 +27,7 @@ public class MainTeleOp extends OpMode {
 
     //Create a robot---responsible for connecting hardware of Hardware class to methods
     Hardware robot;
-    private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime runtime;
     //private ElaspedTime runTime; for if you need to drive by time
 
     //Directions
@@ -70,7 +70,7 @@ public class MainTeleOp extends OpMode {
         platform.setPosition(Servo.MIN_POSITION);
 
         //Variable to track time for running robot on time if needed
-        ElapsedTime runtime = new ElapsedTime();
+        runtime = new ElapsedTime();
     }
 
     @Override
@@ -96,72 +96,54 @@ public class MainTeleOp extends OpMode {
         telemetry.update();
     }
 
-    //Driving Control function
-
-    public void Test(){
-        rightBack.setPower(.5);
-        rightFront.setPower(.5);
-        leftBack.setPower(.5);
-        leftFront.setPower(.5);
-    }
-
-    public void Intake(){
+    public void Intake() {
         boolean forward = true;
         boolean beginning = true;
         double speed = 0.7;
         double spit = 1;
-        if(gamepad2.b)
-        {
-            beginning=false;
+        if (gamepad2.b) {
+            beginning = false;
         }
-        if(beginning)
-        {
+        if (beginning) {
            /*greenWheelRight.setPower(-1*spit);
            greenWheelLeft.setPower(spit);*/
             greenWheelRight.setPower(spit);
-            greenWheelLeft.setPower(-1*spit);
+            greenWheelLeft.setPower(-1 * spit);
         }
-        if(gamepad2.a)
+        if (gamepad2.a)
             forward = false;
         else
             forward = true;
-        if(!beginning && forward)
-        {
+        if (!beginning && forward) {
            /*greenWheelRight.setPower(speed);
            greenWheelLeft.setPower(-1*speed);*/
-            greenWheelRight.setPower(-1*speed);
+            greenWheelRight.setPower(-1 * speed);
             greenWheelLeft.setPower(speed);
-        }
-        else if(!beginning && !forward)
-        {
+        } else if (!beginning && !forward) {
            /*greenWheelRight.setPower(-1*spit);
            greenWheelLeft.setPower(spit);*/
             greenWheelRight.setPower(spit);
-            greenWheelLeft.setPower(-1*spit);
+            greenWheelLeft.setPower(-1 * spit);
         }
 
     }
 
-    @Override
-    public void start() {
-        runtime.reset();
-    }
 
-
-    public void automatedMotions(){
+    public void automatedMotions() {
         //TODO Move verticalLifts and armRotate
-        if(gamepad2.x) {
+        if (gamepad2.x) {
             liftGripper.setPosition(Servo.MAX_POSITION);
             pushToLift.setPosition(Servo.MIN_POSITION);
-        }if (gamepad2.y){
+        }
+        if (gamepad2.y) {
             liftGripper.setPosition(Servo.MIN_POSITION);
         }
 
-        if(gamepad2.dpad_up){
+        if (gamepad2.dpad_up) {
             double current = runtime.milliseconds();
             liftGripper.setPosition(Servo.MAX_POSITION);
             pushToLift.setPosition(Servo.MIN_POSITION);
-            while(runtime.milliseconds() < current + 1000);
+            while (runtime.milliseconds() < current + 1000) ;
 
             liftGripper.setPosition(Servo.MIN_POSITION);
         }
@@ -257,9 +239,9 @@ public class MainTeleOp extends OpMode {
         boolean rightBumper = gamepad2.right_bumper;
 
 
-        if(leftBumper)
+        if (leftBumper)
             liftGripper.setPosition(Servo.MAX_POSITION);
-        if(rightBumper)
+        if (rightBumper)
             liftGripper.setPosition(Servo.MIN_POSITION);
 
         //README intakes
@@ -343,10 +325,14 @@ public class MainTeleOp extends OpMode {
     boolean up = true;
 
     public void ArmControl() {
-        if(gamepad1.a)
+        if (gamepad1.a) {
             armPivot.setPosition(Servo.MAX_POSITION);
-        if(gamepad1.b)
+        }
+
+        if (gamepad1.b) {
             armPivot.setPosition(Servo.MIN_POSITION);
+        }
+
 
 
 
@@ -360,14 +346,13 @@ public class MainTeleOp extends OpMode {
        }*/
     }
 
-    public void PlatformControl()
-    {
-        if(gamepad1.x) {
+    public void PlatformControl() {
+        if (gamepad1.x) {
             platform.setPosition(Servo.MAX_POSITION);
             //platformR.setPosition(Servo.MAX_POSITION);
             //platformL.setPosition(Servo.MIN_POSITION);
         }
-        if(gamepad1.y) {
+        if (gamepad1.y) {
             platform.setPosition(Servo.MIN_POSITION);
 //platformR.setPosition(Servo.MIN_POSITION);
             //platformL.setPosition(Servo.MAX_POSITION);
@@ -465,7 +450,12 @@ public class MainTeleOp extends OpMode {
        leftBack.setPower((magnitude * Math.cos(direction + Math.PI / 4) + rotation)*-1);
        rightFront.setPower((magnitude * Math.cos(direction + Math.PI / 4) - rotation)*-1);
        rightBack.setPower((magnitude * Math.sin(direction + Math.PI / 4) - rotation)*-1);
-   }*/
+   }
+   /*public void waitFor(double sec)
+    {
+        double currentTime = runtime.time();
+
+    }*/
 }
 
 
