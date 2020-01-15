@@ -25,6 +25,7 @@ import java.lang.Math;
  */
 public class MainTeleOp extends OpMode {
 
+    //TODO ArmClasp resets after starting
     //Create a robot---responsible for connecting hardware of Hardware class to methods
     Hardware robot;
     private ElapsedTime runtime;
@@ -69,8 +70,11 @@ public class MainTeleOp extends OpMode {
         //Set starting position for arm servo
         platform.setPosition(Servo.MIN_POSITION);
         liftRotate.setPosition(Servo.MIN_POSITION);
-        //armPivot.setPosition(Servo.MIN_POSITION);
-        //armClasp.setPosition(Servo.MIN_POSITION);
+        armPivot.setPosition(Servo.MAX_POSITION);
+        armClasp.setPosition(Servo.MIN_POSITION);
+        liftGripper.setPosition(Servo.MAX_POSITION);
+        liftRotate.setPosition(Servo.MIN_POSITION);
+        pushToLift.setPosition(Servo.MAX_POSITION);
 
         //Variable to track time for running robot on time if needed
         runtime = new ElapsedTime();
@@ -83,8 +87,8 @@ public class MainTeleOp extends OpMode {
      */
     public void loop() {
         //Methods responsible for control of different parts of the the robot
-        /////////////////DriveControl();
-        //ArmAndPlatformControl();
+        DriveControl();
+        ArmAndPlatformControl();
         LiftControl();
         /////////////////////Intake();
 
