@@ -184,7 +184,7 @@ public class Autonomous extends LinearOpMode {
     }
 
     public void strafe(double vertical, double horizontal, double power, double time) {
-        double magnitude = power;
+        double magnitude = power * 1;
         double direction = Math.atan2(-vertical, horizontal);
 
         double lf = magnitude * Math.sin(direction + Math.PI / 4);
