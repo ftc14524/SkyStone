@@ -16,8 +16,8 @@ public class AkshyatFirstSkyStoneLeft extends org.firstinspires.ftc.teamcode.Aut
         //stoneGripper = stone grab auton
 
         //First Block
-        //Strafe left and back 1 second.
-        strafe(-1, -1, 1, 1);
+        //Strafe back and left 1 second.
+        strafe(-1, 1, 1, 1);
         //Lower the arm
         arm.setPosition(Servo.MAX_POSITION);
         //Grabs block
@@ -82,8 +82,8 @@ public class AkshyatFirstSkyStoneLeft extends org.firstinspires.ftc.teamcode.Aut
         strafe(1, -1, .5, 1);
         //Ungrip Platform
         platform.setPosition(Servo.MIN_POSITION);
-        //Strafe Left for .75 seconds
-        strafe(0, -1, 1, .75);
+        //Strafe Right for .75 seconds
+        strafe(0, 1, 1, .75);
         stop();
     }
 }

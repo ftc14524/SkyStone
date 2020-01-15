@@ -16,8 +16,8 @@ public class AkshyatFirstSkyStoneLeft extends org.firstinspires.ftc.teamcode.Aut
         //stoneGripper = stone grab auton
 
         //First Block
-        //Strafe left and back 1 second.
-        strafe(-1, -1, 1, .8);
+        //Strafe left and forward 1 second.
+        strafe(1, -1, 1, .6);
         //Lower the arm
         arm.setPosition(Servo.MAX_POSITION);
         //Grabs block
@@ -26,9 +26,9 @@ public class AkshyatFirstSkyStoneLeft extends org.firstinspires.ftc.teamcode.Aut
         arm.setPosition(Servo.MIN_POSITION);
         //Strafe right for .2 seconds.
         strafe(0, 1, 1, .2);
-        //Go forward for 3 seconds
-        strafe(1, 0, 1, 2.8);
-        //Strage left for .2 seconds
+        //Go backward for 3 seconds
+        strafe(1, 0, 1, 2.6);
+        //Strafe left for .2 seconds
         strafe(0, -1, 1, .2);
 
         //Option 1
@@ -46,8 +46,8 @@ public class AkshyatFirstSkyStoneLeft extends org.firstinspires.ftc.teamcode.Aut
         //Second Block
         //Strafe right for .2 seconds
         strafe(0, 1, 1, .2);
-        //Go backward for 1.5 seconds
-        strafe(-1, 0, 1, 1.4);
+        //Go forward for 1.5 seconds
+        strafe(1, 0, 1, 1.3);
         //Strafe Left .2 seconds
         strafe(0, -1, 1, .2);
         //Lower the arm
@@ -58,8 +58,8 @@ public class AkshyatFirstSkyStoneLeft extends org.firstinspires.ftc.teamcode.Aut
         arm.setPosition(Servo.MIN_POSITION);
         //Strafe right for .2 seconds.
         strafe(0, 1, 1, .2);
-        //Go forward for 1.5 seconds
-        strafe(1, 0, 1, 1.4);
+        //Go backward for 1.5 seconds
+        strafe(-1, 0, 1, 1.3);
         //Strage left for .2 seconds
         strafe(0, -1, 1, .2);
 
@@ -76,14 +76,14 @@ public class AkshyatFirstSkyStoneLeft extends org.firstinspires.ftc.teamcode.Aut
 
         //Grip Platform
         platform.setPosition(Servo.MAX_POSITION);
-        //Turn clockwise 90 degrees
-        timeTurn(1, .5);
-        //Go forward and strafe left for 1 second
-        strafe(1, -1, .5, 1);
+        //Turn counterclockwise 90 degrees
+        timeTurn(-1, .5);
+        //Go backward and strafe left for 1 second
+        strafe(-1, -1, .5, 1);
         //Ungrip Platform
         platform.setPosition(Servo.MIN_POSITION);
-        //Strafe Left for .75 seconds
-        strafe(0, -1, 1, .75);
+        //Strafe Right for .75 seconds
+        strafe(0, 1, 1, .75);
         stop();
     }
 }

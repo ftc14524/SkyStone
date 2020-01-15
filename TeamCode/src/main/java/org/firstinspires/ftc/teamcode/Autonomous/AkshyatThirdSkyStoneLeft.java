@@ -58,7 +58,7 @@ public class AkshyatFirstSkyStoneLeft extends org.firstinspires.ftc.teamcode.Aut
         arm.setPosition(Servo.MIN_POSITION);
         //Strafe right for .2 seconds.
         strafe(0, 1, 1, .2);
-        //Go forward for 1.5 seconds
+        //Go forward for 1.3 seconds
         strafe(1, 0, 1, 1.3);
         //Strage left for .2 seconds
         strafe(0, -1, 1, .2);
