@@ -26,6 +26,8 @@ import java.lang.Math;
 public class MainTeleOp extends OpMode {
 
     //TODO ArmClasp resets after starting
+    //TODO ArmPivot unfroze
+    //TODO Turning of robot is slow
     //Create a robot---responsible for connecting hardware of Hardware class to methods
     Hardware robot;
     private ElapsedTime runtime;
