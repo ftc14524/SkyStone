@@ -75,7 +75,7 @@ public class MainTeleOp extends OpMode {
         armPivot.setPosition(Servo.MAX_POSITION);
         armClasp.setPosition(Servo.MIN_POSITION);
         liftGripper.setPosition(Servo.MAX_POSITION);
-        liftRotate.setPosition(Servo.MIN_POSITION);
+        liftRotate.setPosition(Servo.MIN_POSITION);//Already repeating
         pushToLift.setPosition(Servo.MAX_POSITION);
 
         //Variable to track time for running robot on time if needed
@@ -197,12 +197,54 @@ public class MainTeleOp extends OpMode {
 
         if (gamepad2.dpad_up) {
             double current = runtime.milliseconds();
-            liftGripper.setPosition(Servo.MAX_POSITION);
+            liftGripper.setPosition(Servo.MAX_POSITION); - //Should not be here
             pushToLift.setPosition(Servo.MIN_POSITION);
             while (runtime.milliseconds() < current + 1000) ;
+            /*
+                lift.setpower(1);
 
+             */
             liftGripper.setPosition(Servo.MIN_POSITION);
         }
+
+
+
+
+        /*
+         if (gamepad2.dpad_up) {
+            double current = runtime.milliseconds();
+            //liftGripper.setPosition(Servo.MAX_POSITION); - Should not be here
+            pushToLift.setPosition(Servo.MIN_POSITION);
+            while (runtime.milliseconds() < current + 1000) ;
+                lift.setpower(-1);
+            liftGripper.setPosition(Servo.MIN_POSITION);
+            }
+
+            if(gamepad2.x)
+            {
+                pushToLift.setPosition(Servo.MIN_POSITION);
+                liftGripper.setPosition(Servo.MIN_POSITION);
+                //Encoder motor lift up
+                liftRotate.setPosition(Servo.MAX_POSITION);
+                pushToLift.setPosition(Servo.MAX_POSITION);
+                //Encoder Motor lift down
+            }
+            if(gamepad2.y)
+            {
+                pushToLift.setPosition(Servo.MAX_POSITION);
+                liftGripper.setPosition(Servo.MAX_POSITION);
+                //Encoder motor lift up to proper height
+                liftRotate.setPosition(Servo.MAX_POSITION);
+                pushToLift.setPosition(Servo.MAX_POSITION);
+                //Encoder Motor lift down
+
+            }
+
+
+
+         */
+
+
     }
 
     public void ArmAndPlatformControl() {
