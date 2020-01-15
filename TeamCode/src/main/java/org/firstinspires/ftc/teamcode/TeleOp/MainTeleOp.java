@@ -4,7 +4,9 @@ import android.os.Handler;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.teamcode.Hardware;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -197,7 +199,7 @@ public class MainTeleOp extends OpMode {
 
         if (gamepad2.dpad_up) {
             double current = runtime.milliseconds();
-            liftGripper.setPosition(Servo.MAX_POSITION); - //Should not be here
+            //liftGripper.setPosition(Servo.MAX_POSITION);  //Should not be here
             pushToLift.setPosition(Servo.MIN_POSITION);
             while (runtime.milliseconds() < current + 1000) ;
             /*
@@ -253,7 +255,7 @@ public class MainTeleOp extends OpMode {
         if (gamepad1.b)
             armPivot.setPosition(Servo.MIN_POSITION);
 
-        if(armPivot.getPosition()==Servo.MAX_POSITION)
+        if (armPivot.getPosition() == Servo.MAX_POSITION)
             armClasp.setPosition(Servo.MAX_POSITION);
         else
             armClasp.setPosition(Servo.MIN_POSITION);

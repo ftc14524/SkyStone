@@ -13,17 +13,17 @@ public class AkshyatFirstSkyStoneLeft extends org.firstinspires.ftc.teamcode.Aut
         super.runOpMode();
 
         waitForStart();
-        //stoneGripper = stone grab auton
+        //armClasp = stone grab auton
 
         //First Block
         //Strafe back and left 1 second.
         strafe(-1, 1, 1, 1);
         //Lower the arm
-        arm.setPosition(Servo.MAX_POSITION);
+        armPivot.setPosition(Servo.MAX_POSITION);
         //Grabs block
-        stoneGripper.setPosition(Servo.MAX_POSITION);
+        armClasp.setPosition(Servo.MAX_POSITION);
         //Lifts Arm
-        arm.setPosition(Servo.MIN_POSITION);
+        armPivot.setPosition(Servo.MIN_POSITION);
         //Strafe right for .2 seconds.
         strafe(0, 1, 1, .2);
         //Go forward for 3 seconds
@@ -33,11 +33,11 @@ public class AkshyatFirstSkyStoneLeft extends org.firstinspires.ftc.teamcode.Aut
 
         //Option 1
         //Release Grabber
-        stoneGripper.setPosition(Servo.MIN_POSITION);
+        armClasp.setPosition(Servo.MIN_POSITION);
 
         /*Other Option
         //Drop arm
-        arm.setPosition(Servo.MAX_POSITION);
+        armPivot.setPosition(Servo.MAX_POSITION);
         //Release Grabber
         stoneGrabber.setPosition(Servo.MIN_Position);
         */
@@ -51,11 +51,11 @@ public class AkshyatFirstSkyStoneLeft extends org.firstinspires.ftc.teamcode.Aut
         //Strafe Left .2 seconds
         strafe(0, -1, 1, .2);
         //Lower the arm
-        arm.setPosition(Servo.MAX_POSITION);
+        armPivot.setPosition(Servo.MAX_POSITION);
         //Grabs block
-        stoneGripper.setPosition(Servo.MAX_POSITION);
+        armClasp.setPosition(Servo.MAX_POSITION);
         //Lifts Arm
-        arm.setPosition(Servo.MIN_POSITION);
+        armPivot.setPosition(Servo.MIN_POSITION);
         //Strafe right for .2 seconds.
         strafe(0, 1, 1, .2);
         //Go forward for 1.5 seconds
@@ -65,11 +65,11 @@ public class AkshyatFirstSkyStoneLeft extends org.firstinspires.ftc.teamcode.Aut
 
         //Option 1
         //Release Grabber
-        stoneGripper.setPosition(Servo.MIN_POSITION);
+        armClasp.setPosition(Servo.MIN_POSITION);
 
         /*Other Option
         //Drop arm
-        arm.setPosition(Servo.MAX_POSITION);
+        armPivot.setPosition(Servo.MAX_POSITION);
         //Release Grabber
         stoneGrabber.setPosition(Servo.MIN_Position);
         */
