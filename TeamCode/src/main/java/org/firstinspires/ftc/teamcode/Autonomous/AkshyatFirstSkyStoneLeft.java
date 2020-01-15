@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "Testing One", group = "Autonomous")
+@Autonomous(name = "Akshyat", group = "Autonomous")
 
 public class AkshyatFirstSkyStoneLeft extends org.firstinspires.ftc.teamcode.Autonomous.Autonomous {
     @Override

@@ -60,7 +60,8 @@ public class Hardware {
 
         //Flips motors because they are placed in the opposite direction on the robot---allows for all motors to move in the same direction for one value
         rightBack.setDirection(DcMotor.Direction.REVERSE);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        //rightFront.setDirection(DcMotor.Direction.REVERSE);
+        leftBack.setDirection(DcMotor.Direction.REVERSE);
 
         //Programming of Platform needs to be set
         platform.setDirection(Servo.Direction.FORWARD);
@@ -79,8 +80,6 @@ public class Hardware {
         rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //greenWheelLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //greenWheelRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //Start motors using resetted encoders
         leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

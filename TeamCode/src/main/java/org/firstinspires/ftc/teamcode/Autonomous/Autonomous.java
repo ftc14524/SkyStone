@@ -30,6 +30,7 @@ import java.util.List;
 
 public class Autonomous extends LinearOpMode {
 
+    //TODO The lift needs to drop at the end of autonomous period
     Hardware robot;
     ElapsedTime runtime = new ElapsedTime();
     DcMotor leftFront, rightFront, leftBack, rightBack;
