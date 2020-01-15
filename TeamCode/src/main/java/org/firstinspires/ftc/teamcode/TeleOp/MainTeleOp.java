@@ -211,7 +211,7 @@ public class MainTeleOp extends OpMode {
 
 
         /*
-         if (gamepad2.dpad_up) {
+         if (gamepad2.dpad_down) {
             double current = runtime.milliseconds();
             //liftGripper.setPosition(Servo.MAX_POSITION); - Should not be here
             pushToLift.setPosition(Servo.MIN_POSITION);
