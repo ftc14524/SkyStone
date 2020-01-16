@@ -29,7 +29,7 @@ import java.util.List;
 //idle() -
 
 public class Autonomous extends LinearOpMode {
-
+//hi
     //TODO The lift needs to drop at the end of autonomous period
     Hardware robot;
     ElapsedTime runtime = new ElapsedTime();
