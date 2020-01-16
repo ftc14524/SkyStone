@@ -30,6 +30,7 @@ public class MainTeleOp extends OpMode {
     //TODO ArmClasp resets after starting
     //TODO ArmPivot unfroze
     //TODO Turning of robot is slow
+    //TODO TensorFlow
     //Create a robot---responsible for connecting hardware of Hardware class to methods
     Hardware robot;
     private ElapsedTime runtime;
@@ -77,11 +78,11 @@ public class MainTeleOp extends OpMode {
         armPivot.setPosition(Servo.MAX_POSITION);
         armClasp.setPosition(Servo.MIN_POSITION);
         liftGripper.setPosition(Servo.MAX_POSITION);
-        liftRotate.setPosition(Servo.MIN_POSITION);//Already repeating
+        liftRotate.setPosition(Servo.MIN_POSITION);
         pushToLift.setPosition(Servo.MAX_POSITION);
 
         //Variable to track time for running robot on time if needed
-        runtime = new ElapsedTime();
+        //runtime = new ElapsedTime();
     }
 
     @Override
@@ -94,10 +95,9 @@ public class MainTeleOp extends OpMode {
         DriveControl();
         ArmAndPlatformControl();
         LiftControl();
-        /////////////////////Intake();
+        Intake();
 
-        //TODO ask about horizontal lift constant motion && the specificity of the compliance wheels
-
+        //Determine lift encoder limits
         telemetry.addData("Lift Encoders", lift.getCurrentPosition());
 
         //Show Telemetry on Driver Station Phone
@@ -105,36 +105,38 @@ public class MainTeleOp extends OpMode {
     }
 
     /**
-     * To control the intake, holding gamepad 2 B will reverse the intake to spit
+     * To control the intake, holding gamepad 2 right trigger will reverse the intake to spit
+     * The left trigger turns off the beginning function
      */
     public void Intake() {
         boolean forward = true;
         boolean beginning = true;
-        double speed = 1;
-        double spit = 0.5;
-        if (gamepad2.x) {
+        double speed = 0.5;
+        //Turn off the beginning stage
+        if (gamepad2.left_trigger > 0) {
             beginning = false;
         }
+        //The intake will spit out until we leave the beginning stage
         if (beginning) {
-           /*greenWheelRight.setPower(-1*spit);
-           greenWheelLeft.setPower(spit);*/
-            greenWheelRight.setPower(spit);
-            greenWheelLeft.setPower(-1 * spit);
+            greenWheelRight.setPower(-1);
+            greenWheelLeft.setPower(1);
         }
-        if (gamepad2.y)
+        //Now, the intake should always be moving forward
+        if (gamepad2.right_trigger > 0)
             forward = false;
         else
             forward = true;
+        //The !beginning makes sure the regular functions don't run until we exit beginning stage
+
+        //Regular intake
         if (!beginning && forward) {
-           /*greenWheelRight.setPower(speed);
-           greenWheelLeft.setPower(-1*speed);*/
-            greenWheelRight.setPower(-1 * speed);
-            greenWheelLeft.setPower(speed);
-        } else if (!beginning && !forward) {
-           /*greenWheelRight.setPower(-1*spit);
-           greenWheelLeft.setPower(spit);*/
-            greenWheelRight.setPower(spit);
-            greenWheelLeft.setPower(-1 * spit);
+            greenWheelRight.setPower(speed);
+            greenWheelLeft.setPower(-1 * speed);
+        }
+        //Spit function
+        if (!beginning && !forward) {
+            greenWheelRight.setPower(-1);
+            greenWheelLeft.setPower(1);
         }
 
     }
@@ -147,10 +149,6 @@ public class MainTeleOp extends OpMode {
         double direction = Math.atan2(-gamepad1.left_stick_x, gamepad1.left_stick_y);
         double rotation = gamepad1.right_stick_x;
 
-        //trig implementation
-        //double power = Math.hypot(x1, y1);
-        //double angle = Math.atan2(y1, x1) - Math.PI/4;
-
         //INFO Increasing speed to maximum of 1
         double lf = magnitude * Math.sin(direction + Math.PI / 4) - rotation;
         double lb = magnitude * Math.cos(direction + Math.PI / 4) - rotation;
@@ -159,6 +157,7 @@ public class MainTeleOp extends OpMode {
         double hypot = Math.hypot(movement, strafe);
         double ratio;
 
+        //TODO ask about the ratio purpose
         if (movement == 0 && strafe == 0)
             ratio = 1;
         else
@@ -168,16 +167,25 @@ public class MainTeleOp extends OpMode {
         leftBack.setPower(ratio * lb);
         rightFront.setPower(ratio * rf);
         rightBack.setPower(ratio * rb);
-
     }
 
 
     //Function for handling horizontal lift
     public void LiftControl() {
+        //Encoder limits to prevent breaking the lift
+        final int UPPER_LIFT_LIMIT = 3000;
+        final int LOWER_LIFT_LIMIT = 0;
 
-        double vertical = gamepad2.left_stick_y;
-        double horizontal = gamepad2.right_stick_x;
-        lift.setPower(vertical);
+        //Control the lift
+        if(lift.getCurrentPosition() < UPPER_LIFT_LIMIT && lift.getCurrentPosition() > LOWER_LIFT_LIMIT)
+            lift.setPower(gamepad2.left_stick_y);
+        else
+        {
+            if(lift.getCurrentPosition() > UPPER_LIFT_LIMIT)
+                lift.setTargetPosition(UPPER_LIFT_LIMIT - 2);
+            if(lift.getCurrentPosition() < LOWER_LIFT_LIMIT)
+                lift.setTargetPosition(LOWER_LIFT_LIMIT + 2);
+        }
 
         boolean leftBumper = gamepad2.left_bumper;
         boolean rightBumper = gamepad2.right_bumper;
@@ -189,11 +197,11 @@ public class MainTeleOp extends OpMode {
             liftGripper.setPosition(Servo.MIN_POSITION);
 
         //TODO Move verticalLifts and armRotate
-        if (gamepad2.a) {
+        if (gamepad2.x) {
             liftGripper.setPosition(Servo.MAX_POSITION);
             pushToLift.setPosition(Servo.MIN_POSITION);
         }
-        if (gamepad2.b) {
+        if (gamepad2.y) {
             liftGripper.setPosition(Servo.MIN_POSITION);
         }
 
@@ -209,15 +217,29 @@ public class MainTeleOp extends OpMode {
             liftGripper.setPosition(Servo.MIN_POSITION);
         }
 
+        //Direct control of push to Lift
+        if(gamepad2.a)
+            pushToLift.setPosition(Servo.MAX_POSITION);
+        if(gamepad2.b)
+            pushToLift.setPosition(Servo.MIN_POSITION);
 
 
+        //Controls for the lift rotate --- also involve keeping the push set outwards
+        if(gamepad2.right_stick_x > 0.5) {
+            liftRotate.setPosition(Servo.MAX_POSITION);
+            pushToLift.setPosition(Servo.MIN_POSITION);
+        }
+        if(gamepad2.right_stick_x < -0.5) {
+            liftRotate.setPosition(Servo.MIN_POSITION);
+            pushToLift.setPosition(Servo.MIN_POSITION);
+        }
 
         /*
          if (gamepad2.dpad_down) {
             double current = runtime.milliseconds();
             //liftGripper.setPosition(Servo.MAX_POSITION); - Should not be here
             pushToLift.setPosition(Servo.MIN_POSITION);
-            while (runtime.milliseconds() < current + 1000) ;
+            while (runtime.milliseconds() < current + 1000);
                 lift.setpower(-1);
             liftGripper.setPosition(Servo.MIN_POSITION);
             }

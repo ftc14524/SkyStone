@@ -15,7 +15,7 @@ public class ToTheRightUp extends org.firstinspires.ftc.teamcode.Autonomous.Auto
         super.runOpMode();
 
         platform.setPosition(Servo.MAX_POSITION);
-        arm.setPosition(Servo.MAX_POSITION);
+        armPivot.setPosition(Servo.MAX_POSITION);
         waitForStart();
         strafe(1, 0, 1, 1.5);
         strafe(0, 1, 1, 1.5);

@@ -34,8 +34,8 @@ public class Autonomous extends LinearOpMode {
     Hardware robot;
     ElapsedTime runtime = new ElapsedTime();
     DcMotor leftFront, rightFront, leftBack, rightBack;
-    Servo arm, armClasp, armPivot;
-    public Servo platform, armPirm, stoneGripper;
+    Servo armClasp, armPivot;
+    public Servo platform, liftGripper;
     protected CameraName cameraName;
 
     public enum SkyStonePosition {
@@ -75,7 +75,7 @@ public class Autonomous extends LinearOpMode {
         armPivot = robot.armPivot;
         //platformR = robot.platformR;
         //arm = robot.arm;
-        stoneGripper = robot.liftGripper;
+        liftGripper = robot.liftGripper;
 
         platform.setPosition(Servo.MIN_POSITION);
         robot.liftRotate.setPosition(Servo.MIN_POSITION);

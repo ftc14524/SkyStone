@@ -15,7 +15,7 @@ public class ToTheLeftUp extends org.firstinspires.ftc.teamcode.Autonomous.Auton
         super.runOpMode();
 
         platform.setPosition(Servo.MIN_POSITION);
-        arm.setPosition(Servo.MAX_POSITION);
+        armPivot.setPosition(Servo.MAX_POSITION);
         waitForStart();
         strafe(1, 0, 1, 1.5);
         strafe(0, -1, 1, 1.5);

@@ -19,11 +19,11 @@ public class AkshyatThirdSkyStoneRight extends org.firstinspires.ftc.teamcode.Au
         //Strafe left and forward 1 second.
         strafe(1, -1, 1, .6);
         //Lower the arm
-        arm.setPosition(Servo.MAX_POSITION);
+        armPivot.setPosition(Servo.MAX_POSITION);
         //Grabs block
-        stoneGripper.setPosition(Servo.MAX_POSITION);
+        armClasp.setPosition(Servo.MAX_POSITION);
         //Lifts Arm
-        arm.setPosition(Servo.MIN_POSITION);
+        armPivot.setPosition(Servo.MIN_POSITION);
         //Strafe right for .2 seconds.
         strafe(0, 1, 1, .2);
         //Go backward for 3 seconds
@@ -33,7 +33,7 @@ public class AkshyatThirdSkyStoneRight extends org.firstinspires.ftc.teamcode.Au
 
         //Option 1
         //Release Grabber
-        stoneGripper.setPosition(Servo.MIN_POSITION);
+        armClasp.setPosition(Servo.MIN_POSITION);
 
         /*Other Option
         //Drop arm
@@ -51,11 +51,11 @@ public class AkshyatThirdSkyStoneRight extends org.firstinspires.ftc.teamcode.Au
         //Strafe Left .2 seconds
         strafe(0, -1, 1, .2);
         //Lower the arm
-        arm.setPosition(Servo.MAX_POSITION);
+        armPivot.setPosition(Servo.MAX_POSITION);
         //Grabs block
-        stoneGripper.setPosition(Servo.MAX_POSITION);
+        armClasp.setPosition(Servo.MAX_POSITION);
         //Lifts Arm
-        arm.setPosition(Servo.MIN_POSITION);
+        armPivot.setPosition(Servo.MIN_POSITION);
         //Strafe right for .2 seconds.
         strafe(0, 1, 1, .2);
         //Go backward for 1.5 seconds
@@ -65,7 +65,7 @@ public class AkshyatThirdSkyStoneRight extends org.firstinspires.ftc.teamcode.Au
 
         //Option 1
         //Release Grabber
-        stoneGripper.setPosition(Servo.MIN_POSITION);
+        armClasp.setPosition(Servo.MIN_POSITION);
 
         /*Other Option
         //Drop arm
