@@ -184,18 +184,41 @@ public class Autonomous extends LinearOpMode {
     }
 
     public void strafe(double vertical, double horizontal, double power, double time) {
-        double magnitude = power * 1;
-        double direction = Math.atan2(-vertical, horizontal);
+        double movement = vertical;
+        double strafe = horizontal;
+        double magnitude = Math.sqrt(Math.pow(horizontal, 2) + Math.pow(vertical, 2));
+        double direction = Math.atan2(-gamepad1.left_stick_x, gamepad1.left_stick_y);
 
+        //INFO Increasing speed to maximum of 1
         double lf = magnitude * Math.sin(direction + Math.PI / 4);
         double lb = magnitude * Math.cos(direction + Math.PI / 4);
         double rf = magnitude * Math.cos(direction + Math.PI / 4);
         double rb = magnitude * Math.sin(direction + Math.PI / 4);
+        double hypot = Math.hypot(movement, strafe);
+        double ratio;
 
-        leftFront.setPower(lf);
-        leftBack.setPower(lb);
-        rightFront.setPower(rf);
-        rightBack.setPower(rb);
+        if (movement == 0 && strafe == 0)
+            ratio = 1;
+        else
+            ratio = hypot / (Math.max(Math.max(Math.max(Math.abs(lf), Math.abs(lb)), Math.abs(rb)), Math.abs(rf)));
+
+        leftFront.setPower(ratio * lf);
+        leftBack.setPower(ratio * lb);
+        rightFront.setPower(ratio * rf);
+        rightBack.setPower(ratio * rb);
+        /////////////////////////////////////////////////////////////////////////////
+//        double magnitude = power * 1;
+//        double direction = Math.atan2(-vertical, horizontal);
+//
+//        double lf = magnitude * Math.sin(direction + Math.PI / 4);
+//        double lb = magnitude * Math.cos(direction + Math.PI / 4);
+//        double rf = magnitude * Math.cos(direction + Math.PI / 4);
+//        double rb = magnitude * Math.sin(direction + Math.PI / 4);
+//
+//        leftFront.setPower(lf);
+//        leftBack.setPower(lb);
+//        rightFront.setPower(rf);
+//        rightBack.setPower(rb);
 
         waitFor(time);
 
