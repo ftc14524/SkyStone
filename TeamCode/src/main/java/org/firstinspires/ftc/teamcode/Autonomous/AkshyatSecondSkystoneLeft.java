@@ -4,9 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "Akshyat", group = "Autonomous")
+@Autonomous(name = "Akshyat Second SkyStone Left", group = "Autonomous")
 
-public class AkshyatSecondSkystone_Left extends org.firstinspires.ftc.teamcode.Autonomous.Autonomous {
+public class AkshyatSecondSkystoneLeft extends org.firstinspires.ftc.teamcode.Autonomous.Autonomous {
     @Override
     public void runOpMode() {
 
