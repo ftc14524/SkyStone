@@ -109,36 +109,17 @@ public class MainTeleOp extends OpMode {
      * The left trigger turns off the beginning function
      */
     public void Intake() {
-        boolean forward = true;
-        boolean beginning = true;
         double speed = 0.5;
-        //Turn off the beginning stage
-        if (gamepad2.left_trigger > 0) {
-            beginning = false;
-        }
-        //The intake will spit out until we leave the beginning stage
-        if (beginning) {
-            greenWheelRight.setPower(-1);
-            greenWheelLeft.setPower(1);
-        }
-        //Now, the intake should always be moving forward
-        if (gamepad2.right_trigger > 0)
-            forward = false;
-        else
-            forward = true;
-        //The !beginning makes sure the regular functions don't run until we exit beginning stage
 
         //Regular intake
-        if (!beginning && forward) {
-            greenWheelRight.setPower(speed);
-            greenWheelLeft.setPower(-1 * speed);
-        }
+        greenWheelRight.setPower(speed);
+        greenWheelLeft.setPower(-1 * speed);
+
         //Spit function
-        if (!beginning && !forward) {
+        if (gamepad2.right_trigger > 0) {
             greenWheelRight.setPower(-1);
             greenWheelLeft.setPower(1);
         }
-
     }
 
     public void DriveControl() {
@@ -196,13 +177,17 @@ public class MainTeleOp extends OpMode {
         if (rightBumper)
             liftGripper.setPosition(Servo.MIN_POSITION);
 
-        //TODO Move verticalLifts and armRotate
+        //x = put it in
         if (gamepad2.x) {
-            liftGripper.setPosition(Servo.MAX_POSITION);
             pushToLift.setPosition(Servo.MIN_POSITION);
+            if(pushToLift.getPosition() == Servo.MIN_POSITION)
+                liftGripper.setPosition(Servo.MIN_POSITION);
+            armPivot.setPosition(Servo.MIN_POSITION);
         }
+        //y = push it out
         if (gamepad2.y) {
-            liftGripper.setPosition(Servo.MIN_POSITION);
+            pushToLift.setPosition(Servo.MAX_POSITION);
+            liftGripper.setPosition(Servo.MAX_POSITION);
         }
 
         if (gamepad2.dpad_up) {
@@ -233,42 +218,6 @@ public class MainTeleOp extends OpMode {
             liftRotate.setPosition(Servo.MIN_POSITION);
             pushToLift.setPosition(Servo.MIN_POSITION);
         }
-
-        /*
-         if (gamepad2.dpad_down) {
-            double current = runtime.milliseconds();
-            //liftGripper.setPosition(Servo.MAX_POSITION); - Should not be here
-            pushToLift.setPosition(Servo.MIN_POSITION);
-            while (runtime.milliseconds() < current + 1000);
-                lift.setpower(-1);
-            liftGripper.setPosition(Servo.MIN_POSITION);
-            }
-
-            if(gamepad2.x)
-            {
-                pushToLift.setPosition(Servo.MIN_POSITION);
-                liftGripper.setPosition(Servo.MIN_POSITION);
-                //Encoder motor lift up
-                liftRotate.setPosition(Servo.MAX_POSITION);
-                pushToLift.setPosition(Servo.MAX_POSITION);
-                //Encoder Motor lift down
-            }
-            if(gamepad2.y)
-            {
-                pushToLift.setPosition(Servo.MAX_POSITION);
-                liftGripper.setPosition(Servo.MAX_POSITION);
-                //Encoder motor lift up to proper height
-                liftRotate.setPosition(Servo.MAX_POSITION);
-                pushToLift.setPosition(Servo.MAX_POSITION);
-                //Encoder Motor lift down
-
-            }
-
-
-
-         */
-
-
     }
 
     public void ArmAndPlatformControl() {
@@ -278,9 +227,9 @@ public class MainTeleOp extends OpMode {
             armPivot.setPosition(Servo.MIN_POSITION);
 
         if (armPivot.getPosition() == Servo.MAX_POSITION)
-            armClasp.setPosition(Servo.MAX_POSITION);
-        else
             armClasp.setPosition(Servo.MIN_POSITION);
+        else
+            armClasp.setPosition(Servo.MAX_POSITION);
 
         if (gamepad1.x)
             platform.setPosition(Servo.MAX_POSITION);
