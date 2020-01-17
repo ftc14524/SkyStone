@@ -174,14 +174,34 @@ public class MainTeleOp extends OpMode {
 
         if (leftBumper)
             liftGripper.setPosition(Servo.MAX_POSITION);
+        //Change to this if statement
+        /*
+        if (leftBumper)
+        {
+            liftGripper.setPosition(Servo.MAX_POSITION);
+            pushToLift.setPosition(Servo.MAX_POSITION); - Ensures that pathway is open to collect another block
+        }
+         */
         if (rightBumper)
             liftGripper.setPosition(Servo.MIN_POSITION);
+        //Change to this if statement
+        /*
+        if (rightBumper)
+        {
+            liftGripper.setPosition(Servo.MIN_POSITION);
+            pushToLift.setPosition(Servo.MIN_POSITION); - Ensures that 2 blocks arent taken in on accident
+        }
+         */
 
         //x = put it in
         if (gamepad2.x) {
             pushToLift.setPosition(Servo.MIN_POSITION);
             if(pushToLift.getPosition() == Servo.MIN_POSITION)
                 liftGripper.setPosition(Servo.MIN_POSITION);
+            /* This may bring the arm back so that the lift can go up. But it may also cancel out previous line
+            if(liftGripper.getPosition) == Servo.MIN_Position)
+                liftGripper.setPosition(Servo.MIN_POSITION);
+             */
             armPivot.setPosition(Servo.MIN_POSITION);
         }
         //y = push it out
