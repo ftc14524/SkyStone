@@ -78,8 +78,8 @@ public class MainTeleOp extends OpMode {
         liftGripper.setPosition(Servo.MAX_POSITION);
         liftRotate.setPosition(Servo.MIN_POSITION);
         pushToLift.setPosition(Servo.MAX_POSITION);
-        rightIntake.setPosition(Servo.MAX_POSITION);
-        leftIntake.setPosition(Servo.MAX_POSITION);
+        //rightIntake.setPosition(Servo.MAX_POSITION);
+        //leftIntake.setPosition(Servo.MAX_POSITION);
 
         //Variable to track time for running robot on time if needed
         //runtime = new ElapsedTime();
@@ -92,10 +92,14 @@ public class MainTeleOp extends OpMode {
      */
     public void loop() {
         //Methods responsible for control of different parts of the the robot
-        DriveControl();
-        ArmAndPlatformControl();
-        LiftControl();
-        Intake();
+        //DriveControl();
+        //ArmAndPlatformControl();
+        //LiftControl();
+        //``````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````Intake();
+        leftBack.setPower(.25);
+        leftFront.setPower(.25);
+        rightBack.setPower(.25);
+        rightFront.setPower(.25);
 
         //Determine lift encoder limits
         telemetry.addData("Lift Encoders", lift.getCurrentPosition());
@@ -110,10 +114,16 @@ public class MainTeleOp extends OpMode {
      */
     public void Intake() {
         double speed = 0.5;
+        boolean beginning = true;
+
+        if(gamepad1.left_trigger > 0)
+            beginning = false;
 
         //Regular intake
-        greenWheelRight.setPower(speed);
-        greenWheelLeft.setPower(-1 * speed);
+        if(!beginning) {
+            greenWheelRight.setPower(speed);
+            greenWheelLeft.setPower(-1 * speed);
+        }
 
         //Spit function
         if (gamepad1.right_trigger > 0) {
@@ -139,9 +149,9 @@ public class MainTeleOp extends OpMode {
         double ratio;
 
         //TODO ask about the ratio purpose
-        if (movement == 0 && strafe == 0)
-            ratio = 1;
-        else
+//        if (movement == 0 && strafe == 0)
+//            ratio = 1;
+//        else
             ratio = hypot / (Math.max(Math.max(Math.max(Math.abs(lf), Math.abs(lb)), Math.abs(rb)), Math.abs(rf)));
 
         leftFront.setPower(ratio * lf);
