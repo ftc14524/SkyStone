@@ -56,7 +56,7 @@ public class Hardware {
         armClasp = hwmp.servo.get("Arm Clasp");
         platform = hwmp.servo.get("Platform");
         //Camera
-        cameraName = hwmp.get(WebcamName.class, "Webcam");
+        cameraName = hwmp.get(WebcamName.class, "Webcam 1");
 
         //Flips motors because they are placed in the opposite direction on the robot---allows for all motors to move in the same direction for one value
         rightBack.setDirection(DcMotor.Direction.REVERSE);

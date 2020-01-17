@@ -20,16 +20,14 @@ import java.lang.Math;
    left and right triggers on controllers are scaled 0-1
    .getMode() exists
 */
-@TeleOp(name = "Testing TeleOp", group = "Linear Opmode")
+@TeleOp(name = "TeleOp", group = "Linear Opmode")
 
 /**
  * MainTeleOp is the class responsible for all of the TeleOp methods. It has a robot, movement, rotation, strafe, eight motors, and five servos
  */
 public class MainTeleOp extends OpMode {
 
-    //TODO ArmClasp resets after starting
-    //TODO ArmPivot unfroze
-    //TODO Turning of robot is slow
+    //TODO Look at DriveTrain
     //TODO TensorFlow
     //Create a robot---responsible for connecting hardware of Hardware class to methods
     Hardware robot;
@@ -80,6 +78,8 @@ public class MainTeleOp extends OpMode {
         liftGripper.setPosition(Servo.MAX_POSITION);
         liftRotate.setPosition(Servo.MIN_POSITION);
         pushToLift.setPosition(Servo.MAX_POSITION);
+        rightIntake.setPosition(Servo.MAX_POSITION);
+        leftIntake.setPosition(Servo.MAX_POSITION);
 
         //Variable to track time for running robot on time if needed
         //runtime = new ElapsedTime();
@@ -116,7 +116,7 @@ public class MainTeleOp extends OpMode {
         greenWheelLeft.setPower(-1 * speed);
 
         //Spit function
-        if (gamepad2.right_trigger > 0) {
+        if (gamepad1.right_trigger > 0) {
             greenWheelRight.setPower(-1);
             greenWheelLeft.setPower(1);
         }
@@ -198,9 +198,10 @@ public class MainTeleOp extends OpMode {
             pushToLift.setPosition(Servo.MIN_POSITION);
             if(pushToLift.getPosition() == Servo.MIN_POSITION)
                 liftGripper.setPosition(Servo.MIN_POSITION);
-            /* This may bring the arm back so that the lift can go up. But it may also cancel out previous line
-            if(liftGripper.getPosition) == Servo.MIN_Position)
-                liftGripper.setPosition(Servo.MIN_POSITION);
+            pushToLift.setPosition(Servo.MAX_POSITION);
+            /* Second solutions checks to make sure the Lift Gripper is in position first
+            if(liftGripper.getPosition() == Servo.MIN_Position)
+                pushToLift.setPosition(Servo.MAX_POSITION);
              */
             armPivot.setPosition(Servo.MIN_POSITION);
         }
