@@ -147,7 +147,8 @@ public class MainTeleOp extends OpMode {
         strafe = gamepad1.left_stick_x;
         double magnitude = Math.sqrt(Math.pow(gamepad1.left_stick_x, 2) + Math.pow(gamepad1.left_stick_y, 2));
         double direction = Math.atan2(-gamepad1.left_stick_x, gamepad1.left_stick_y);
-        double rotation = gamepad1.right_stick_x;
+        //INFO the below line of code makes the robot's rotation a little more sensitive (faster)
+        double rotation = gamepad1.right_stick_x *1.2;
 
         //INFO Increasing speed to maximum of 1
         double lf = magnitude * Math.sin(direction + Math.PI / 4) - rotation;
@@ -213,13 +214,13 @@ public class MainTeleOp extends OpMode {
             liftGripper.setPosition(Servo.MAX_POSITION);
         }
 
-        if (gamepad2.dpad_up) {
+        /*if (gamepad2.dpad_up) {
             double current = runtime.milliseconds();
             pushToLift.setPosition(Servo.MIN_POSITION);
             while (runtime.milliseconds() < current + 1000) ;
             //lift.setpower(1);
             liftGripper.setPosition(Servo.MIN_POSITION);
-        }
+        }*/
 
         //Direct control of push to Lift
         if (gamepad2.a)
