@@ -28,8 +28,10 @@ import java.util.List;
 //robot is a hardware object so you can use hardware methods
 //idle() -
 
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Test Auto", group = "Autonomous")
+
 public class Autonomous extends LinearOpMode {
-//hi
+
     //TODO The lift needs to drop at the end of autonomous period
     Hardware robot;
     ElapsedTime runtime = new ElapsedTime();
@@ -90,6 +92,8 @@ public class Autonomous extends LinearOpMode {
         telemetry.addData("Motor Status", rightFront == null);
         telemetry.addData("Motor Status", leftFront == null);
         telemetry.addData("Motor Status", leftBack == null);
+        AkshyatFirstSkyStoneLeft al = new AkshyatFirstSkyStoneLeft();
+        al.runOpMode();
 
        /*arm = robot.arm;
        cameraName = robot.cameraName;

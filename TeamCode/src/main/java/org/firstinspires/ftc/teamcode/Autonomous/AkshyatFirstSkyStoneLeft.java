@@ -7,6 +7,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Autonomous(name = "Akshyat First SkyStone Left", group = "Autonomous")
 
 public class AkshyatFirstSkyStoneLeft extends org.firstinspires.ftc.teamcode.Autonomous.Autonomous {
+    public AkshyatFirstSkyStoneLeft(){
+
+    }
     @Override
     public void runOpMode() {
 

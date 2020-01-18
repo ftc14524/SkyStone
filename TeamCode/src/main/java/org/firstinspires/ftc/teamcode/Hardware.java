@@ -59,9 +59,8 @@ public class Hardware {
         cameraName = hwmp.get(WebcamName.class, "Webcam 1");
 
         //Flips motors because they are placed in the opposite direction on the robot---allows for all motors to move in the same direction for one value
-        rightBack.setDirection(DcMotor.Direction.REVERSE);
-        //rightFront.setDirection(DcMotor.Direction.REVERSE);
-        leftBack.setDirection(DcMotor.Direction.REVERSE);
+        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
 
         //Programming of Platform needs to be set
         platform.setDirection(Servo.Direction.FORWARD);
@@ -87,7 +86,7 @@ public class Hardware {
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         greenWheelRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         greenWheelLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 

@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import java.lang.Math;
 
 /*
- Notes:
+ NOTES:
    Encoders are doubles
    .getCurrentPosition() retrieves encoder values
    left and right triggers on controllers are scaled 0-1
@@ -78,8 +78,8 @@ public class MainTeleOp extends OpMode {
         liftGripper.setPosition(Servo.MAX_POSITION);
         liftRotate.setPosition(Servo.MIN_POSITION);
         pushToLift.setPosition(Servo.MAX_POSITION);
-        //rightIntake.setPosition(Servo.MAX_POSITION);
-        //leftIntake.setPosition(Servo.MAX_POSITION);
+        rightIntake.setPosition(Servo.MAX_POSITION);
+        leftIntake.setPosition(Servo.MAX_POSITION);
 
         //Variable to track time for running robot on time if needed
         //runtime = new ElapsedTime();
@@ -92,17 +92,26 @@ public class MainTeleOp extends OpMode {
      */
     public void loop() {
         //Methods responsible for control of different parts of the the robot
-        //DriveControl();
-        //ArmAndPlatformControl();
-        //LiftControl();
+        DriveControl();
+        ArmAndPlatformControl();
+        LiftControl();
+        Intake();
         //``````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````Intake();
-        leftBack.setPower(.25);
-        leftFront.setPower(.25);
-        rightBack.setPower(.25);
-        rightFront.setPower(.25);
+        /*leftBack.setPower(.5);
+        leftFront.setPower(.5);
+        rightBack.setPower(.5);
+        rightFront.setPower(.5);*/
 
         //Determine lift encoder limits
         telemetry.addData("Lift Encoders", lift.getCurrentPosition());
+        telemetry.addData("Right Back", rightBack.getPower());
+        telemetry.addData("Left Back", leftBack.getPower());
+        telemetry.addData("Right Front", rightFront.getPower());
+        telemetry.addData("Left Front", leftFront.getPower());
+        telemetry.addData("JS LX", gamepad1.left_stick_x);
+        telemetry.addData("JS LY", gamepad1.left_stick_y);
+        telemetry.addData("JS RX", gamepad1.right_stick_x);
+        telemetry.addData("JS RY", gamepad1.right_stick_y);
 
         //Show Telemetry on Driver Station Phone
         telemetry.update();
@@ -116,11 +125,11 @@ public class MainTeleOp extends OpMode {
         double speed = 0.5;
         boolean beginning = true;
 
-        if(gamepad1.left_trigger > 0)
+        if (gamepad1.left_trigger > 0)
             beginning = false;
 
         //Regular intake
-        if(!beginning) {
+        if (!beginning) {
             greenWheelRight.setPower(speed);
             greenWheelLeft.setPower(-1 * speed);
         }
@@ -149,11 +158,13 @@ public class MainTeleOp extends OpMode {
         double ratio;
 
         //TODO ask about the ratio purpose
-//        if (movement == 0 && strafe == 0)
-//            ratio = 1;
-//        else
+        if (movement == 0 && strafe == 0)
+            ratio = 1;
+        else
             ratio = hypot / (Math.max(Math.max(Math.max(Math.abs(lf), Math.abs(lb)), Math.abs(rb)), Math.abs(rf)));
 
+        //Uncomment below
+        //ratio /=2;
         leftFront.setPower(ratio * lf);
         leftBack.setPower(ratio * lb);
         rightFront.setPower(ratio * rf);
@@ -168,15 +179,15 @@ public class MainTeleOp extends OpMode {
         final int LOWER_LIFT_LIMIT = 0;
 
         //Control the lift
-        if(lift.getCurrentPosition() < UPPER_LIFT_LIMIT && lift.getCurrentPosition() > LOWER_LIFT_LIMIT)
+        lift.setPower(gamepad2.left_stick_y);
+/* if (lift.getCurrentPosition() < UPPER_LIFT_LIMIT && lift.getCurrentPosition() > LOWER_LIFT_LIMIT)
             lift.setPower(gamepad2.left_stick_y);
-        else
-        {
-            if(lift.getCurrentPosition() > UPPER_LIFT_LIMIT)
+        else {
+            if (lift.getCurrentPosition() > UPPER_LIFT_LIMIT)
                 lift.setTargetPosition(UPPER_LIFT_LIMIT - 2);
-            if(lift.getCurrentPosition() < LOWER_LIFT_LIMIT)
+            if (lift.getCurrentPosition() < LOWER_LIFT_LIMIT)
                 lift.setTargetPosition(LOWER_LIFT_LIMIT + 2);
-        }
+        }*/
 
         boolean leftBumper = gamepad2.left_bumper;
         boolean rightBumper = gamepad2.right_bumper;
@@ -184,35 +195,16 @@ public class MainTeleOp extends OpMode {
 
         if (leftBumper)
             liftGripper.setPosition(Servo.MAX_POSITION);
-        //Change to this if statement
-        /*
-        if (leftBumper)
-        {
-            liftGripper.setPosition(Servo.MAX_POSITION);
-            pushToLift.setPosition(Servo.MAX_POSITION); - Ensures that pathway is open to collect another block
-        }
-         */
+
         if (rightBumper)
             liftGripper.setPosition(Servo.MIN_POSITION);
-        //Change to this if statement
-        /*
-        if (rightBumper)
-        {
-            liftGripper.setPosition(Servo.MIN_POSITION);
-            pushToLift.setPosition(Servo.MIN_POSITION); - Ensures that 2 blocks arent taken in on accident
-        }
-         */
 
         //x = put it in
         if (gamepad2.x) {
             pushToLift.setPosition(Servo.MIN_POSITION);
-            if(pushToLift.getPosition() == Servo.MIN_POSITION)
+            if (pushToLift.getPosition() == Servo.MIN_POSITION)
                 liftGripper.setPosition(Servo.MIN_POSITION);
-            pushToLift.setPosition(Servo.MAX_POSITION);
-            /* Second solutions checks to make sure the Lift Gripper is in position first
-            if(liftGripper.getPosition() == Servo.MIN_Position)
-                pushToLift.setPosition(Servo.MAX_POSITION);
-             */
+            //pushToLift.setPosition(Servo.MAX_POSITION);
             armPivot.setPosition(Servo.MIN_POSITION);
         }
         //y = push it out
@@ -223,33 +215,30 @@ public class MainTeleOp extends OpMode {
 
         if (gamepad2.dpad_up) {
             double current = runtime.milliseconds();
-            //liftGripper.setPosition(Servo.MAX_POSITION);  //Should not be here
             pushToLift.setPosition(Servo.MIN_POSITION);
             while (runtime.milliseconds() < current + 1000) ;
-            /*
-                lift.setpower(1);
-
-             */
+            //lift.setpower(1);
             liftGripper.setPosition(Servo.MIN_POSITION);
         }
 
         //Direct control of push to Lift
-        if(gamepad2.a)
+        if (gamepad2.a)
             pushToLift.setPosition(Servo.MAX_POSITION);
-        if(gamepad2.b)
+        if (gamepad2.b)
             pushToLift.setPosition(Servo.MIN_POSITION);
 
 
         //Controls for the lift rotate --- also involve keeping the push set outwards
-        if(gamepad2.right_stick_x > 0.5) {
+        if (gamepad2.right_stick_x > 0.5) {
             liftRotate.setPosition(Servo.MAX_POSITION);
             pushToLift.setPosition(Servo.MIN_POSITION);
         }
-        if(gamepad2.right_stick_x < -0.5) {
+        if (gamepad2.right_stick_x < -0.5) {
             liftRotate.setPosition(Servo.MIN_POSITION);
             pushToLift.setPosition(Servo.MIN_POSITION);
         }
     }
+
 
     public void ArmAndPlatformControl() {
         if (gamepad1.a)
@@ -269,5 +258,6 @@ public class MainTeleOp extends OpMode {
             platform.setPosition(Servo.MIN_POSITION);
     }
 }
+
 
 
