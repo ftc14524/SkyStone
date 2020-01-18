@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import java.lang.Math;
 
 /*
- NOTES:
+ Notes:
    Encoders are doubles
    .getCurrentPosition() retrieves encoder values
    left and right triggers on controllers are scaled 0-1
@@ -78,8 +78,8 @@ public class MainTeleOp extends OpMode {
         liftGripper.setPosition(Servo.MAX_POSITION);
         liftRotate.setPosition(Servo.MIN_POSITION);
         pushToLift.setPosition(Servo.MAX_POSITION);
-        rightIntake.setPosition(Servo.MAX_POSITION);
-        leftIntake.setPosition(Servo.MAX_POSITION);
+        //rightIntake.setPosition(Servo.MAX_POSITION);
+        //leftIntake.setPosition(Servo.MAX_POSITION);
 
         //Variable to track time for running robot on time if needed
         //runtime = new ElapsedTime();

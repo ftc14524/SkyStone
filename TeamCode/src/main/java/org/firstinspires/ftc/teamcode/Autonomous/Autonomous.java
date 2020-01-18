@@ -44,9 +44,12 @@ public class Autonomous extends LinearOpMode {
         FIRST, SECOND, THIRD;
     }
 
+    AutonomousChoice choose;
+
     //TensorFlow
     protected static final String TFOD_MODEL_ASSET = "Skystone.tflite";
-    protected static final String LABEL_SPECIAL_SKYSTONE = "Special Skystone";
+    private static final String LABEL_FIRST_ELEMENT = "Stone";
+    private static final String LABEL_SECOND_ELEMENT = "Skystone";
     public Interpreter tflite;
 
     //imute
@@ -75,8 +78,6 @@ public class Autonomous extends LinearOpMode {
         rightBack = robot.rightBack;
         platform = robot.platform;
         armPivot = robot.armPivot;
-        //platformR = robot.platformR;
-        //arm = robot.arm;
         liftGripper = robot.liftGripper;
 
         platform.setPosition(Servo.MIN_POSITION);
@@ -88,85 +89,10 @@ public class Autonomous extends LinearOpMode {
         robot.pushToLift.setPosition(Servo.MAX_POSITION);
         armClasp = robot.armClasp;
 
-        telemetry.addData("Motor Status", rightBack == null);
-        telemetry.addData("Motor Status", rightFront == null);
-        telemetry.addData("Motor Status", leftFront == null);
-        telemetry.addData("Motor Status", leftBack == null);
-        AkshyatFirstSkyStoneLeft al = new AkshyatFirstSkyStoneLeft();
-        al.runOpMode();
+        switch(CameraTime()) {
+            case FIRST: choose = new AkshyatFirstSkyStoneLeft();
+        }
 
-       /*arm = robot.arm;
-       cameraName = robot.cameraName;
-
-       //robot.resetDriveEncoders();
-       leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-       leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-       rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-       rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-       leftFront.setDirection(DcMotor.Direction.REVERSE);
-       rightFront.setDirection(DcMotor.Direction.FORWARD);
-       leftBack.setDirection(DcMotor.Direction.REVERSE);
-       rightBack.setDirection(DcMotor.Direction.FORWARD);
-       arm.setPosition(Servo.MIN_POSITION);
-
-       BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-
-       parameters.mode                = BNO055IMU.SensorMode.IMU;
-       parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-       parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-       parameters.loggingEnabled      = false;
-       //Configure Vuforia by creating a Parameter object, and passing it to the com.vuforia.Vuforia engine.
-
-       imu = hardwareMap.get(BNO055IMU.class, "imu");
-       imu.initialize(parameters);
-
-       baseAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-
-       //runtime = new ElapsedTime();
-       telemetry.addData("Status", "Initialized");
-       telemetry.update();
-
-       //Set directions for motors
-
-       waitForStart();
-       initVuforia();
-       initTfod();
-
-       while (!imu.isSystemCalibrated()) idle();
-
-       // Wait for the game to start (driver presses PLAY)
-       tfod.activate();
-
-       //TODO check this method
-       SkyStonePosition position = getSkyStonePositionAndWaitForStart();
-
-       waitForStart();
-       if (!opModeIsActive()) return;
-       //TODO Write function to run TFOD object on image and determine important position info.
-
-       tfod.deactivate();
-       runtime.reset();
-
-       //TODO Write code to move motors and perform the task based on result of TFOD classification.
-
-
-       telemetry.addLine("Gyro ready");
-       telemetry.addData("heading: ", imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
-       telemetry.update();
-
-       baseAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-*/
-        //robot.webcamServo.setPosition(Servo.MAX_POSITION);
-
-        //robot.liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        //OLD: Need an Activity object here. Which file do we get this from?
-        //tflite = new Interpreter(loadModelFile());
-
-        //To run the model, we have to do tflite.run(imgData, labelProbArray);
-        //I am thinking that, from the video we can take 10 fps and and analyze each image
-        // in the frame to make the prediction.
     }
 
 
@@ -237,7 +163,7 @@ public class Autonomous extends LinearOpMode {
 
         //INFO Load the model and the classes.
         //TODO need to load the classes. I don't know the class names.
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_SPECIAL_SKYSTONE);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
 
     /**
@@ -254,71 +180,6 @@ public class Autonomous extends LinearOpMode {
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
     }
-
-    protected SkyStonePosition getSkyStonePositionAndWaitForStart() {
-        SkyStonePosition position = SkyStonePosition.SECOND;
-        while (/*opModeIsActive() && */!isStarted() && !isStopRequested()) {
-            if (tfod != null) {
-                // getUpdatedRecognitions() will return null if no new information is available since
-                // the last time that call was made.
-                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                if (updatedRecognitions != null) {
-                    telemetry.addData("# Object Detected", updatedRecognitions.size());
-                    int skystoneCount = 0;
-                    for (Recognition recognition : updatedRecognitions) {
-                       /* note: the following conditions mean:
-                           recognition.getWidth() < recognition.getImageWidth() / 3
-                               avoids a very wide false positive that can be caused by the background
-                           recognition.getBottom() > recognition.getImageHeight() * 2 / 3
-                               ignores any minerals in the crater
-                           recognition.getWidth() < 1.5 * recognition.getHeight()
-                               avoids a rectangular false positive generated by the red x
-                       */
-                        if (recognition.getWidth() < recognition.getImageWidth() / 3 &&
-                                recognition.getBottom() > recognition.getImageHeight() * 2 / 3 &&
-                                recognition.getWidth() < 1.5 * recognition.getHeight()) {
-                            if (recognition.getLabel().equals(LABEL_SPECIAL_SKYSTONE)) {
-                                skystoneCount++;
-                                if (recognition.getLeft() < recognition.getImageWidth() / 3) {
-                                    position = SkyStonePosition.THIRD;
-                                } else if (recognition.getLeft() < recognition.getImageWidth() / 3 * 2) {
-                                    position = SkyStonePosition.SECOND;
-                                } else {
-                                    position = SkyStonePosition.FIRST;
-                                }
-                            }
-                        }
-                    }
-                    if (skystoneCount <= 1) {
-                        if (position == SkyStonePosition.THIRD) {
-                            telemetry.addData("Skystone Position", "Third");
-                        } else if (position == SkyStonePosition.SECOND) {
-                            telemetry.addData("Skystone Position", "Second");
-                        } else if (position == SkyStonePosition.FIRST) {
-                            telemetry.addData("Skystone Position", "First");
-                        }
-                    } else {
-                        position = SkyStonePosition.SECOND;
-                    }
-                    telemetry.update();
-                }
-            }
-        }
-        return position;
-    }
-
-
-    //README commented out below function for loading the Model's file.
-   /*private MappedByteBuffer loadModelFile(Activity activity) throws IOException {
-       //in openFd(), input the a String that points to the file in assets folder where .tflite file is
-       AssetFileDescriptor fileDescriptor = activity.getAssets().openFd();
-       FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
-
-       FileChannel fileChannel = inputStream.getChannel();
-       long startOffset = fileDescriptor.getStartOffset();
-       long declaredLength = fileDescriptor.getDeclaredLength();
-       return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength);
-   }*/
 
     void waitAbsolute(double seconds) {
         /*
@@ -600,4 +461,111 @@ public class Autonomous extends LinearOpMode {
         leftBack.setPower(0);
         rightBack.setPower(0);
     }
+
+    public SkyStonePosition CameraTime()
+    {
+        initVuforia();
+
+        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
+            initTfod();
+        } else {
+            telemetry.addData("Sorry!", "This device is not compatible with TFOD");
+        }
+
+        /**
+         * Activate TensorFlow Object Detection before we wait for the start command.
+         * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
+         **/
+        if (tfod != null) {
+            tfod.activate();
+        }
+
+        /** Wait for the game to begin */
+        telemetry.addData(">", "Press Play to start op mode");
+        telemetry.update();
+        waitForStart();
+
+        if (opModeIsActive()) {
+            while (opModeIsActive()) {
+                if (tfod != null) {
+                    // getUpdatedRecognitions() will return null if no new information is available since
+                    // the last time that call was made.
+                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                    if (updatedRecognitions != null) {
+                        telemetry.addData("# Object Detected", updatedRecognitions.size());
+                        // step through the list of recognitions and display boundary info.
+                        int i = 0;
+                        for (Recognition recognition : updatedRecognitions) {
+                            telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+                            telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                                    recognition.getLeft(), recognition.getTop());
+                            telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                                    recognition.getRight(), recognition.getBottom());
+                        }
+                        telemetry.update();
+                    }
+                }
+            }
+        }
+
+        if (tfod != null) {
+            tfod.shutdown();
+        }
+
+        return SkyStonePosition.FIRST;
+        /*pos = SkyStonePosition.FIRST;
+        while (!isStarted() && ! isStopRequested()) {
+            if (tfod != null) {
+                // getUpdatedRecognitions() will return null if no new information is available since
+                // the last time that call was made.
+                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                if (updatedRecognitions != null) {
+                    telemetry.addData("# Object Detected", updatedRecognitions.size());
+                    int skyStoneCount = 0;
+                    for (Recognition recognition : updatedRecognitions) {
+                        /* note: the following conditions mean:
+                            recognition.getWidth() < recognition.getImageWidth() / 3
+                                avoids a very wide false positive that can be caused by the background
+                            recognition.getBottom() > recognition.getImageHeight() * 2 / 3
+                                ignores any minerals in the crater
+                            recognition.getWidth() < 1.5 * recognition.getHeight()
+                                avoids a rectangular false positive generated by the red x
+                        */
+                        /*if (recognition.getWidth() < recognition.getImageWidth() / 3 /*&&
+                                recognition.getBottom() > recognition.getImageHeight() * 2 / 3 &&
+                                recognition.getWidth() < 1.5 * recognition.getHeight()*///) {
+                            /*if (recognition.getLabel().equals(LABEL_FIRST_ELEMENT)) {
+                                skyStoneCount++;
+                                if (recognition.getLeft() < recognition.getImageWidth() / 3) {
+                                    pos = SkyStonePosition.THIRD;
+                                }
+                                else if (recognition.getLeft() < recognition.getImageWidth() / 3 * 2) {
+                                    pos = SkyStonePosition.SECOND;
+                                }
+                                else {
+                                    pos = SkyStonePosition.FIRST;
+                                }
+                            }
+                        }
+                    }
+                    if (skyStoneCount <= 1) {
+                        if (pos == SkyStonePosition.THIRD) {
+                            telemetry.addData("Gold Mineral Position", "Left");
+                        } else if (pos == SkyStonePosition.SECOND) {
+                            telemetry.addData("Gold Mineral Position", "Center");
+                        } else if (pos == SkyStonePosition.FIRST) {
+                            telemetry.addData("Gold Mineral Position", "Right");
+                        }
+                    } else {
+                        pos = SkyStonePosition.FIRST;
+                    }
+                    telemetry.update();
+                }
+            }
+        }
+        return pos;*/
+    }
+
+
+
 }
