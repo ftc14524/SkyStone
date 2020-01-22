@@ -6,7 +6,46 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name = "Platform Auto", group = "Autonomous")
 
-public class Platform extends org.firstinspires.ftc.teamcode.Autonomous.Autonomous {
+public class Platform extends org.firstinspires.ftc.teamcode.Autonomous.AutonomousLeft
+implements AutonomousChoice{
+
+    boolean left;
+    public Platform(boolean isLeft){
+        left = isLeft;
+        if(left) {
+            platform.setPosition(Servo.MIN_POSITION);
+            waitForStart();
+
+            strafe(1, 0.3, 1, 2);
+            waitFor(2);
+            platform.setPosition(Servo.MAX_POSITION);
+            waitFor(2);
+            strafe(-1, 0, 1, 2.4);
+            waitFor(2);
+            rotate(false, 2, 1);
+            waitFor(2);
+            platform.setPosition(Servo.MIN_POSITION);
+            waitFor(2);
+            strafe(0, 1, 1, 1.5);
+            stop();
+        }else{
+            platform.setPosition(Servo.MIN_POSITION);
+            waitForStart();
+
+            strafe(1, -0.3, 1, 2);
+            waitFor(2);
+            platform.setPosition(Servo.MAX_POSITION);
+            waitFor(2);
+            strafe(-1, 0, 1, 2.4);
+            waitFor(2);
+            rotate(false, 2, 1);
+            waitFor(2);
+            platform.setPosition(Servo.MIN_POSITION);
+            waitFor(2);
+            strafe(0, -1, 1, 1.5);
+            stop();
+        }
+    }
 
 
     @Override
@@ -14,8 +53,39 @@ public class Platform extends org.firstinspires.ftc.teamcode.Autonomous.Autonomo
 
         super.runOpMode();
 
-        platform.setPosition(Servo.MIN_POSITION);
-        waitForStart();
+        if(left) {
+            platform.setPosition(Servo.MIN_POSITION);
+            waitForStart();
+
+            strafe(1, 0.3, 1, 2);
+            waitFor(2);
+            platform.setPosition(Servo.MAX_POSITION);
+            waitFor(2);
+            strafe(-1, 0, 1, 2.4);
+            waitFor(2);
+            rotate(false, 2, 1);
+            waitFor(2);
+            platform.setPosition(Servo.MIN_POSITION);
+            waitFor(2);
+            strafe(0, 1, 1, 1.5);
+            stop();
+        }else{
+            platform.setPosition(Servo.MIN_POSITION);
+            waitForStart();
+
+            strafe(1, -0.3, 1, 2);
+            waitFor(2);
+            platform.setPosition(Servo.MAX_POSITION);
+            waitFor(2);
+            strafe(-1, 0, 1, 2.4);
+            waitFor(2);
+            rotate(false, 2, 1);
+            waitFor(2);
+            platform.setPosition(Servo.MIN_POSITION);
+            waitFor(2);
+            strafe(0, -1, 1, 1.5);
+            stop();
+        }
 
        /*//Strafe right 2 seconds
        strafe(1, 0, 1, 2.5);
@@ -42,18 +112,7 @@ public class Platform extends org.firstinspires.ftc.teamcode.Autonomous.Autonomo
        waitFor(0.5);
        stop();*/
 
-        strafe(1, 0.3, 1, 2);
-        waitFor(2);
-        platform.setPosition(Servo.MAX_POSITION);
-        waitFor(2);
-        strafe(-1, 0, 1, 2.4);
-        waitFor(2);
-        rotate(false, 2, 1);
-        waitFor(2);
-        platform.setPosition(Servo.MIN_POSITION);
-        waitFor(2);
-        strafe(0, 1, 1, 1.5);
-        stop();
+
 
     }
 }

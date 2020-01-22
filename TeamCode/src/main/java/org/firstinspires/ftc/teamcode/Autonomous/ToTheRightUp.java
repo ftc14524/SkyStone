@@ -4,9 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "Right Up", group = "Autonomous")
+@Autonomous(name = "Right Park", group = "Autonomous")
 
-public class ToTheRightUp extends org.firstinspires.ftc.teamcode.Autonomous.Autonomous {
+public class ToTheRightUp extends org.firstinspires.ftc.teamcode.Autonomous.AutonomousRight {
 
 
     @Override
@@ -17,7 +17,7 @@ public class ToTheRightUp extends org.firstinspires.ftc.teamcode.Autonomous.Auto
         platform.setPosition(Servo.MAX_POSITION);
         armPivot.setPosition(Servo.MAX_POSITION);
         waitForStart();
-        strafe(1, 0, 1, 1.5);
+        strafe(1, -0.2, 1, 3);
         strafe(0, 1, 1, 1.5);
         stop();
 

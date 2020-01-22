@@ -21,6 +21,8 @@ import org.firstinspires.ftc.teamcode.Hardware;
 import org.tensorflow.lite.Interpreter;
 
 import java.lang.Math;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 //motor.setZeroPowerBehavior (if you want it float or brake)
@@ -28,9 +30,9 @@ import java.util.List;
 //robot is a hardware object so you can use hardware methods
 //idle() -
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Test Auto", group = "Autonomous")
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Test Auto Left", group = "Autonomous")
 
-public class Autonomous extends LinearOpMode {
+public class AutonomousLeft extends LinearOpMode{
 
     //TODO The lift needs to drop at the end of autonomous period
     Hardware robot;
@@ -89,9 +91,24 @@ public class Autonomous extends LinearOpMode {
         robot.pushToLift.setPosition(Servo.MAX_POSITION);
         armClasp = robot.armClasp;
 
-        switch(CameraTime()) {
-            case FIRST: choose = new AkshyatFirstSkyStoneLeft();
-        }
+        //INFO If it is on the left
+        choose = new Platform(true);
+
+        //INFO For recognizing the skystones
+        /*switch (CameraTime()) {
+            case FIRST:
+                choose = new AkshyatFirstSkyStoneLeft();
+                break;
+            case SECOND:
+                choose = new AkshyatSecondSkystoneLeft();
+                break;
+            case THIRD:
+                choose = new AkshyatThirdSkyStoneLeft();
+                break;
+            default:
+                choose = new AkshyatFirstSkyStoneLeft();
+                break;
+        }*/
 
     }
 
@@ -114,7 +131,7 @@ public class Autonomous extends LinearOpMode {
     }
 
     public void strafe(double vertical, double horizontal, double power, double time) {
-        double movement = vertical;
+        /*double movement = vertical;
         double strafe = horizontal;
         double magnitude = Math.sqrt(Math.pow(horizontal, 2) + Math.pow(vertical, 2));
         double direction = Math.atan2(-gamepad1.left_stick_x, gamepad1.left_stick_y);
@@ -135,24 +152,27 @@ public class Autonomous extends LinearOpMode {
         leftFront.setPower(ratio * lf);
         leftBack.setPower(ratio * lb);
         rightFront.setPower(ratio * rf);
-        rightBack.setPower(ratio * rb);
+        rightBack.setPower(ratio * rb);*/
         /////////////////////////////////////////////////////////////////////////////
-//        double magnitude = power * 1;
-//        double direction = Math.atan2(-vertical, horizontal);
-//
-//        double lf = magnitude * Math.sin(direction + Math.PI / 4);
-//        double lb = magnitude * Math.cos(direction + Math.PI / 4);
-//        double rf = magnitude * Math.cos(direction + Math.PI / 4);
-//        double rb = magnitude * Math.sin(direction + Math.PI / 4);
-//
-//        leftFront.setPower(lf);
-//        leftBack.setPower(lb);
-//        rightFront.setPower(rf);
-//        rightBack.setPower(rb);
+        double magnitude = power * 1;
+        double direction = Math.atan2(-vertical, horizontal);
+
+        double lf = magnitude * Math.sin(direction + Math.PI / 4);
+        double lb = magnitude * Math.cos(direction + Math.PI / 4);
+        double rf = magnitude * Math.cos(direction + Math.PI / 4);
+        double rb = magnitude * Math.sin(direction + Math.PI / 4);
+        leftFront = robot.leftFront;
+        rightFront = robot.rightFront;
+        leftBack = robot.leftBack;
+        rightBack = robot.rightBack;
+        leftFront.setPower(lf);
+        /*leftBack.setPower(lb);
+        rightFront.setPower(rf);
+        rightBack.setPower(rb);*/
 
         waitFor(time);
 
-        StopDriveMotors();
+        //StopDriveMotors();
     }
 
     public void initTfod() {
@@ -462,8 +482,8 @@ public class Autonomous extends LinearOpMode {
         rightBack.setPower(0);
     }
 
-    public SkyStonePosition CameraTime()
-    {
+
+    public SkyStonePosition CameraTime() {
         initVuforia();
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
@@ -483,46 +503,20 @@ public class Autonomous extends LinearOpMode {
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
-        waitForStart();
+        //waitForStart();
 
-        if (opModeIsActive()) {
-            while (opModeIsActive()) {
-                if (tfod != null) {
-                    // getUpdatedRecognitions() will return null if no new information is available since
-                    // the last time that call was made.
-                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                    if (updatedRecognitions != null) {
-                        telemetry.addData("# Object Detected", updatedRecognitions.size());
-                        // step through the list of recognitions and display boundary info.
-                        int i = 0;
-                        for (Recognition recognition : updatedRecognitions) {
-                            telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                            telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                                    recognition.getLeft(), recognition.getTop());
-                            telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                                    recognition.getRight(), recognition.getBottom());
-                        }
-                        telemetry.update();
-                    }
-                }
-            }
-        }
-
-        if (tfod != null) {
-            tfod.shutdown();
-        }
-
-        return SkyStonePosition.FIRST;
-        /*pos = SkyStonePosition.FIRST;
-        while (!isStarted() && ! isStopRequested()) {
+        SkyStonePosition pos = SkyStonePosition.FIRST;
+        while (!isStarted() && !isStopRequested()) {
             if (tfod != null) {
                 // getUpdatedRecognitions() will return null if no new information is available since
                 // the last time that call was made.
                 List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                ArrayList<Item> sortedRecognition = new ArrayList<>();
                 if (updatedRecognitions != null) {
                     telemetry.addData("# Object Detected", updatedRecognitions.size());
                     int skyStoneCount = 0;
                     for (Recognition recognition : updatedRecognitions) {
+                        sortedRecognition.add(new Item(recognition));
                         /* note: the following conditions mean:
                             recognition.getWidth() < recognition.getImageWidth() / 3
                                 avoids a very wide false positive that can be caused by the background
@@ -531,23 +525,24 @@ public class Autonomous extends LinearOpMode {
                             recognition.getWidth() < 1.5 * recognition.getHeight()
                                 avoids a rectangular false positive generated by the red x
                         */
-                        /*if (recognition.getWidth() < recognition.getImageWidth() / 3 /*&&
+                        if (recognition.getWidth() < recognition.getImageWidth() / 3 /*&&
                                 recognition.getBottom() > recognition.getImageHeight() * 2 / 3 &&
-                                recognition.getWidth() < 1.5 * recognition.getHeight()*///) {
-                            /*if (recognition.getLabel().equals(LABEL_FIRST_ELEMENT)) {
+                                recognition.getWidth() < 1.5 * recognition.getHeight()*/) {
+                            if (recognition.getLabel().equals(LABEL_FIRST_ELEMENT)) {
                                 skyStoneCount++;
                                 if (recognition.getLeft() < recognition.getImageWidth() / 3) {
                                     pos = SkyStonePosition.THIRD;
-                                }
-                                else if (recognition.getLeft() < recognition.getImageWidth() / 3 * 2) {
+                                } else if (recognition.getLeft() < recognition.getImageWidth() / 3 * 2) {
                                     pos = SkyStonePosition.SECOND;
-                                }
-                                else {
+                                } else {
                                     pos = SkyStonePosition.FIRST;
                                 }
                             }
                         }
                     }
+
+                    Collections.sort(sortedRecognition);
+                    telemetry.addData("Sorted: ", sortedRecognition.toString());
                     if (skyStoneCount <= 1) {
                         if (pos == SkyStonePosition.THIRD) {
                             telemetry.addData("Gold Mineral Position", "Left");
@@ -563,9 +558,27 @@ public class Autonomous extends LinearOpMode {
                 }
             }
         }
-        return pos;*/
+        return pos;
     }
 
 
+}
 
+class Item implements Comparable {
+
+    Recognition recognition;
+    public Item(Recognition r ){
+        recognition = r;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Recognition rt = (Recognition) o;
+        double x1 = recognition.getLeft();
+        double x2 = rt.getLeft();
+        return Double.compare(x1, x2);
+    }
+    public String toString(){
+        return recognition.getLabel() + ": " + String.format("%.1f",recognition.getConfidence()) + " " + recognition.getImageWidth() + " " + recognition.getLeft();
+    }
 }

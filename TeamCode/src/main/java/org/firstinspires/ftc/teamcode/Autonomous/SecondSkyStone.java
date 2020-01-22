@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name = "Testing Two", group = "Autonomous")
 
-public class SecondSkyStone extends org.firstinspires.ftc.teamcode.Autonomous.Autonomous {
+public class SecondSkyStone extends org.firstinspires.ftc.teamcode.Autonomous.AutonomousLeft {
 
     @Override
     public void runOpMode() {

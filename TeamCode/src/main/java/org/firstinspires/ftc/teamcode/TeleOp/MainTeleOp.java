@@ -76,8 +76,11 @@ public class MainTeleOp extends OpMode {
         armPivot.setPosition(Servo.MAX_POSITION);
         armClasp.setPosition(Servo.MIN_POSITION);
         liftGripper.setPosition(Servo.MAX_POSITION);
+
         liftRotate.setPosition(Servo.MIN_POSITION);
         pushToLift.setPosition(Servo.MAX_POSITION);
+
+
         //rightIntake.setPosition(Servo.MAX_POSITION);
         //leftIntake.setPosition(Servo.MAX_POSITION);
 
@@ -175,6 +178,7 @@ public class MainTeleOp extends OpMode {
 
     //Function for handling horizontal lift
     public void LiftControl() {
+
         //Encoder limits to prevent breaking the lift
         final int UPPER_LIFT_LIMIT = 3000;
         final int LOWER_LIFT_LIMIT = 0;
@@ -223,20 +227,20 @@ public class MainTeleOp extends OpMode {
         }*/
 
         //Direct control of push to Lift
-        if (gamepad2.a)
-            pushToLift.setPosition(Servo.MAX_POSITION);
         if (gamepad2.b)
+            pushToLift.setPosition(Servo.MAX_POSITION);
+        if (gamepad2.a)
             pushToLift.setPosition(Servo.MIN_POSITION);
 
 
         //Controls for the lift rotate --- also involve keeping the push set outwards
         if (gamepad2.right_stick_x > 0.5) {
             liftRotate.setPosition(Servo.MAX_POSITION);
-            pushToLift.setPosition(Servo.MIN_POSITION);
+            //pushToLift.setPosition(Servo.MIN_POSITION);
         }
         if (gamepad2.right_stick_x < -0.5) {
             liftRotate.setPosition(Servo.MIN_POSITION);
-            pushToLift.setPosition(Servo.MIN_POSITION);
+            //pushToLift.setPosition(Servo.MIN_POSITION);
         }
     }
 
@@ -247,10 +251,15 @@ public class MainTeleOp extends OpMode {
         if (gamepad1.b)
             armPivot.setPosition(Servo.MIN_POSITION);
 
-        if (armPivot.getPosition() == Servo.MAX_POSITION)
+        if(gamepad1.dpad_up)
+            armClasp.setPosition(Servo.MIN_POSITION);
+        if(gamepad1.dpad_down)
+            armClasp.setPosition(Servo.MAX_POSITION);
+
+        /*if (armPivot.getPosition() == Servo.MAX_POSITION)
             armClasp.setPosition(Servo.MIN_POSITION);
         else
-            armClasp.setPosition(Servo.MAX_POSITION);
+            armClasp.setPosition(Servo.MAX_POSITION);*/
 
         if (gamepad1.x)
             platform.setPosition(Servo.MAX_POSITION);

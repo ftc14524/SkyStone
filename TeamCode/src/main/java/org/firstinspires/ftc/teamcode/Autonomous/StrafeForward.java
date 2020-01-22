@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name = "Strafe Forward", group = "Autonomous")
 
-public class StrafeForward extends org.firstinspires.ftc.teamcode.Autonomous.Autonomous {
+public class StrafeForward extends org.firstinspires.ftc.teamcode.Autonomous.AutonomousLeft {
 
 
     @Override

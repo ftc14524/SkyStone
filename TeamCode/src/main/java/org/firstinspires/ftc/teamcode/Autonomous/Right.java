@@ -4,9 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "Right", group = "Autonomous")
+@Autonomous(name = "TEST Right", group = "Autonomous")
 
-public class Right extends org.firstinspires.ftc.teamcode.Autonomous.Autonomous {
+public class Right extends org.firstinspires.ftc.teamcode.Autonomous.AutonomousRight {
 
 
     @Override

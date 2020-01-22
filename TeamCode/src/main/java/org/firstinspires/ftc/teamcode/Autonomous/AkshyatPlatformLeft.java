@@ -4,13 +4,31 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Hardware;
+
 @Autonomous(name = "Akshyat Platform Left", group = "Autonomous")
 
-public class AkshyatPlatformLeft extends org.firstinspires.ftc.teamcode.Autonomous.Autonomous {
+public class AkshyatPlatformLeft extends org.firstinspires.ftc.teamcode.Autonomous.AutonomousLeft {
     @Override
     public void runOpMode() {
 
-        super.runOpMode();
+        robot = new Hardware(hardwareMap);
+        leftFront = robot.leftFront;
+        rightFront = robot.rightFront;
+        leftBack = robot.leftBack;
+        rightBack = robot.rightBack;
+        platform = robot.platform;
+        armPivot = robot.armPivot;
+        liftGripper = robot.liftGripper;
+
+        platform.setPosition(Servo.MIN_POSITION);
+        robot.liftRotate.setPosition(Servo.MIN_POSITION);
+        robot.armPivot.setPosition(Servo.MAX_POSITION);
+        robot.armClasp.setPosition(Servo.MIN_POSITION);
+        robot.liftGripper.setPosition(Servo.MAX_POSITION);
+        robot.liftRotate.setPosition(Servo.MIN_POSITION);//Already repeating
+        robot.pushToLift.setPosition(Servo.MAX_POSITION);
+        armClasp = robot.armClasp;
 
         waitForStart();
         //stoneGripper = stone grab auton
