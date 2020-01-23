@@ -4,6 +4,15 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 public class CameraBlue extends Autonomous {
 
+    public CameraBlue() {
 
+    }
+
+    @Override
+    public void runOpMode() {
+        super.runOpMode();
+
+
+    }
 
 }
