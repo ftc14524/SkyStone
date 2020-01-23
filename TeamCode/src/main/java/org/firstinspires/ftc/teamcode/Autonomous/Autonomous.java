@@ -1,18 +1,16 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.vuforia.Vuforia;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -20,21 +18,14 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.tensorflow.lite.Interpreter;
 
-import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-//motor.setZeroPowerBehavior (if you want it float or brake)
-//opModeIsActive() //if you running within 30 seconds
-//robot is a hardware object so you can use hardware methods
-//idle() -
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Test Auto Right", group = "Autonomous")
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Test Auto Right", group = "Autonomous Right")
+public class Autonomous extends LinearOpMode {
 
-public class AutonomousRight extends LinearOpMode {
-
-    //TODO The lift needs to drop at the end of autonomous period
     Hardware robot;
     ElapsedTime runtime = new ElapsedTime();
     DcMotor leftFront, rightFront, leftBack, rightBack;
@@ -46,7 +37,6 @@ public class AutonomousRight extends LinearOpMode {
         FIRST, SECOND, THIRD;
     }
 
-    AutonomousChoice choose;
 
     //TensorFlow
     protected static final String TFOD_MODEL_ASSET = "Skystone.tflite";
@@ -90,9 +80,6 @@ public class AutonomousRight extends LinearOpMode {
         robot.liftRotate.setPosition(Servo.MIN_POSITION);//Already repeating
         robot.pushToLift.setPosition(Servo.MAX_POSITION);
         armClasp = robot.armClasp;
-
-        //INFO If it is on the right
-        choose = new Platform(false);
 
         //INFO For recognizing the skystones
         /*switch (CameraTime()) {
@@ -482,7 +469,7 @@ public class AutonomousRight extends LinearOpMode {
         rightBack.setPower(0);
     }
 
-    public SkyStonePosition CameraTime() {
+    public AutonomousRight.SkyStonePosition CameraTime() {
         initVuforia();
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
@@ -504,7 +491,7 @@ public class AutonomousRight extends LinearOpMode {
         telemetry.update();
         //waitForStart();
 
-        SkyStonePosition pos = SkyStonePosition.FIRST;
+        AutonomousRight.SkyStonePosition pos = AutonomousRight.SkyStonePosition.FIRST;
         while (!isStarted() && !isStopRequested()) {
             if (tfod != null) {
                 // getUpdatedRecognitions() will return null if no new information is available since
@@ -530,11 +517,11 @@ public class AutonomousRight extends LinearOpMode {
                             if (recognition.getLabel().equals(LABEL_FIRST_ELEMENT)) {
                                 skyStoneCount++;
                                 if (recognition.getLeft() < recognition.getImageWidth() / 3) {
-                                    pos = SkyStonePosition.THIRD;
+                                    pos = AutonomousRight.SkyStonePosition.THIRD;
                                 } else if (recognition.getLeft() < recognition.getImageWidth() / 3 * 2) {
-                                    pos = SkyStonePosition.SECOND;
+                                    pos = AutonomousRight.SkyStonePosition.SECOND;
                                 } else {
-                                    pos = SkyStonePosition.FIRST;
+                                    pos = AutonomousRight.SkyStonePosition.FIRST;
                                 }
                             }
                         }
@@ -543,15 +530,15 @@ public class AutonomousRight extends LinearOpMode {
                     Collections.sort(sortedRecognition);
                     telemetry.addData("Sorted: ", sortedRecognition.toString());
                     if (skyStoneCount <= 1) {
-                        if (pos == SkyStonePosition.THIRD) {
+                        if (pos == AutonomousRight.SkyStonePosition.THIRD) {
                             telemetry.addData("Gold Mineral Position", "Left");
-                        } else if (pos == SkyStonePosition.SECOND) {
+                        } else if (pos == AutonomousRight.SkyStonePosition.SECOND) {
                             telemetry.addData("Gold Mineral Position", "Center");
-                        } else if (pos == SkyStonePosition.FIRST) {
+                        } else if (pos == AutonomousRight.SkyStonePosition.FIRST) {
                             telemetry.addData("Gold Mineral Position", "Right");
                         }
                     } else {
-                        pos = SkyStonePosition.FIRST;
+                        pos = AutonomousRight.SkyStonePosition.FIRST;
                     }
                     telemetry.update();
                 }
@@ -559,7 +546,4 @@ public class AutonomousRight extends LinearOpMode {
         }
         return pos;
     }
-
-
 }
-

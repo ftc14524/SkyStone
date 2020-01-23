@@ -30,7 +30,7 @@ import java.util.List;
 //robot is a hardware object so you can use hardware methods
 //idle() -
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Test Auto Left", group = "Autonomous")
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Test Auto Left", group = "Autonomous Left")
 
 public class AutonomousLeft extends LinearOpMode{
 
