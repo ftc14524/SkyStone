@@ -4,18 +4,20 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "Strafe Left", group = "Autonomous")
+@Autonomous(name = "Parking Right Up", group = "Autonomous")
 
-public class StrafeLeft extends org.firstinspires.ftc.teamcode.Autonomous.AutonomousLeft {
+public class ParkRightUp extends org.firstinspires.ftc.teamcode.Autonomous.Autonomous {
 
 
     @Override
     public void runOpMode() {
 
         super.runOpMode();
-
-        strafe(0, -1, 1, 30);
+        waitForStart();
+        strafe(1, -0.2, 1, 3);
+        strafe(0, 1, 1, 1.5);
         stop();
 
     }
 }
+

@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Test Auto Right", group = "Autonomous")
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Autonomous Parent Class", group = "Autonomous")
 
 public class Autonomous extends LinearOpMode {
 
