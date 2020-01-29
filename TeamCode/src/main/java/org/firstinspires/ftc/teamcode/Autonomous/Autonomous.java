@@ -29,11 +29,10 @@ public class Autonomous extends LinearOpMode {
     Hardware robot;
     ElapsedTime runtime = new ElapsedTime();
     DcMotor leftFront, rightFront, leftBack, rightBack;
-    Servo armClasp, armPivot;
-    public Servo platform, liftGripper;
+    Servo armClasp, armPivot, platform, liftGripper, pushToLift, liftRotate;
     protected CameraName cameraName;
 
-    public enum SkyStonePosition {
+    /*public enum SkyStonePosition {
         FIRST, SECOND, THIRD;
     }
 
@@ -59,7 +58,7 @@ public class Autonomous extends LinearOpMode {
     //Constants
     protected static final double COUNTS_PER_INCH_HD_MECANUM = 1120 / Math.PI / 4;
     protected static final int COUNTS_PER_REV_CORE = 288;
-    protected static final double TURN_DISTANCE_PER_DEGREE = Math.sqrt(1560.49) * Math.PI / 360 / 2;
+    protected static final double TURN_DISTANCE_PER_DEGREE = Math.sqrt(1560.49) * Math.PI / 360 / 2;*/
 
     @Override
     public void runOpMode() {
@@ -70,16 +69,18 @@ public class Autonomous extends LinearOpMode {
         rightBack = robot.rightBack;
         platform = robot.platform;
         armPivot = robot.armPivot;
+        armClasp = robot.armClasp;
         liftGripper = robot.liftGripper;
+        pushToLift = robot.pushToLift;
+        cameraName = robot.cameraName;
+        liftRotate = robot.liftRotate;
 
         platform.setPosition(Servo.MIN_POSITION);
         robot.liftRotate.setPosition(Servo.MIN_POSITION);
         robot.armPivot.setPosition(Servo.MAX_POSITION);
         robot.armClasp.setPosition(Servo.MIN_POSITION);
         robot.liftGripper.setPosition(Servo.MAX_POSITION);
-        robot.liftRotate.setPosition(Servo.MIN_POSITION);//Already repeating
         robot.pushToLift.setPosition(Servo.MAX_POSITION);
-        armClasp = robot.armClasp;
 
         //INFO For recognizing the skystones
         /*switch (CameraTime()) {
@@ -100,6 +101,7 @@ public class Autonomous extends LinearOpMode {
     }
 
 
+    //TODO check rotation
     public void rotate(boolean right, double time, double power) {
         if (right) {
             rightFront.setPower(1 * (power * .5));
@@ -121,7 +123,7 @@ public class Autonomous extends LinearOpMode {
         double movement = vertical;
         double strafe = horizontal;
         double magnitude = Math.sqrt(Math.pow(horizontal, 2) + Math.pow(vertical, 2));
-        double direction = Math.atan2(-gamepad1.left_stick_x, gamepad1.left_stick_y);
+        double direction = Math.atan2(-horizontal, vertical);
 
         //INFO Increasing speed to maximum of 1
         double lf = magnitude * Math.sin(direction + Math.PI / 4);
@@ -159,7 +161,7 @@ public class Autonomous extends LinearOpMode {
         StopDriveMotors();
     }
 
-    public void initTfod() {
+    /*public void initTfod() {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
@@ -168,12 +170,12 @@ public class Autonomous extends LinearOpMode {
         //INFO Load the model and the classes.
         //TODO need to load the classes. I don't know the class names.
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
-    }
+    }*/
 
     /**
      * Initialize the Vuforia localization engine.
      */
-    protected void initVuforia() {
+    /*protected void initVuforia() {
 
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
@@ -183,7 +185,7 @@ public class Autonomous extends LinearOpMode {
 
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
-    }
+    }*/
 
     void waitAbsolute(double seconds) {
         /*
@@ -226,7 +228,7 @@ public class Autonomous extends LinearOpMode {
 
     }
 
-    void AbsoluteTurn(double speed, double targetAngle) {
+    /*void AbsoluteTurn(double speed, double targetAngle) {
 
         double currentAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
 
@@ -255,17 +257,17 @@ public class Autonomous extends LinearOpMode {
 
         StopDriveMotors();
 
-    }
+    }*/
 
     private double correctAngle(double angle) { // [-180, 180] → [0, 360]
         return angle + 180;
     }
 
-    private double getCorrectedAngle() {
+    /*private double getCorrectedAngle() {
         return correctAngle(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
-    }
+    }*/
 
-    void AbsoluteTurnCorrected(double speed, double targetAngle) {
+    /*void AbsoluteTurnCorrected(double speed, double targetAngle) {
         double currentAngle = getCorrectedAngle();
         targetAngle = correctAngle(targetAngle);
         int rollovers = Math.abs((int) (targetAngle / 360));
@@ -312,7 +314,7 @@ public class Autonomous extends LinearOpMode {
             }
         }
         StopDriveMotors();
-    }
+    }*/
 
     //encoder constants
     static final double COUNTS_PER_MOTOR_REV = 2240;    // change for mecanum
@@ -469,24 +471,24 @@ public class Autonomous extends LinearOpMode {
         rightBack.setPower(0);
     }
 
-    public AutonomousRight.SkyStonePosition CameraTime() {
+    /*public AutonomousRight.SkyStonePosition CameraTime() {
         initVuforia();
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             initTfod();
         } else {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
-        }
+        }*/
 
         /**
          * Activate TensorFlow Object Detection before we wait for the start command.
          * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
          **/
-        if (tfod != null) {
+        /*if (tfod != null) {
             tfod.activate();
         }
 
-        /** Wait for the game to begin */
+        //Wait for the game to begin
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         //waitForStart();
@@ -502,7 +504,7 @@ public class Autonomous extends LinearOpMode {
                     telemetry.addData("# Object Detected", updatedRecognitions.size());
                     int skyStoneCount = 0;
                     for (Recognition recognition : updatedRecognitions) {
-                        sortedRecognition.add(new Item(recognition));
+                        sortedRecognition.add(new Item(recognition));*/
                         /* note: the following conditions mean:
                             recognition.getWidth() < recognition.getImageWidth() / 3
                                 avoids a very wide false positive that can be caused by the background
@@ -511,10 +513,10 @@ public class Autonomous extends LinearOpMode {
                             recognition.getWidth() < 1.5 * recognition.getHeight()
                                 avoids a rectangular false positive generated by the red x
                         */
-                        if (recognition.getWidth() < recognition.getImageWidth() / 3 /*&&
-                                recognition.getBottom() > recognition.getImageHeight() * 2 / 3 &&
-                                recognition.getWidth() < 1.5 * recognition.getHeight()*/) {
-                            if (recognition.getLabel().equals(LABEL_FIRST_ELEMENT)) {
+                        //if (recognition.getWidth()< recognition.getImageWidth() / 3 /*&&
+                        /*        recognition.getBottom() > recognition.getImageHeight() * 2 / 3 &&
+                                recognition.getWidth() < 1.5 * recognition.getHeight()*///) {
+                         /*   if (recognition.getLabel().equals(LABEL_FIRST_ELEMENT)) {
                                 skyStoneCount++;
                                 if (recognition.getLeft() < recognition.getImageWidth() / 3) {
                                     pos = AutonomousRight.SkyStonePosition.THIRD;
@@ -545,5 +547,5 @@ public class Autonomous extends LinearOpMode {
             }
         }
         return pos;
-    }
+    }*/
 }

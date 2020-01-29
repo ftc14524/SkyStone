@@ -46,10 +46,10 @@ public class CameraRed extends Autonomous {
     }
 
     public AutonomousRight.SkyStonePosition CameraTime() {
-        initVuforia();
+        //initVuforia();
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
-            initTfod();
+            //initTfod();
         } else {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
         }

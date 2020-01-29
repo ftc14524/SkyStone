@@ -14,7 +14,7 @@ public class ParkRightUp extends org.firstinspires.ftc.teamcode.Autonomous.Auton
 
         super.runOpMode();
         waitForStart();
-        strafe(1, -0.2, 1, 3);
+        strafe(1, -0.2, 1, 1.5);
         strafe(0, 1, 1, 1.5);
         stop();
 

@@ -15,7 +15,7 @@ public class ParkLeftUp extends org.firstinspires.ftc.teamcode.Autonomous.Autono
         super.runOpMode();
 
         waitForStart();
-        strafe(1, 0.2, 1, 3);
+        strafe(1, 0.2, 1, 1.5);
         strafe(0, -1, 1, 1.5);
         stop();
 
