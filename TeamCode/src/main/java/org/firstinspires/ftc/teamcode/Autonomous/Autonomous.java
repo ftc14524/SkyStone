@@ -77,11 +77,11 @@ public class Autonomous extends LinearOpMode {
         //liftRotate = robot.liftRotate;
 
         //platform.setPosition(Servo.MIN_POSITION);
-        robot.liftRotate.setPosition(Servo.MIN_POSITION);
+        //robot.liftRotate.setPosition(Servo.MIN_POSITION);
         robot.armPivot.setPosition(Servo.MAX_POSITION);
         robot.armClasp.setPosition(Servo.MIN_POSITION);
-        robot.liftGripper.setPosition(Servo.MAX_POSITION);
-        robot.pushToLift.setPosition(Servo.MAX_POSITION);
+        //robot.liftGripper.setPosition(Servo.MAX_POSITION);
+        //robot.pushToLift.setPosition(Servo.MAX_POSITION);
 
         //INFO For recognizing the skystones
         /*switch (CameraTime()) {

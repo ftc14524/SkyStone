@@ -40,21 +40,21 @@ public class Hardware {
         rightBack = hwmp.dcMotor.get("Right Back");
         leftBack = hwmp.dcMotor.get("Left Back");
         //Intake
-        greenWheelLeft = hwmp.dcMotor.get("Green Wheel Left");
-        greenWheelRight = hwmp.dcMotor.get("Green Wheel Right");
+        //greenWheelLeft = hwmp.dcMotor.get("Green Wheel Left");
+        //greenWheelRight = hwmp.dcMotor.get("Green Wheel Right");
         //Lift
-        lift = hwmp.dcMotor.get("Lift");
+        //lift = hwmp.dcMotor.get("Lift");
         //Lift Servos
-        liftGripper = hwmp.servo.get("Lift Gripper");
-        liftRotate = hwmp.servo.get("Lift Rotate");
-        pushToLift = hwmp.servo.get("Push to Lift");
+        //liftGripper = hwmp.servo.get("Lift Gripper");
+        //liftRotate = hwmp.servo.get("Lift Rotate");
+        //pushToLift = hwmp.servo.get("Push to Lift");
         //Intake Servos
-        leftIntake = hwmp.servo.get("Left Intake");
-        rightIntake = hwmp.servo.get("Right Intake");
+        //leftIntake = hwmp.servo.get("Left Intake");
+        //rightIntake = hwmp.servo.get("Right Intake");
         //Side Arm and Platform Servos
         armPivot = hwmp.servo.get("Arm Pivot");
         armClasp = hwmp.servo.get("Arm Clasp");
-        platform = hwmp.servo.get("Platform");
+        //platform = hwmp.servo.get("Platform");
         //Camera
         cameraName = hwmp.get(WebcamName.class, "Webcam 1");
 
@@ -63,7 +63,7 @@ public class Hardware {
         leftFront.setDirection(DcMotor.Direction.REVERSE);
 
         //Programming of Platform needs to be set
-        platform.setDirection(Servo.Direction.FORWARD);
+        //platform.setDirection(Servo.Direction.FORWARD);
 
     }
 
@@ -86,9 +86,9 @@ public class Hardware {
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        greenWheelRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        greenWheelLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //greenWheelRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //greenWheelLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
 
@@ -105,13 +105,13 @@ public class Hardware {
         rightFront.setPower(0);
         rightBack.setPower(0);
         leftBack.setPower(0);
-        lift.setPower(0);
+        //lift.setPower(0);
 
         //Servos
         //arm.setPosition(0);
         //constrictR.setPosition(0);
 
-        platform.setPosition(0);
+        //platform.setPosition(0);
 
     }
 
