@@ -29,7 +29,8 @@ public class Autonomous extends LinearOpMode {
     Hardware robot;
     ElapsedTime runtime = new ElapsedTime();
     DcMotor leftFront, rightFront, leftBack, rightBack;
-    Servo armClasp, armPivot, platform, liftGripper, pushToLift, liftRotate;
+    Servo armClasp, armPivot;
+    //Servo platform, liftGripper, pushToLift, liftRotate;
     protected CameraName cameraName;
 
     /*public enum SkyStonePosition {
@@ -67,15 +68,15 @@ public class Autonomous extends LinearOpMode {
         rightFront = robot.rightFront;
         leftBack = robot.leftBack;
         rightBack = robot.rightBack;
-        platform = robot.platform;
+        //platform = robot.platform;
         armPivot = robot.armPivot;
         armClasp = robot.armClasp;
-        liftGripper = robot.liftGripper;
-        pushToLift = robot.pushToLift;
+        //liftGripper = robot.liftGripper;
+        //pushToLift = robot.pushToLift;
         cameraName = robot.cameraName;
-        liftRotate = robot.liftRotate;
+        //liftRotate = robot.liftRotate;
 
-        platform.setPosition(Servo.MIN_POSITION);
+        //platform.setPosition(Servo.MIN_POSITION);
         robot.liftRotate.setPosition(Servo.MIN_POSITION);
         robot.armPivot.setPosition(Servo.MAX_POSITION);
         robot.armClasp.setPosition(Servo.MIN_POSITION);
@@ -442,7 +443,7 @@ public class Autonomous extends LinearOpMode {
                 telemetry.update();
             }
 
-            platform.setPosition(Servo.MAX_POSITION);
+            //platform.setPosition(Servo.MAX_POSITION);
             //Turn clockwise 90 degrees
             timeTurn(1, .5);
             //Go forward and strafe left for 1 second
