@@ -78,7 +78,7 @@ public class AutonomousRight extends LinearOpMode {
         rightFront = robot.rightFront;
         leftBack = robot.leftBack;
         rightBack = robot.rightBack;
-        platform = robot.platform;
+        platform = robot.platformLeft;
         armPivot = robot.armPivot;
         liftGripper = robot.liftGripper;
 

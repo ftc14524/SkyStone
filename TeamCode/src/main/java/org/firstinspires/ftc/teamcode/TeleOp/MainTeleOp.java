@@ -41,7 +41,7 @@ public class MainTeleOp extends OpMode {
 
     //Define the Motors and Servos here to not rely on referencing the robot variable to access the motors and servos
     DcMotor leftFront, rightFront, leftBack, rightBack, greenWheelLeft, greenWheelRight, lift;
-    Servo liftGripper, liftRotate, pushToLift, leftIntake, rightIntake, armPivot, armClasp, platform;
+    Servo liftGripper, liftRotate, pushToLift, leftIntake, rightIntake, armPivot, armClasp, platformLeft, platformRight;
 
     @Override
     /**
@@ -65,13 +65,15 @@ public class MainTeleOp extends OpMode {
         rightIntake = robot.rightIntake;
         armPivot = robot.armPivot;
         armClasp = robot.armClasp;
-        platform = robot.platform;
+        platformLeft = robot.platformLeft;
+        platformRight = robot.platformRight;
 
         //Sets encoders back to 0 so that they are not messed up.
         robot.resetDriveEncoders();
 
         //Set starting position for arm servo
-        platform.setPosition(Servo.MIN_POSITION);
+        platformLeft.setPosition(Servo.MIN_POSITION);
+        platformRight.setPosition(Servo.MAX_POSITION);
         liftRotate.setPosition(Servo.MIN_POSITION);
         armPivot.setPosition(Servo.MAX_POSITION);
         armClasp.setPosition(Servo.MIN_POSITION);
@@ -261,11 +263,15 @@ public class MainTeleOp extends OpMode {
         else
             armClasp.setPosition(Servo.MAX_POSITION);*/
 
-        if (gamepad1.x)
-            platform.setPosition(Servo.MAX_POSITION);
+        if (gamepad1.x) {
+            platformLeft.setPosition(Servo.MAX_POSITION);
+            platformRight.setPosition(Servo.MIN_POSITION);
+        }
 
-        if (gamepad1.y)
-            platform.setPosition(Servo.MIN_POSITION);
+        if (gamepad1.y) {
+            platformLeft.setPosition(Servo.MIN_POSITION);
+            platformRight.setPosition(Servo.MAX_POSITION);
+        }
     }
 }
 
