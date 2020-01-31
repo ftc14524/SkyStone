@@ -77,8 +77,8 @@ public class Autonomous extends LinearOpMode {
         cameraName = robot.cameraName;
         //liftRotate = robot.liftRotate;
 
-        platformLeft.setPosition(Servo.MIN_POSITION);
-        platformRight.setPosition(Servo.MAX_POSITION);
+        platformLeft.setPosition(Servo.MAX_POSITION);
+        platformRight.setPosition(Servo.MIN_POSITION);
         //robot.liftRotate.setPosition(Servo.MIN_POSITION);
         robot.armPivot.setPosition(Servo.MAX_POSITION);
         robot.armClasp.setPosition(Servo.MIN_POSITION);

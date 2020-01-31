@@ -38,7 +38,7 @@ public class ParkLeft extends org.firstinspires.ftc.teamcode.Autonomous.Autonomo
 
         super.runOpMode();
         waitForStart();
-        strafe(0, -1, 1, 1.5);
+        strafe(0, 1, 1, 1.5);
         stop();
 
     }
