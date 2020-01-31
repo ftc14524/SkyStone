@@ -92,7 +92,7 @@ public class AutonomousLeft extends LinearOpMode{
         armClasp = robot.armClasp;
 
         //INFO If it is on the left
-        choose = new Platform(true);
+        //choose = new Platform(true);
 
         //INFO For recognizing the skystones
         /*switch (CameraTime()) {
