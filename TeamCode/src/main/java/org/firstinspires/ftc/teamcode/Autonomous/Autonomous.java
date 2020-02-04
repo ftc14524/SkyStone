@@ -33,29 +33,7 @@ public class Autonomous extends LinearOpMode {
     //Servo liftGripper, pushToLift, liftRotate;
     protected CameraName cameraName;
 
-    /*public enum SkyStonePosition {
-        FIRST, SECOND, THIRD;
-    }
-
-
-    //TensorFlow
-    protected static final String TFOD_MODEL_ASSET = "Skystone.tflite";
-    private static final String LABEL_FIRST_ELEMENT = "Stone";
-    private static final String LABEL_SECOND_ELEMENT = "Skystone";
-    public Interpreter tflite;
-
-    //imute
-    BNO055IMU imu;
-    Orientation lastAngles = new Orientation();
-    double globalAngle, power = .30, correction;
-    double baseAngle;
-
-    //Vuforia stuff
-    protected static final String VUFORIA_KEY = "ATKKdVf/////AAABmb9SxtpqfUvxqCFmSowoT10see3Vz9mze+DVTbtqieMNjFxZverOpqc4OYMhAkuv9rnJMQZyuaweuLOXioXqVuYJ2P2yRohAKL//zPiF1drlPCUbzdhh3pFV8X4rnBILwoF9C3gWvpQfB//IJdZXNBkWYOZAp+UXGBW2WGdt2rQFHw4Y23GrGb2XCmPEHynO8tiNb6IzR6vOh/KOZ8GyTVES7+GyMVhFWNqgL969+ra6Ev5mgfDqaIt4DAqOoiMomDF9mm+Ixx7m6R2pwJC69XVvqAE6+fuotOs8fvA2XRtU+NNaD2ALR247keSC3qK0RnH8JGjYbSmiOHuRqHW9p9J/JrG1OPOxKnKuGEhhcgA7";
-    protected VuforiaLocalizer vuforia;
-    //TensorFlow Object detector
-    protected TFObjectDetector tfod;
-
+    /*
     //Constants
     protected static final double COUNTS_PER_INCH_HD_MECANUM = 1120 / Math.PI / 4;
     protected static final int COUNTS_PER_REV_CORE = 288;
@@ -84,22 +62,6 @@ public class Autonomous extends LinearOpMode {
         robot.armClasp.setPosition(Servo.MIN_POSITION);
         //robot.liftGripper.setPosition(Servo.MAX_POSITION);
         //robot.pushToLift.setPosition(Servo.MAX_POSITION);
-
-        //INFO For recognizing the skystones
-        /*switch (CameraTime()) {
-            case FIRST:
-                choose = new AkshyatFirstSkyStoneLeft();
-                break;
-            case SECOND:
-                choose = new AkshyatSecondSkystoneLeft();
-                break;
-            case THIRD:
-                choose = new AkshyatThirdSkyStoneLeft();
-                break;
-            default:
-                choose = new AkshyatFirstSkyStoneLeft();
-                break;
-        }*/
 
     }
 
@@ -163,32 +125,6 @@ public class Autonomous extends LinearOpMode {
 
         StopDriveMotors();
     }
-
-    /*public void initTfod() {
-        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-
-        //INFO Load the model and the classes.
-        //TODO need to load the classes. I don't know the class names.
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
-    }*/
-
-    /**
-     * Initialize the Vuforia localization engine.
-     */
-    /*protected void initVuforia() {
-
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-
-        parameters.vuforiaLicenseKey = VUFORIA_KEY;
-//        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
-        parameters.cameraName = cameraName;
-
-        //  Instantiate the Vuforia engine
-        vuforia = ClassFactory.getInstance().createVuforia(parameters);
-    }*/
 
     void waitAbsolute(double seconds) {
         /*

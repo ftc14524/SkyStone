@@ -19,7 +19,7 @@ public class Hardware {
     //Lift
     public DcMotor lift;
     //Lift Servos
-    public Servo liftGripper, liftRotate, pushToLift;
+    public Servo liftGripper, liftRotate;
     //Intake Servos
     public Servo leftIntake, rightIntake;
     //Side Arm and Platform Servos

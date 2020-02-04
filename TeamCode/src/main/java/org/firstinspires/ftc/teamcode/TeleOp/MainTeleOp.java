@@ -41,7 +41,7 @@ public class MainTeleOp extends OpMode {
 
     //Define the Motors and Servos here to not rely on referencing the robot variable to access the motors and servos
     DcMotor leftFront, rightFront, leftBack, rightBack, greenWheelLeft, greenWheelRight, lift;
-    Servo liftGripper, liftRotate, pushToLift, leftIntake, rightIntake, armPivot, armClasp, platformLeft, platformRight;
+    Servo liftGripper, liftRotate, leftIntake, rightIntake, armPivot, armClasp, platformLeft, platformRight;
 
     @Override
     /**
@@ -60,7 +60,6 @@ public class MainTeleOp extends OpMode {
         lift = robot.lift;
         liftGripper = robot.liftGripper;
         liftRotate = robot.liftRotate;
-        pushToLift = robot.pushToLift;
         leftIntake = robot.leftIntake;
         rightIntake = robot.rightIntake;
         armPivot = robot.armPivot;
@@ -80,8 +79,6 @@ public class MainTeleOp extends OpMode {
         liftGripper.setPosition(Servo.MAX_POSITION);
 
         liftRotate.setPosition(Servo.MIN_POSITION);
-        pushToLift.setPosition(Servo.MAX_POSITION);
-
 
         //rightIntake.setPosition(Servo.MAX_POSITION);
         //leftIntake.setPosition(Servo.MAX_POSITION);
@@ -175,6 +172,8 @@ public class MainTeleOp extends OpMode {
         leftBack.setPower(ratio * lb);
         rightFront.setPower(ratio * rf);
         rightBack.setPower(ratio * rb);
+
+
     }
 
 
@@ -208,15 +207,11 @@ public class MainTeleOp extends OpMode {
 
         //x = put it in
         if (gamepad2.x) {
-            pushToLift.setPosition(Servo.MIN_POSITION);
-            if (pushToLift.getPosition() == Servo.MIN_POSITION)
-                liftGripper.setPosition(Servo.MIN_POSITION);
-            //pushToLift.setPosition(Servo.MAX_POSITION);
+            liftGripper.setPosition(Servo.MIN_POSITION);
             armPivot.setPosition(Servo.MIN_POSITION);
         }
         //y = push it out
         if (gamepad2.y) {
-            pushToLift.setPosition(Servo.MAX_POSITION);
             liftGripper.setPosition(Servo.MAX_POSITION);
         }
 
@@ -227,12 +222,6 @@ public class MainTeleOp extends OpMode {
             //lift.setpower(1);
             liftGripper.setPosition(Servo.MIN_POSITION);
         }*/
-
-        //Direct control of push to Lift
-        if (gamepad2.b)
-            pushToLift.setPosition(Servo.MAX_POSITION);
-        if (gamepad2.a)
-            pushToLift.setPosition(Servo.MIN_POSITION);
 
 
         //Controls for the lift rotate --- also involve keeping the push set outwards
