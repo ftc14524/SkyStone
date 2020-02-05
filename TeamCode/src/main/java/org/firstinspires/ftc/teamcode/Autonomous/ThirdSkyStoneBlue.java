@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
+/**
+ * This class contains the code the robot executes if CameraBlue determines the SkyStones are in positions 3 and 6
+ */
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Chosen Mode - Third Blue", group = "Camera Blue")
 public class ThirdSkyStoneBlue extends CameraBlue {
     public ThirdSkyStoneBlue(){
@@ -65,13 +68,13 @@ public class ThirdSkyStoneBlue extends CameraBlue {
         */
 
         //Grip Platform
-        platformLeft.setPosition(Servo.MAX_POSITION);
+        platform.setPosition(Servo.MAX_POSITION);
         //Turn clockwise 90 degrees
         timeTurn(1, .5);
         //Go forward and strafe left for 1 second
         strafe(1, -1, 1);
         //Ungrip Platform
-        platformLeft.setPosition(Servo.MIN_POSITION);
+        platform.setPosition(Servo.MIN_POSITION);
         //Strafe Left for .75 seconds
         strafe(0, -1, .75);
         stop();

@@ -2,10 +2,10 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import com.qualcomm.robotcore.hardware.Servo;
-
+/**
+ * This class makes the robot move up and to the left to park under the alliance bridge
+ */
 @Autonomous(name = "Parking Left Up", group = "Autonomous")
-
 public class ParkLeftUp extends org.firstinspires.ftc.teamcode.Autonomous.Autonomous {
 
 

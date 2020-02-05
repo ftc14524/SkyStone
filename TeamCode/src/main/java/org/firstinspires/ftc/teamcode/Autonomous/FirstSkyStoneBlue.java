@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
+/**
+ * This class contains the code the robot executes if CameraBlue determines the SkyStones are in positions 1 and 4
+ */
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Chosen Mode - First Blue", group = "Camera Blue")
 public class FirstSkyStoneBlue extends CameraBlue {
 

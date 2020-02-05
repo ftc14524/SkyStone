@@ -21,7 +21,7 @@ public class Hardware {
         //Lift Servos
         public Servo liftLeft, liftRight, liftRotate;
         //Side Arm and Platform Servos
-        public Servo armPivot, armClasp, platformLeft, platformRight;
+        public Servo armPivot, armClasp, platform;
         //Camera
         public WebcamName cameraName;
 
@@ -48,8 +48,7 @@ public class Hardware {
             //Side Arm and Platform Servos
             armPivot = hwmp.servo.get("Arm Pivot");
             armClasp = hwmp.servo.get("Arm Clasp");
-            platformLeft = hwmp.servo.get("Platform Left");
-            platformRight = hwmp.servo.get("Platform Right");
+            platform = hwmp.servo.get("Platform");
             //Camera
             cameraName = hwmp.get(WebcamName.class, "Webcam 1");
 
@@ -98,8 +97,7 @@ public class Hardware {
             greenWheelRight.setPower(0);
 
             //Servos
-            platformLeft.setPosition(Servo.MIN_POSITION);
-            platformRight.setPosition(Servo.MAX_POSITION);
+            platform.setPosition(Servo.MIN_POSITION);
             liftLeft.setPosition(Servo.MIN_POSITION);
             liftRight.setPosition(Servo.MIN_POSITION);
             liftRotate.setPosition(Servo.MIN_POSITION);

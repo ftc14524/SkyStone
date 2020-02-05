@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
+/**
+ * This class contains the code the robot executes if CameraRed determines the SkyStones are in positions 1 and 4
+ */
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Chosen Mode - First Red", group = "Camera Red")
 public class FirstSkyStoneRed extends CameraRed{
     public FirstSkyStoneRed()
@@ -66,13 +69,13 @@ public class FirstSkyStoneRed extends CameraRed{
         */
 
         //Grip Platform
-        platformLeft.setPosition(Servo.MAX_POSITION);
+        platform.setPosition(Servo.MAX_POSITION);
         //Turn counterclockwise 90 degrees
         timeTurn(-1, .5);
         //Go backward and strafe left for 1 second
         strafe(-1, -1,  1);
         //Ungrip Platform
-        platformLeft.setPosition(Servo.MIN_POSITION);
+        platform.setPosition(Servo.MIN_POSITION);
         //Strafe Right for .75 seconds
         strafe(0, 1, .75);
         stop();

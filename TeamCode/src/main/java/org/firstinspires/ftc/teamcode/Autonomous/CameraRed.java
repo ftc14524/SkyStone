@@ -3,6 +3,9 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -13,14 +16,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class determines which positions the SkyStones are in on the Red Alliance
+ */
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Camera Red", group = "Camera Red")
-
 public class CameraRed extends Autonomous{
 
+    //Used to signify which position the SkyStones are in
     public enum SkyStonePosition {
-        FIRST, SECOND, THIRD;
+        FIRST, SECOND, THIRD
     }
 
+    //TensorFlow Variables
     protected static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
@@ -37,12 +44,17 @@ public class CameraRed extends Autonomous{
     protected VuforiaLocalizer vuforia;
     //TensorFlow Object detector
     protected TFObjectDetector tfod;
+
+    //Instantiating this variables runs the correct code, located in the constructor of each class
     Autonomous choose;
 
     @Override
     public void runOpMode() {
+
+        //First run the Autonomous class code of setting up hardware
         super.runOpMode();
-        //INFO For recognizing the skystones
+
+        //Now find the SkyStone and run the correct code
         switch (CameraTime()) {
             case FIRST:
                 choose = new FirstSkyStoneRed();
@@ -59,6 +71,10 @@ public class CameraRed extends Autonomous{
         }
     }
 
+    /**
+     * Uses the camera to determine the position of the SkyStones
+     * @return the enum representation of the position of the SkyStones
+     */
     public SkyStonePosition CameraTime() {
         initVuforia();
 
@@ -136,6 +152,10 @@ public class CameraRed extends Autonomous{
         }
         return pos;
     }
+
+    /**
+     * Initialize TensorFlow
+     */
     public void initTfod() {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -162,4 +182,101 @@ public class CameraRed extends Autonomous{
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
     }
 
+    /**
+     * Use the IMU to turn at a specified angle
+     * @param speed how fast to turn
+     * @param targetAngle how much to turn in terms of angles
+     */
+    void AbsoluteTurn(double speed, double targetAngle) {
+
+        double currentAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+
+
+        if (currentAngle < targetAngle) {
+
+            while (opModeIsActive() && imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle < targetAngle) {
+
+                leftFront.setPower(-speed);
+                rightFront.setPower(speed);
+                leftBack.setPower(-speed);
+                rightBack.setPower(speed);
+            }
+
+
+        } else if (currentAngle > targetAngle) {
+
+            while (opModeIsActive() && imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle > targetAngle) {
+
+                leftFront.setPower(speed);
+                rightFront.setPower(-speed);
+                leftBack.setPower(speed);
+                rightBack.setPower(-speed);
+            }
+        }
+
+        StopDriveMotors();
+
+    }
+
+    /**
+     * Get calibrated angle measures based on the imu
+     * @return angle with correct direction
+     */
+    private double getCorrectedAngle() {
+        return correctAngle(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
+    }
+
+    /**
+     * More accurate turning
+     * @param speed how fast to turn
+     * @param targetAngle which angle to turn at
+     */
+    void AbsoluteTurnCorrected(double speed, double targetAngle) {
+        double currentAngle = getCorrectedAngle();
+        targetAngle = correctAngle(targetAngle);
+        int rollovers = Math.abs((int) (targetAngle / 360));
+        double targetAfterRollover = targetAngle % 360;
+        if (targetAngle < 0) {
+            rollovers++;
+            targetAfterRollover += 360;
+        }
+        if (targetAngle > currentAngle) {
+            leftFront.setPower(-speed);
+            rightFront.setPower(speed);
+            leftBack.setPower(-speed);
+            rightBack.setPower(speed);
+
+            for (int i = 0; i < rollovers; i++) {
+                while (opModeIsActive() && getCorrectedAngle() <= 180) {
+                    // do nothing
+                }
+                while (opModeIsActive() && getCorrectedAngle() >= 180) {
+                    // do nothing
+                }
+                // this constitutes 1 rollover
+            }
+            while (opModeIsActive() && getCorrectedAngle() < targetAfterRollover) {
+                // do nothing
+            }
+        } else if (targetAngle < currentAngle) {
+            leftFront.setPower(speed);
+            rightFront.setPower(-speed);
+            leftBack.setPower(speed);
+            rightBack.setPower(-speed);
+
+            for (int i = 0; i < rollovers; i++) {
+                while (opModeIsActive() && getCorrectedAngle() >= 180) {
+                    // do nothing
+                }
+                while (opModeIsActive() && getCorrectedAngle() <= 180) {
+                    // do nothing
+                }
+                // this constitutes 1 rollover
+            }
+            while (opModeIsActive() && getCorrectedAngle() > targetAfterRollover) {
+                // do nothing
+            }
+        }
+        StopDriveMotors();
+    }
 }

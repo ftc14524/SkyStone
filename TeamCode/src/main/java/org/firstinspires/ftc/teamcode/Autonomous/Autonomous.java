@@ -22,8 +22,14 @@ public class Autonomous extends LinearOpMode {
     Hardware robot;
     ElapsedTime runtime = new ElapsedTime();
     DcMotor leftFront, rightFront, leftBack, rightBack;
-    Servo armClasp, armPivot, platformLeft, platformRight;
+    Servo armClasp, armPivot, platform;
     protected CameraName cameraName;
+
+    //Encoder Constants
+    static final double COUNTS_PER_MOTOR_REV = 2240;    // change for mecanum
+    static final double DRIVE_GEAR_REDUCTION = 1.0;     // This is < 1.0 if geared UP
+    static final double WHEEL_DIAMETER_INCHES = 4;     // For figuring circumference
+    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
     @Override
     /**
@@ -38,15 +44,13 @@ public class Autonomous extends LinearOpMode {
         rightFront = robot.rightFront;
         leftBack = robot.leftBack;
         rightBack = robot.rightBack;
-        platformLeft = robot.platformLeft;
-        platformRight = robot.platformRight;
+        platform = robot.platform;
         armPivot = robot.armPivot;
         armClasp = robot.armClasp;
         cameraName = robot.cameraName;
 
         //Set Beginning Position Servos
-        platformLeft.setPosition(Servo.MAX_POSITION);
-        platformRight.setPosition(Servo.MIN_POSITION);
+        platform.setPosition(Servo.MIN_POSITION);
         robot.armPivot.setPosition(Servo.MAX_POSITION);
         robot.armClasp.setPosition(Servo.MIN_POSITION);
 
@@ -87,14 +91,17 @@ public class Autonomous extends LinearOpMode {
      * @param vertical how forward the robot needs to move
      * @param horizontal how much to the side the robot needs to move
      * @param time how long the robot will move
+     * Note: Negative horizontal means right
      */
     public void strafe(double vertical, double horizontal, double time) {
+
+        //Get the directions of the strafe
         double movement = vertical;
         double strafe = horizontal;
         double magnitude = Math.sqrt(Math.pow(horizontal, 2) + Math.pow(vertical, 2));
         double direction = Math.atan2(-horizontal, vertical);
 
-        //INFO Increasing speed to maximum of 1
+        //Calculate power for each motor
         double lf = magnitude * Math.sin(direction + Math.PI / 4);
         double lb = magnitude * Math.cos(direction + Math.PI / 4);
         double rf = magnitude * Math.cos(direction + Math.PI / 4);
@@ -102,24 +109,32 @@ public class Autonomous extends LinearOpMode {
         double hypot = Math.hypot(movement, strafe);
         double ratio;
 
+        //TODO Ask purpose of this
         if (movement == 0 && strafe == 0)
             ratio = 1;
         else
             ratio = hypot / (Math.max(Math.max(Math.max(Math.abs(lf), Math.abs(lb)), Math.abs(rb)), Math.abs(rf)));
 
+        //Set power of motors
         leftFront.setPower(ratio * lf);
         leftBack.setPower(ratio * lb);
         rightFront.setPower(ratio * rf);
         rightBack.setPower(ratio * rb);
 
+        //Run motors for a certain time before stopping
         waitFor(time);
-
         StopDriveMotors();
+
     }
 
+    /**
+     * Method used by waitFor() to have the code not jump to the next line
+     * @param seconds amount of time for robot to execute a command
+     */
     void waitAbsolute(double seconds) {
+
         /*
-         * TODO Keep the robot waiting until a certain time is reached.
+         * Keep the robot waiting until a certain time is reached.
          * */
         while (opModeIsActive() && runtime.seconds() <= seconds) {
             if (!opModeIsActive()) {
@@ -134,17 +149,32 @@ public class Autonomous extends LinearOpMode {
         }
         if (!opModeIsActive())
             stop();
-    } //wait to move on to next step
 
+    }
+
+    /**
+     * Makes the robot wait for a certain time before moving to the next command
+     * @param seconds amount of time for robot to execute a command
+     */
     void waitFor(double seconds) {
         //adds the seconds to the current time
         waitAbsolute(getNewTime(seconds));
     }
 
+    /**
+     * Used by waitFor() method to make robot wait for a certain amount of time
+     * @param addedSeconds time for robot to wait
+     * @return a time calculation for waitAbsolute()
+     */
     double getNewTime(double addedSeconds) {
         return runtime.seconds() + addedSeconds;
     }
 
+    /**
+     * Turns the robot in one direction for a certain amount of time
+     * @param speed how fast the robot moves
+     * @param time how long for the robot to turn
+     */
     void timeTurn(double speed, double time) {
 
         leftFront.setPower(speed);
@@ -158,101 +188,25 @@ public class Autonomous extends LinearOpMode {
 
     }
 
-    /*void AbsoluteTurn(double speed, double targetAngle) {
+    /**
+     * Shifts the angle of referenced
+     * @param angle given angle
+     * @return angle in correct reference
+     */
+    protected double correctAngle(double angle) {
 
-        double currentAngle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-
-
-        if (currentAngle < targetAngle) {
-
-            while (opModeIsActive() && imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle < targetAngle) {
-
-                leftFront.setPower(-speed);
-                rightFront.setPower(speed);
-                leftBack.setPower(-speed);
-                rightBack.setPower(speed);
-            }
-
-
-        } else if (currentAngle > targetAngle) {
-
-            while (opModeIsActive() && imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle > targetAngle) {
-
-                leftFront.setPower(speed);
-                rightFront.setPower(-speed);
-                leftBack.setPower(speed);
-                rightBack.setPower(-speed);
-            }
-        }
-
-        StopDriveMotors();
-
-    }*/
-
-    private double correctAngle(double angle) { // [-180, 180] → [0, 360]
+        // [-180, 180] → [0, 360]
         return angle + 180;
+
     }
 
-    /*private double getCorrectedAngle() {
-        return correctAngle(imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle);
-    }*/
-
-    /*void AbsoluteTurnCorrected(double speed, double targetAngle) {
-        double currentAngle = getCorrectedAngle();
-        targetAngle = correctAngle(targetAngle);
-        int rollovers = Math.abs((int) (targetAngle / 360));
-        double targetAfterRollover = targetAngle % 360;
-        if (targetAngle < 0) {
-            rollovers++;
-            targetAfterRollover += 360;
-        }
-        if (targetAngle > currentAngle) {
-            leftFront.setPower(-speed);
-            rightFront.setPower(speed);
-            leftBack.setPower(-speed);
-            rightBack.setPower(speed);
-
-            for (int i = 0; i < rollovers; i++) {
-                while (opModeIsActive() && getCorrectedAngle() <= 180) {
-                    // do nothing
-                }
-                while (opModeIsActive() && getCorrectedAngle() >= 180) {
-                    // do nothing
-                }
-                // this constitutes 1 rollover
-            }
-            while (opModeIsActive() && getCorrectedAngle() < targetAfterRollover) {
-                // do nothing
-            }
-        } else if (targetAngle < currentAngle) {
-            leftFront.setPower(speed);
-            rightFront.setPower(-speed);
-            leftBack.setPower(speed);
-            rightBack.setPower(-speed);
-
-            for (int i = 0; i < rollovers; i++) {
-                while (opModeIsActive() && getCorrectedAngle() >= 180) {
-                    // do nothing
-                }
-                while (opModeIsActive() && getCorrectedAngle() <= 180) {
-                    // do nothing
-                }
-                // this constitutes 1 rollover
-            }
-            while (opModeIsActive() && getCorrectedAngle() > targetAfterRollover) {
-                // do nothing
-            }
-        }
-        StopDriveMotors();
-    }*/
-
-    //encoder constants
-    static final double COUNTS_PER_MOTOR_REV = 2240;    // change for mecanum
-    static final double DRIVE_GEAR_REDUCTION = 1.0;     // This is < 1.0 if geared UP
-    static final double WHEEL_DIAMETER_INCHES = 4;     // For figuring circumference
-    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * 3.1415);
-
+    /**
+     * Use encoders to control how much to drive
+     * @param speed how fast
+     * @param leftInches how much to the left
+     * @param rightInches how much to the right
+     * @param timeout how long to drive
+     */
     void EncoderDrive(double speed, double leftInches, double rightInches, double timeout) {
         ElapsedTime runtime = new ElapsedTime();
 
@@ -321,7 +275,13 @@ public class Autonomous extends LinearOpMode {
         }
     }
 
-
+    /**
+     * Use encoders to strafe
+     * @param speed how fast
+     * @param leftInches how much to the left
+     * @param rightInches how much to the right
+     * @param timeout how long
+     */
     void StrafeEncoderDrive(double speed, double leftInches, double rightInches, double timeout) {
         ElapsedTime runtime = new ElapsedTime();
 
@@ -393,7 +353,10 @@ public class Autonomous extends LinearOpMode {
         }
     }
 
-    private void StopDriveMotors() {
+    /**
+     * Sets all the drive motors to 0
+     */
+    protected void StopDriveMotors() {
 
         leftFront.setPower(0);
         rightFront.setPower(0);
@@ -401,81 +364,4 @@ public class Autonomous extends LinearOpMode {
         rightBack.setPower(0);
     }
 
-    /*public AutonomousRight.SkyStonePosition CameraTime() {
-        initVuforia();
-
-        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
-            initTfod();
-        } else {
-            telemetry.addData("Sorry!", "This device is not compatible with TFOD");
-        }*/
-
-        /**
-         * Activate TensorFlow Object Detection before we wait for the start command.
-         * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
-         **/
-        /*if (tfod != null) {
-            tfod.activate();
-        }
-
-        //Wait for the game to begin
-        telemetry.addData(">", "Press Play to start op mode");
-        telemetry.update();
-        //waitForStart();
-
-        AutonomousRight.SkyStonePosition pos = AutonomousRight.SkyStonePosition.FIRST;
-        while (!isStarted() && !isStopRequested()) {
-            if (tfod != null) {
-                // getUpdatedRecognitions() will return null if no new information is available since
-                // the last time that call was made.
-                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                ArrayList<Item> sortedRecognition = new ArrayList<>();
-                if (updatedRecognitions != null) {
-                    telemetry.addData("# Object Detected", updatedRecognitions.size());
-                    int skyStoneCount = 0;
-                    for (Recognition recognition : updatedRecognitions) {
-                        sortedRecognition.add(new Item(recognition));*/
-                        /* note: the following conditions mean:
-                            recognition.getWidth() < recognition.getImageWidth() / 3
-                                avoids a very wide false positive that can be caused by the background
-                            recognition.getBottom() > recognition.getImageHeight() * 2 / 3
-                                ignores any minerals in the crater
-                            recognition.getWidth() < 1.5 * recognition.getHeight()
-                                avoids a rectangular false positive generated by the red x
-                        */
-                        //if (recognition.getWidth()< recognition.getImageWidth() / 3 /*&&
-                        /*        recognition.getBottom() > recognition.getImageHeight() * 2 / 3 &&
-                                recognition.getWidth() < 1.5 * recognition.getHeight()*///) {
-                         /*   if (recognition.getLabel().equals(LABEL_FIRST_ELEMENT)) {
-                                skyStoneCount++;
-                                if (recognition.getLeft() < recognition.getImageWidth() / 3) {
-                                    pos = AutonomousRight.SkyStonePosition.THIRD;
-                                } else if (recognition.getLeft() < recognition.getImageWidth() / 3 * 2) {
-                                    pos = AutonomousRight.SkyStonePosition.SECOND;
-                                } else {
-                                    pos = AutonomousRight.SkyStonePosition.FIRST;
-                                }
-                            }
-                        }
-                    }
-
-                    Collections.sort(sortedRecognition);
-                    telemetry.addData("Sorted: ", sortedRecognition.toString());
-                    if (skyStoneCount <= 1) {
-                        if (pos == AutonomousRight.SkyStonePosition.THIRD) {
-                            telemetry.addData("Gold Mineral Position", "Left");
-                        } else if (pos == AutonomousRight.SkyStonePosition.SECOND) {
-                            telemetry.addData("Gold Mineral Position", "Center");
-                        } else if (pos == AutonomousRight.SkyStonePosition.FIRST) {
-                            telemetry.addData("Gold Mineral Position", "Right");
-                        }
-                    } else {
-                        pos = AutonomousRight.SkyStonePosition.FIRST;
-                    }
-                    telemetry.update();
-                }
-            }
-        }
-        return pos;
-    }*/
 }
