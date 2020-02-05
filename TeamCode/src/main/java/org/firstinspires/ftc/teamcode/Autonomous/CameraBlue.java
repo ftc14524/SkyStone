@@ -17,7 +17,7 @@ import java.util.List;
 
 public class CameraBlue extends Autonomous {
 
-     public enum SkyStonePosition {
+    public enum SkyStonePosition {
         FIRST, SECOND, THIRD;
     }
 

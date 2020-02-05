@@ -1,23 +1,14 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "Akshyat Third SkyStone Right", group = "Autonomous")
-
-public class AkshyatThirdSkyStoneRight extends org.firstinspires.ftc.teamcode.Autonomous.AutonomousRight implements AutonomousChoice{
-    @Override
-    public void runOpMode() {
-
-        super.runOpMode();
-
-        waitForStart();
-        //stoneGripper = stone grab auton
-
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Chosen Mode - Second Red", group = "Camera Red")
+public class SecondSkyStoneRed extends CameraRed{
+    public SecondSkyStoneRed()
+    {
         //First Block
         //Strafe left and forward 1 second.
-        strafe(1, -1, 1, .6);
+        strafe(1, -1, 1, .8);
         //Lower the arm
         armPivot.setPosition(Servo.MAX_POSITION);
         //Grabs block
@@ -27,7 +18,7 @@ public class AkshyatThirdSkyStoneRight extends org.firstinspires.ftc.teamcode.Au
         //Strafe right for .2 seconds.
         strafe(0, 1, 1, .2);
         //Go backward for 3 seconds
-        strafe(1, 0, 1, 2.6);
+        strafe(1, 0, 1, 2.8);
         //Strafe left for .2 seconds
         strafe(0, -1, 1, .2);
 
@@ -47,7 +38,7 @@ public class AkshyatThirdSkyStoneRight extends org.firstinspires.ftc.teamcode.Au
         //Strafe right for .2 seconds
         strafe(0, 1, 1, .2);
         //Go forward for 1.5 seconds
-        strafe(1, 0, 1, 1.3);
+        strafe(1, 0, 1, 1.4);
         //Strafe Left .2 seconds
         strafe(0, -1, 1, .2);
         //Lower the arm
@@ -59,7 +50,7 @@ public class AkshyatThirdSkyStoneRight extends org.firstinspires.ftc.teamcode.Au
         //Strafe right for .2 seconds.
         strafe(0, 1, 1, .2);
         //Go backward for 1.5 seconds
-        strafe(-1, 0, 1, 1.3);
+        strafe(-1, 0, 1, 1.4);
         //Strage left for .2 seconds
         strafe(0, -1, 1, .2);
 
@@ -75,13 +66,13 @@ public class AkshyatThirdSkyStoneRight extends org.firstinspires.ftc.teamcode.Au
         */
 
         //Grip Platform
-        platform.setPosition(Servo.MAX_POSITION);
+        platformLeft.setPosition(Servo.MAX_POSITION);
         //Turn counterclockwise 90 degrees
         timeTurn(-1, .5);
         //Go backward and strafe left for 1 second
         strafe(-1, -1, .5, 1);
         //Ungrip Platform
-        platform.setPosition(Servo.MIN_POSITION);
+        platformLeft.setPosition(Servo.MIN_POSITION);
         //Strafe Right for .75 seconds
         strafe(0, 1, 1, .75);
         stop();
