@@ -165,7 +165,9 @@ public class MainTeleOp extends OpMode {
     }
 
     /**
-     * Control the lift of the robot with encoders
+     * Control the lifting mechanisms of the robot
+     * The lift motor uses encoders for stages and preventing unspooling
+     * The controls for the block holders and rotate is also listed here
      */
     public void LiftControl() {
 
@@ -173,64 +175,64 @@ public class MainTeleOp extends OpMode {
         final int UPPER_LIFT_LIMIT = 3000;
         final int LOWER_LIFT_LIMIT = 0;
 
-        //Enact encoders to the lift controlers
-        //TODO Encoders
-        lift.setPower(gamepad2.left_stick_y);
-/* if (lift.getCurrentPosition() < UPPER_LIFT_LIMIT && lift.getCurrentPosition() > LOWER_LIFT_LIMIT)
+        //Run lift with encoders in mind
+        while(lift.getCurrentPosition() <= UPPER_LIFT_LIMIT && lift.getCurrentPosition() >= LOWER_LIFT_LIMIT)
             lift.setPower(gamepad2.left_stick_y);
-        else {
-            if (lift.getCurrentPosition() > UPPER_LIFT_LIMIT)
-                lift.setTargetPosition(UPPER_LIFT_LIMIT - 2);
-            if (lift.getCurrentPosition() < LOWER_LIFT_LIMIT)
-                lift.setTargetPosition(LOWER_LIFT_LIMIT + 2);
-        }*/
+        while(lift.getCurrentPosition() > UPPER_LIFT_LIMIT)
+            lift.setPower(-1);
+        while(lift.getCurrentPosition() < LOWER_LIFT_LIMIT)
+            lift.setPower(1);
 
-
+        //Controls for the block holders
         if(gamepad2.left_bumper)
         {
-
+            liftLeft.setPosition(Servo.MIN_POSITION);
+            liftRight.setPosition(Servo.MAX_POSITION);
         }
         if(gamepad2.right_bumper)
         {
-
+            liftLeft.setPosition(Servo.MAX_POSITION);
+            liftRight.setPosition(Servo.MIN_POSITION);
         }
 
         //Controls for the lift rotate
-        if (gamepad2.right_stick_x > 0.5) {
+        if (gamepad2.right_stick_x > 0.5)
             liftRotate.setPosition(Servo.MAX_POSITION);
-        }
-        if (gamepad2.right_stick_x < -0.5) {
+
+        if (gamepad2.right_stick_x < -0.5)
             liftRotate.setPosition(Servo.MIN_POSITION);
-        }
+
     }
 
-
+    /**
+     * Provides controls for the servos that control the arm and platform of the robot
+     */
     public void ArmAndPlatformControl() {
+
+        //Main Arm Control
         if (gamepad1.a)
             armPivot.setPosition(Servo.MAX_POSITION);
         if (gamepad1.b)
             armPivot.setPosition(Servo.MIN_POSITION);
 
+        //Grasper Control
         if(gamepad1.dpad_up)
             armClasp.setPosition(Servo.MIN_POSITION);
         if(gamepad1.dpad_down)
             armClasp.setPosition(Servo.MAX_POSITION);
 
-        /*if (armPivot.getPosition() == Servo.MAX_POSITION)
-            armClasp.setPosition(Servo.MIN_POSITION);
-        else
-            armClasp.setPosition(Servo.MAX_POSITION);*/
-
+        //Platform Control
         if (gamepad1.x) {
             platformLeft.setPosition(Servo.MAX_POSITION);
             platformRight.setPosition(Servo.MIN_POSITION);
         }
-
         if (gamepad1.y) {
             platformLeft.setPosition(Servo.MIN_POSITION);
             platformRight.setPosition(Servo.MAX_POSITION);
         }
+
     }
+
 }
 
 

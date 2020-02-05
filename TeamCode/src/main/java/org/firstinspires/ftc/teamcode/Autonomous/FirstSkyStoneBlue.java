@@ -9,34 +9,34 @@ public class FirstSkyStoneBlue extends CameraBlue {
     {
 
         //Strafe right 1 second.
-        strafe(0, 1, 1, 1);
+        strafe(0, 1, 1);
         //Move forward 1/2 second
-        strafe(1, 0, 1, .5);
+        strafe(1, 0, .5);
         //Lower the arm
         armPivot.setPosition(Servo.MAX_POSITION);
         //Strafe left for .2 seconds.
-        strafe(0, -1, 1, .2);
+        strafe(0, -1,  .2);
         //Go back for 3 seconds
-        strafe(-1, 0, 1, 3);
+        strafe(-1, 0,  3);
         //Let go of arm
         armPivot.setPosition(Servo.MIN_POSITION);
         //Forward 1.5 seconds.
-        strafe(1, 0, 1, 1.5);
+        strafe(1, 0,  1.5);
         //Strafe right .2
-        strafe(0, 1, 1, .2);
+        strafe(0, 1,  .2);
         //Clamp
         armPivot.setPosition(Servo.MAX_POSITION);
         //Strafe left .2
-        strafe(0, -1, 1, .2);
+        strafe(0, -1, .2);
         //Go back 1.5
-        strafe(-1, 0, 1, 1.5);
+        strafe(-1, 0, 1.5);
         //Forward .5
-        strafe(1, 0, 1, .5);
+        strafe(1, 0, .5);
         stop();
 /*
         //First Block
         //Strafe back and left 1 second.
-        strafe(-1, 1, 1, 1);
+        strafe(-1, 1, 1);
         //Lower the arm
         armPivot.setPosition(Servo.MAX_POSITION);
         //Grabs block
@@ -44,11 +44,11 @@ public class FirstSkyStoneBlue extends CameraBlue {
         //Lifts Arm
         armPivot.setPosition(Servo.MIN_POSITION);
         //Strafe right for .2 seconds.
-        strafe(0, 1, 1, .2);
+        strafe(0, 1, .2);
         //Go forward for 3 seconds
-        strafe(1, 0, 1, 3);
+        strafe(1, 0, 3);
         //Strage left for .2 seconds
-        strafe(0, -1, 1, .2);
+        strafe(0, -1, .2);
 
         //Option 1
         //Release Grabber
@@ -64,11 +64,11 @@ public class FirstSkyStoneBlue extends CameraBlue {
 /*
         //Second Block
         //Strafe right for .2 seconds
-        strafe(0, 1, 1, .2);
+        strafe(0, 1, .2);
         //Go backward for 1.5 seconds
-        strafe(-1, 0, 1, 1.5);
+        strafe(-1, 0, 1.5);
         //Strafe Left .2 seconds
-        strafe(0, -1, 1, .2);
+        strafe(0, -1, .2);
         //Lower the arm
         armPivot.setPosition(Servo.MAX_POSITION);
         //Grabs block
@@ -76,11 +76,11 @@ public class FirstSkyStoneBlue extends CameraBlue {
         //Lifts Arm
         armPivot.setPosition(Servo.MIN_POSITION);
         //Strafe right for .2 seconds.
-        strafe(0, 1, 1, .2);
+        strafe(0, 1, .2);
         //Go forward for 1.5 seconds
-        strafe(1, 0, 1, 1.5);
+        strafe(1, 0, 1.5);
         //Strage left for .2 seconds
-        strafe(0, -1, 1, .2);
+        strafe(0, -1, .2);
 
         //Option 1
         //Release Grabber
@@ -99,11 +99,11 @@ public class FirstSkyStoneBlue extends CameraBlue {
         //Turn clockwise 90 degrees
         timeTurn(1, .5);
         //Go forward and strafe left for 1 second
-        strafe(1, -1, .5, 1);
+        strafe(1, -1, 1);
         //Ungrip Platform
         platform.setPosition(Servo.MIN_POSITION);
         //Strafe Right for .75 seconds
-        strafe(0, 1, 1, .75);
+        strafe(0, 1, .75);
         stop();
 
  */

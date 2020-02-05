@@ -14,7 +14,7 @@ public class ParkRight extends org.firstinspires.ftc.teamcode.Autonomous.Autonom
 
         super.runOpMode();
         waitForStart();
-        strafe(0, -1, 1, 1.5);
+        strafe(0, -1,  1.5);
         stop();
 
     }

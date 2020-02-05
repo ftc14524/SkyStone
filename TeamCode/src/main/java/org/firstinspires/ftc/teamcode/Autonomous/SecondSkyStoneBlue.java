@@ -8,7 +8,7 @@ public class SecondSkyStoneBlue extends CameraBlue{
     {
         //First Block
         //Strafe forward and back .8 second.
-        strafe(-1, -1, 1, .8);
+        strafe(-1, -1, .8);
         //Lower the arm
         armPivot.setPosition(Servo.MAX_POSITION);
         //Grabs block
@@ -16,11 +16,11 @@ public class SecondSkyStoneBlue extends CameraBlue{
         //Lifts Arm
         armPivot.setPosition(Servo.MIN_POSITION);
         //Strafe right for .2 seconds.
-        strafe(0, 1, 1, .2);
+        strafe(0, 1, .2);
         //Go forward for 3 seconds
-        strafe(1, 0, 1, 2.8);
+        strafe(1, 0, 2.8);
         //Strafe left for .2 seconds
-        strafe(0, -1, 1, .2);
+        strafe(0, -1, .2);
 
         //Option 1
         //Release Grabber
@@ -36,11 +36,11 @@ public class SecondSkyStoneBlue extends CameraBlue{
 
         //Second Block
         //Strafe right for .2 seconds
-        strafe(0, 1, 1, .2);
+        strafe(0, 1, .2);
         //Go backward for 1.5 seconds
-        strafe(-1, 0, 1, 1.4);
+        strafe(-1, 0, 1.4);
         //Strafe Left .2 seconds
-        strafe(0, -1, 1, .2);
+        strafe(0, -1, .2);
         //Lower the arm
         armPivot.setPosition(Servo.MAX_POSITION);
         //Grabs block
@@ -48,11 +48,11 @@ public class SecondSkyStoneBlue extends CameraBlue{
         //Lifts Arm
         armPivot.setPosition(Servo.MIN_POSITION);
         //Strafe right for .2 seconds.
-        strafe(0, 1, 1, .2);
+        strafe(0, 1, .2);
         //Go forward for 1.5 seconds
-        strafe(1, 0, 1, 1.4);
+        strafe(1, 0, 1.4);
         //Strage left for .2 seconds
-        strafe(0, -1, 1, .2);
+        strafe(0, -1, .2);
 
         //Option 1
         //Release Grabber
@@ -70,11 +70,11 @@ public class SecondSkyStoneBlue extends CameraBlue{
         //Turn clockwise 90 degrees
         timeTurn(1, .5);
         //Go forward and strafe left for 1 second
-        strafe(1, -1, .5, 1);
+        strafe(1, -1, 1);
         //Ungrip Platform
         platformLeft.setPosition(Servo.MIN_POSITION);
         //Strafe Left for .75 seconds
-        strafe(0, -1, 1, .75);
+        strafe(0, -1, .75);
         stop();
 /*
         ////strafe right 1 second.

@@ -1,46 +1,38 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.Hardware;
-import org.tensorflow.lite.Interpreter;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Autonomous Parent Class", group = "Autonomous")
-
+@Disabled
+/**
+ * Autonomous provides the basis for all autonomous methods. It has a robot, a runtime, four motors, four servos, and a camera. It can rotate, strafe, and wait for a certain amount of time
+ * This class is not run on its own, but rather other classes will run the OpMode of this class through a call of "super.runOpMode()"
+ */
+//TODO Check if @Disabled makes the code break
 public class Autonomous extends LinearOpMode {
 
+    //Declare parts of the robot
+    //These will be instantiated in the OpMode so that "robot" does not need to be referenced to access the hardware of the robot
     Hardware robot;
     ElapsedTime runtime = new ElapsedTime();
     DcMotor leftFront, rightFront, leftBack, rightBack;
     Servo armClasp, armPivot, platformLeft, platformRight;
-    //Servo liftGripper, pushToLift, liftRotate;
     protected CameraName cameraName;
 
-    /*
-    //Constants
-    protected static final double COUNTS_PER_INCH_HD_MECANUM = 1120 / Math.PI / 4;
-    protected static final int COUNTS_PER_REV_CORE = 288;
-    protected static final double TURN_DISTANCE_PER_DEGREE = Math.sqrt(1560.49) * Math.PI / 360 / 2;*/
-
     @Override
+    /**
+     * Instantiates the robot and gets it ready to move in autonomous mode
+     * These lines are run first before lines from any other autonomous class
+     */
     public void runOpMode() {
+
+        //Map Hardware
         robot = new Hardware(hardwareMap);
         leftFront = robot.leftFront;
         rightFront = robot.rightFront;
@@ -50,41 +42,53 @@ public class Autonomous extends LinearOpMode {
         platformRight = robot.platformRight;
         armPivot = robot.armPivot;
         armClasp = robot.armClasp;
-        //liftGripper = robot.liftGripper;
-        //pushToLift = robot.pushToLift;
         cameraName = robot.cameraName;
-        //liftRotate = robot.liftRotate;
 
+        //Set Beginning Position Servos
         platformLeft.setPosition(Servo.MAX_POSITION);
         platformRight.setPosition(Servo.MIN_POSITION);
-        //robot.liftRotate.setPosition(Servo.MIN_POSITION);
         robot.armPivot.setPosition(Servo.MAX_POSITION);
         robot.armClasp.setPosition(Servo.MIN_POSITION);
-        //robot.liftGripper.setPosition(Servo.MAX_POSITION);
-        //robot.pushToLift.setPosition(Servo.MAX_POSITION);
 
     }
 
-
-    //TODO check rotation
+    /**
+     * Rotates the robot to the left? right?
+     //TODO Check rotation method, maybe even determine times that correspond to angle measures
+     * @param right whether the robot is turning clockwise or not
+     * @param time how long the robot is turning
+     * @param power how much power the robot will turn
+     */
     public void rotate(boolean right, double time, double power) {
+
+        //Clockwise Turning
         if (right) {
             rightFront.setPower(1 * (power * .5));
             rightBack.setPower(1 * (power * .5));
             leftFront.setPower(-1 * (power));
             leftBack.setPower(-1 * (power));
-        } else {
+        }
+        //Counter-clockwise Turning
+        else {
             rightFront.setPower(-1 * (power));
             rightBack.setPower(-1 * (power));
             leftFront.setPower(1 * (power * .5));
             leftBack.setPower(1 * (power * .5));
         }
 
+        //Turn until the time stops
         waitFor(time);
         StopDriveMotors();
+
     }
 
-    public void strafe(double vertical, double horizontal, double power, double time) {
+    /**
+     * Allows the robot to strafe during autonomous
+     * @param vertical how forward the robot needs to move
+     * @param horizontal how much to the side the robot needs to move
+     * @param time how long the robot will move
+     */
+    public void strafe(double vertical, double horizontal, double time) {
         double movement = vertical;
         double strafe = horizontal;
         double magnitude = Math.sqrt(Math.pow(horizontal, 2) + Math.pow(vertical, 2));
@@ -107,19 +111,6 @@ public class Autonomous extends LinearOpMode {
         leftBack.setPower(ratio * lb);
         rightFront.setPower(ratio * rf);
         rightBack.setPower(ratio * rb);
-        /////////////////////////////////////////////////////////////////////////////
-//        double magnitude = power * 1;
-//        double direction = Math.atan2(-vertical, horizontal);
-//
-//        double lf = magnitude * Math.sin(direction + Math.PI / 4);
-//        double lb = magnitude * Math.cos(direction + Math.PI / 4);
-//        double rf = magnitude * Math.cos(direction + Math.PI / 4);
-//        double rb = magnitude * Math.sin(direction + Math.PI / 4);
-//
-//        leftFront.setPower(lf);
-//        leftBack.setPower(lb);
-//        rightFront.setPower(rf);
-//        rightBack.setPower(rb);
 
         waitFor(time);
 

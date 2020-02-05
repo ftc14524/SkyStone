@@ -13,19 +13,19 @@ public class PlatformLeft extends org.firstinspires.ftc.teamcode.Autonomous.Auto
 
         super.runOpMode();
         waitForStart();
-        strafe(1, 0.3, 1, 2);
+        strafe(1, 0.3,  2);
         waitFor(2);
         platformLeft.setPosition(Servo.MAX_POSITION);
         platformRight.setPosition(Servo.MIN_POSITION);
         waitFor(2);
-        strafe(-1, 0, 1, 2.4);
+        strafe(-1, 0,  2.4);
         waitFor(2);
         rotate(false, 2, 1);
         waitFor(2);
         platformLeft.setPosition(Servo.MIN_POSITION);
         platformRight.setPosition(Servo.MAX_POSITION);
         waitFor(2);
-        strafe(0, 1, 1, 1.5);
+        strafe(0, 1,  1.5);
         stop();
 
         /*waitForStart();
