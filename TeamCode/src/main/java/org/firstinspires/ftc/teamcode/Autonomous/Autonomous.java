@@ -50,9 +50,9 @@ public class Autonomous extends LinearOpMode {
         cameraName = robot.cameraName;
 
         //Set Beginning Position Servos
-        platform.setPosition(Servo.MIN_POSITION);
-        robot.armPivot.setPosition(Servo.MAX_POSITION);
-        robot.armClasp.setPosition(Servo.MIN_POSITION);
+        platform.setPosition(Servo.MAX_POSITION);
+        armPivot.setPosition(Servo.MAX_POSITION);
+        armClasp.setPosition(Servo.MAX_POSITION);
 
     }
 
@@ -91,7 +91,8 @@ public class Autonomous extends LinearOpMode {
      * @param vertical how forward the robot needs to move
      * @param horizontal how much to the side the robot needs to move
      * @param time how long the robot will move
-     * Note: Negative horizontal means right
+     * Note: Negative horizontal means left
+     * Note: Negative vertical means forward
      */
     public void strafe(double vertical, double horizontal, double time) {
 

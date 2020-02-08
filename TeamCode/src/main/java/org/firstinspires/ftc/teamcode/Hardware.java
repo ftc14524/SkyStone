@@ -19,7 +19,8 @@ public class Hardware {
         //Lift
         public DcMotor lift;
         //Lift Servos
-        public Servo liftLeft, liftRight, liftRotate;
+        public Servo liftRight, liftRotate;
+        //public Servo liftLeft, liftRight, liftRotate;
         //Side Arm and Platform Servos
         public Servo armPivot, armClasp, platform;
         //Camera
@@ -42,7 +43,7 @@ public class Hardware {
             //Lift
             lift = hwmp.dcMotor.get("Lift");
             //Lift Servos
-            liftLeft = hwmp.servo.get("Lift Left");
+            //liftLeft = hwmp.servo.get("Lift Left");
             liftRight = hwmp.servo.get("Lift Right");
             liftRotate = hwmp.servo.get("Lift Rotate");
             //Side Arm and Platform Servos
@@ -55,6 +56,7 @@ public class Hardware {
             //Flips motors because they are placed in the opposite direction on the robot---allows for all motors to move in the same direction for one value
             rightFront.setDirection(DcMotor.Direction.REVERSE);
             leftFront.setDirection(DcMotor.Direction.REVERSE);
+            //leftBack.setDirection(DcMotor.Direction.REVERSE);
 
         }
 
@@ -98,7 +100,7 @@ public class Hardware {
 
             //Servos
             platform.setPosition(Servo.MIN_POSITION);
-            liftLeft.setPosition(Servo.MIN_POSITION);
+            //liftLeft.setPosition(Servo.MIN_POSITION);
             liftRight.setPosition(Servo.MIN_POSITION);
             liftRotate.setPosition(Servo.MIN_POSITION);
             armPivot.setPosition(Servo.MIN_POSITION);

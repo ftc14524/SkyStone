@@ -50,7 +50,7 @@ public class MainTeleOp extends OpMode {
         greenWheelLeft = robot.greenWheelLeft;
         greenWheelRight = robot.greenWheelRight;
         lift = robot.lift;
-        liftLeft = robot.liftLeft;
+        //liftLeft = robot.liftLeft;
         liftRight = robot.liftRight;
         liftRotate = robot.liftRotate;
         armPivot = robot.armPivot;
@@ -61,11 +61,12 @@ public class MainTeleOp extends OpMode {
         robot.resetDriveEncoders();
 
         //Set starting position for the servos so they don't exceed the limit
-        platform.setPosition(Servo.MIN_POSITION);
+        platform.setPosition(Servo.MAX_POSITION);
         armPivot.setPosition(Servo.MAX_POSITION);
-        armClasp.setPosition(Servo.MIN_POSITION);
-        liftLeft.setPosition(Servo.MAX_POSITION);
+        armClasp.setPosition(Servo.MAX_POSITION);
+        //liftLeft.setPosition(Servo.MAX_POSITION);
         liftRight.setPosition(Servo.MIN_POSITION);
+        //TODO Check initialization
         liftRotate.setPosition(Servo.MIN_POSITION);
 
     }
