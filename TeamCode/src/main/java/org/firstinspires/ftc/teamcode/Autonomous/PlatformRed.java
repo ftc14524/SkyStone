@@ -15,17 +15,19 @@ public class PlatformRed extends org.firstinspires.ftc.teamcode.Autonomous.Auton
 
         super.runOpMode();
         waitForStart();
-        strafe(1, -1, 2.4);
+        strafe(1, -1, 2.5);
         waitFor(1);
         platform.setPosition(Servo.MIN_POSITION);
         waitFor(1);
-        strafe(-1, 0, 1.3);
+        strafe(-1, 0.8, 3);
         waitFor(1);
-        rotate(true, 2, 1);
+        rotate(true, 2.1, 1);
         waitFor(1);
         platform.setPosition(Servo.MAX_POSITION);
         waitFor(1);
-        strafe(-1, 0, 4);
+        strafe(1, 0, 2);
+        waitFor(1);
+        strafe(-1, 0,3.3);
         stop();
 
     }

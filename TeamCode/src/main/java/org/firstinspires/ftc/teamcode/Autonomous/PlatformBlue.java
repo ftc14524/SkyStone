@@ -26,7 +26,7 @@ public class PlatformBlue extends org.firstinspires.ftc.teamcode.Autonomous.Auto
         platform.setPosition(Servo.MAX_POSITION);
         waitFor(1);
         strafe(1, 0, 4);
+        strafe(1, 1, 1);
         stop();
-
     }
 }
