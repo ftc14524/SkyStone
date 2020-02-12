@@ -21,13 +21,13 @@ public class PlatformRed extends org.firstinspires.ftc.teamcode.Autonomous.Auton
         waitFor(1);
         strafe(-1, 0.8, 3);
         waitFor(1);
-        rotate(true, 2.1, 1);
+        rotate(true, 2.8, 1);
         waitFor(1);
         platform.setPosition(Servo.MAX_POSITION);
         waitFor(1);
-        strafe(1, 0, 2);
+        strafe(1, 0, 0.8);
         waitFor(1);
-        strafe(-1, 0,3.3);
+        strafe(-1, 0,2.7);
         stop();
 
     }

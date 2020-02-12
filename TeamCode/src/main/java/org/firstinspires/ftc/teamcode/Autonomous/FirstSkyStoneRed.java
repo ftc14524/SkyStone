@@ -54,7 +54,7 @@ public class FirstSkyStoneRed extends CameraRed{
         strafe(0, 1,  .2);
         //Go backward for 1.5 seconds
         strafe(-1, 0,  1.5);
-        //Strage left for .2 seconds
+        //Strafe left for .2 seconds
         strafe(0, -1,  .2);
 
         //Option 1

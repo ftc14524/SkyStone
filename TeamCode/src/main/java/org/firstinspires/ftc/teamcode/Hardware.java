@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -19,7 +20,7 @@ public class Hardware {
         //Lift
         public DcMotor lift;
         //Lift Servos
-        public Servo liftRight, liftRotate;
+        public Servo liftRight; //, liftRotate;
         //public Servo liftLeft, liftRight, liftRotate;
         //Side Arm and Platform Servos
         public Servo armPivot, armClasp, platform;
@@ -45,7 +46,7 @@ public class Hardware {
             //Lift Servos
             //liftLeft = hwmp.servo.get("Lift Left");
             liftRight = hwmp.servo.get("Lift Right");
-            liftRotate = hwmp.servo.get("Lift Rotate");
+            //liftRotate = hwmp.servo.get("Lift Rotate");
             //Side Arm and Platform Servos
             armPivot = hwmp.servo.get("Arm Pivot");
             armClasp = hwmp.servo.get("Arm Clasp");
@@ -56,6 +57,7 @@ public class Hardware {
             //Flips motors because they are placed in the opposite direction on the robot---allows for all motors to move in the same direction for one value
             rightFront.setDirection(DcMotor.Direction.REVERSE);
             leftFront.setDirection(DcMotor.Direction.REVERSE);
+            lift.setDirection(DcMotor.Direction.REVERSE);
             //leftBack.setDirection(DcMotor.Direction.REVERSE);
 
         }
@@ -102,7 +104,7 @@ public class Hardware {
             platform.setPosition(Servo.MIN_POSITION);
             //liftLeft.setPosition(Servo.MIN_POSITION);
             liftRight.setPosition(Servo.MIN_POSITION);
-            liftRotate.setPosition(Servo.MIN_POSITION);
+            //liftRotate.setPosition(Servo.MIN_POSITION);
             armPivot.setPosition(Servo.MIN_POSITION);
             armClasp.setPosition(Servo.MIN_POSITION);
 

@@ -26,7 +26,11 @@ public class PlatformBlue extends org.firstinspires.ftc.teamcode.Autonomous.Auto
         waitFor(1);
         strafe(1, 0, 2);
         waitFor(1);
+        //Trying to move sideways before parking
+        strafe(0, 1, 2);
+
         strafe(-1, 0,3.3);
+
         stop();
     }
 }

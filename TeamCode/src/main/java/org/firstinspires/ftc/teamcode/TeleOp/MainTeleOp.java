@@ -31,13 +31,14 @@ public class MainTeleOp extends OpMode {
 
     //Define the Motors and Servos here to not rely on referencing the robot variable to access the motors and servos
     DcMotor leftFront, rightFront, leftBack, rightBack, greenWheelLeft, greenWheelRight, lift;
-    Servo liftLeft, liftRight, liftRotate, armPivot, armClasp, platform;
+    Servo /*liftLeft,*/ liftRight, /*liftRotate,*/ armPivot, armClasp, platform;
 
-    @Override
+
     /**
      * Initializes the robot by mapping the hardware, resetting encoders, and setting servos to the correct starting positions
      * Runs when pressing "init" button for a TeleOp Mode
      */
+    @Override
     public void init() {
 
         //Map hardware
@@ -52,7 +53,7 @@ public class MainTeleOp extends OpMode {
         lift = robot.lift;
         //liftLeft = robot.liftLeft;
         liftRight = robot.liftRight;
-        liftRotate = robot.liftRotate;
+        //liftRotate = robot.liftRotate;
         armPivot = robot.armPivot;
         armClasp = robot.armClasp;
         platform = robot.platform;
@@ -67,15 +68,16 @@ public class MainTeleOp extends OpMode {
         //liftLeft.setPosition(Servo.MAX_POSITION);
         liftRight.setPosition(Servo.MIN_POSITION);
         //TODO Check initialization
-        liftRotate.setPosition(Servo.MIN_POSITION);
+        //liftRotate.setPosition(Servo.MIN_POSITION);
 
     }
 
-    @Override
+
     /**
      * Runs the main methods of TeleOp and telemetry.
      * Loop repeats so that it is checking controllers and telemetry values at all times for continuous running
      */
+    @Override
     public void loop() {
 
         //Methods responsible for control of different parts of the the robot
@@ -105,22 +107,18 @@ public class MainTeleOp extends OpMode {
      * The left trigger turns off the beginning function
      */
     public void Intake() {
-        double speed = 0.5;
+        double speed = 1;
         boolean beginning = true;
-
-        if (gamepad1.left_trigger > 0)
-            beginning = false;
-
-        //Regular intake
-        if (!beginning) {
-            greenWheelRight.setPower(speed);
-            greenWheelLeft.setPower(-1 * speed);
-        }
 
         //Spit function
         if (gamepad1.right_trigger > 0) {
-            greenWheelRight.setPower(-1);
-            greenWheelLeft.setPower(1);
+            greenWheelRight.setPower(1);
+            greenWheelLeft.setPower(-1);
+        }
+        else //if(gamepad1.left_trigger > 0)
+        {
+            greenWheelRight.setPower(-1 * speed);
+            greenWheelLeft.setPower(speed);
         }
     }
 
@@ -175,31 +173,31 @@ public class MainTeleOp extends OpMode {
         final int LOWER_LIFT_LIMIT = 0;
 
         //Run lift with encoders in mind
-        while(lift.getCurrentPosition() <= UPPER_LIFT_LIMIT && lift.getCurrentPosition() >= LOWER_LIFT_LIMIT)
-            lift.setPower(gamepad2.left_stick_y);
-        while(lift.getCurrentPosition() > UPPER_LIFT_LIMIT)
-            lift.setPower(-1);
-        while(lift.getCurrentPosition() < LOWER_LIFT_LIMIT)
-            lift.setPower(1);
+        //while(lift.getCurrentPosition() <= UPPER_LIFT_LIMIT && lift.getCurrentPosition() >= LOWER_LIFT_LIMIT)
+        lift.setPower(gamepad2.left_stick_y);
+        //while(lift.getCurrentPosition() > UPPER_LIFT_LIMIT)
+        //lift.setPower(-1);
+        //while(lift.getCurrentPosition() < LOWER_LIFT_LIMIT)
+        //lift.setPower(1);
 
         //Controls for the block holders
         if(gamepad2.left_bumper)
         {
-            liftLeft.setPosition(Servo.MIN_POSITION);
+            //liftLeft.setPosition(Servo.MIN_POSITION);
             liftRight.setPosition(Servo.MAX_POSITION);
         }
         if(gamepad2.right_bumper)
         {
-            liftLeft.setPosition(Servo.MAX_POSITION);
+            //liftLeft.setPosition(Servo.MAX_POSITION);
             liftRight.setPosition(Servo.MIN_POSITION);
         }
 
         //Controls for the lift rotate
-        if (gamepad2.right_stick_x > 0.5)
-            liftRotate.setPosition(Servo.MAX_POSITION);
+        //if (gamepad2.right_stick_x > 0.5)
+        //liftRotate.setPosition(Servo.MAX_POSITION);
 
-        if (gamepad2.right_stick_x < -0.5)
-            liftRotate.setPosition(Servo.MIN_POSITION);
+        //if (gamepad2.right_stick_x < -0.5)
+        //liftRotate.setPosition(Servo.MIN_POSITION);
 
     }
 
@@ -229,6 +227,4 @@ public class MainTeleOp extends OpMode {
     }
 
 }
-
-
 
