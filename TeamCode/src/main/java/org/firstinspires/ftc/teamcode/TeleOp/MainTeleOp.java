@@ -171,13 +171,17 @@ public class MainTeleOp extends OpMode {
         final int UPPER_LIFT_LIMIT = 3000;
         final int LOWER_LIFT_LIMIT = 0;
 
-        //Run lift with encoders in mind
-        //while(lift.getCurrentPosition() <= UPPER_LIFT_LIMIT && lift.getCurrentPosition() >= LOWER_LIFT_LIMIT)
+        //Run lift
         lift.setPower(gamepad2.left_stick_y);
-        //while(lift.getCurrentPosition() > UPPER_LIFT_LIMIT)
-        //lift.setPower(-1);
-        //while(lift.getCurrentPosition() < LOWER_LIFT_LIMIT)
-        //lift.setPower(1);
+
+        //Run lift with encoders in mind
+        if(gamepad2.left_stick_y > 0)
+            while(lift.getCurrentPosition() < UPPER_LIFT_LIMIT && lift.getCurrentPosition() > LOWER_LIFT_LIMIT)
+                lift.setPower(1);
+            else
+                lift.setPower(0);
+
+
 
         //Controls for the block holders
         if(gamepad2.left_bumper)
@@ -192,6 +196,12 @@ public class MainTeleOp extends OpMode {
             liftLeft.setPosition(Servo.MAX_POSITION);
             liftRight.setPosition(Servo.MIN_POSITION);
         }
+        if(gamepad2.left_bumper && gamepad2.right_bumper)
+        {
+            //Ready for intake
+            liftLeft.setPosition(0.25);
+            liftRight.setPosition(0.75);
+        }
 
         //Controls for the lift rotate
         if (gamepad2.right_stick_x > 0.5)
@@ -199,6 +209,7 @@ public class MainTeleOp extends OpMode {
 
         if (gamepad2.right_stick_x < -0.5)
             liftRotate.setPosition(Servo.MIN_POSITION);
+
 
     }
 
