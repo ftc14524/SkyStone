@@ -23,7 +23,6 @@ public class Autonomous extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime();
     DcMotor leftFront, rightFront, leftBack, rightBack;
     Servo armClasp, armPivot, platform;
-    protected CameraName cameraName;
 
     //Encoder Constants
     static final double COUNTS_PER_MOTOR_REV = 2240;    // change for mecanum
@@ -47,7 +46,7 @@ public class Autonomous extends LinearOpMode {
         platform = robot.platform;
         armPivot = robot.armPivot;
         armClasp = robot.armClasp;
-        cameraName = robot.cameraName;
+
 
         //Set Beginning Position Servos
         platform.setPosition(Servo.MAX_POSITION);

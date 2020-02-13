@@ -20,8 +20,8 @@ public class Hardware {
         //Lift
         public DcMotor lift;
         //Lift Servos
-        public Servo liftRight; //, liftRotate;
-        //public Servo liftLeft, liftRight, liftRotate;
+        //public Servo liftRight; //, liftRotate;
+        public Servo liftLeft, liftRight, liftRotate;
         //Side Arm and Platform Servos
         public Servo armPivot, armClasp, platform;
         //Camera
@@ -44,9 +44,9 @@ public class Hardware {
             //Lift
             lift = hwmp.dcMotor.get("Lift");
             //Lift Servos
-            //liftLeft = hwmp.servo.get("Lift Left");
+            liftLeft = hwmp.servo.get("Lift Left");
             liftRight = hwmp.servo.get("Lift Right");
-            //liftRotate = hwmp.servo.get("Lift Rotate");
+            liftRotate = hwmp.servo.get("Lift Rotate");
             //Side Arm and Platform Servos
             armPivot = hwmp.servo.get("Arm Pivot");
             armClasp = hwmp.servo.get("Arm Clasp");
@@ -102,9 +102,9 @@ public class Hardware {
 
             //Servos
             platform.setPosition(Servo.MIN_POSITION);
-            //liftLeft.setPosition(Servo.MIN_POSITION);
-            liftRight.setPosition(Servo.MIN_POSITION);
-            //liftRotate.setPosition(Servo.MIN_POSITION);
+            liftLeft.setPosition(Servo.MIN_POSITION);
+            liftRight.setPosition(Servo.MAX_POSITION);
+            liftRotate.setPosition(Servo.MIN_POSITION);
             armPivot.setPosition(Servo.MIN_POSITION);
             armClasp.setPosition(Servo.MIN_POSITION);
 

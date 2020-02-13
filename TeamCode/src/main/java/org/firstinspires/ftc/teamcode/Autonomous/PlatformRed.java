@@ -15,18 +15,25 @@ public class PlatformRed extends org.firstinspires.ftc.teamcode.Autonomous.Auton
 
         super.runOpMode();
         waitForStart();
+        //Approach foundation
         strafe(1, -1, 2.5);
         waitFor(1);
+        //Grab foundation
         platform.setPosition(Servo.MIN_POSITION);
         waitFor(1);
+        //Pull foundation back
         strafe(-1, 0.8, 3);
         waitFor(1);
-        rotate(true, 2.8, 1);
+        //Rotate foundation horizontally
+        rotate(true, 2.1, 1);
         waitFor(1);
+        //Let go of platform
         platform.setPosition(Servo.MAX_POSITION);
         waitFor(1);
+        //Push foundation against wall to keep foundation straight and ensure it fits in the building zone
         strafe(1, 0, 0.8);
         waitFor(1);
+        //Park under alliance bridge
         strafe(-1, 0,2.7);
         stop();
 

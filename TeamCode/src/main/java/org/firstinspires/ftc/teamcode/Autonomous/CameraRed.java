@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -21,6 +22,8 @@ import java.util.List;
  */
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Camera Red", group = "Camera Red")
 public class CameraRed extends Autonomous{
+
+    protected CameraName cameraName;
 
     //Used to signify which position the SkyStones are in
     public enum SkyStonePosition {
@@ -53,6 +56,7 @@ public class CameraRed extends Autonomous{
 
         //First run the Autonomous class code of setting up hardware
         super.runOpMode();
+        cameraName = robot.cameraName;
 
         //Now find the SkyStone and run the correct code
         switch (CameraTime()) {

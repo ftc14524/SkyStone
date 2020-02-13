@@ -31,7 +31,7 @@ public class MainTeleOp extends OpMode {
 
     //Define the Motors and Servos here to not rely on referencing the robot variable to access the motors and servos
     DcMotor leftFront, rightFront, leftBack, rightBack, greenWheelLeft, greenWheelRight, lift;
-    Servo /*liftLeft,*/ liftRight, /*liftRotate,*/ armPivot, armClasp, platform;
+    Servo liftLeft, liftRight, liftRotate, armPivot, armClasp, platform;
 
 
     /**
@@ -51,9 +51,9 @@ public class MainTeleOp extends OpMode {
         greenWheelLeft = robot.greenWheelLeft;
         greenWheelRight = robot.greenWheelRight;
         lift = robot.lift;
-        //liftLeft = robot.liftLeft;
+        liftLeft = robot.liftLeft;
         liftRight = robot.liftRight;
-        //liftRotate = robot.liftRotate;
+        liftRotate = robot.liftRotate;
         armPivot = robot.armPivot;
         armClasp = robot.armClasp;
         platform = robot.platform;
@@ -65,10 +65,9 @@ public class MainTeleOp extends OpMode {
         platform.setPosition(Servo.MAX_POSITION);
         armPivot.setPosition(Servo.MAX_POSITION);
         armClasp.setPosition(Servo.MAX_POSITION);
-        //liftLeft.setPosition(Servo.MAX_POSITION);
-        liftRight.setPosition(Servo.MIN_POSITION);
-        //TODO Check initialization
-        //liftRotate.setPosition(Servo.MIN_POSITION);
+        liftLeft.setPosition(Servo.MIN_POSITION);
+        liftRight.setPosition(Servo.MAX_POSITION);
+        liftRotate.setPosition(Servo.MIN_POSITION);
 
     }
 
@@ -115,7 +114,7 @@ public class MainTeleOp extends OpMode {
             greenWheelRight.setPower(1);
             greenWheelLeft.setPower(-1);
         }
-        else //if(gamepad1.left_trigger > 0)
+        else if(gamepad1.left_trigger > 0)
         {
             greenWheelRight.setPower(-1 * speed);
             greenWheelLeft.setPower(speed);
@@ -183,21 +182,23 @@ public class MainTeleOp extends OpMode {
         //Controls for the block holders
         if(gamepad2.left_bumper)
         {
-            //liftLeft.setPosition(Servo.MIN_POSITION);
+            //Close
+            liftLeft.setPosition(Servo.MIN_POSITION);
             liftRight.setPosition(Servo.MAX_POSITION);
         }
         if(gamepad2.right_bumper)
         {
-            //liftLeft.setPosition(Servo.MAX_POSITION);
+            //Open
+            liftLeft.setPosition(Servo.MAX_POSITION);
             liftRight.setPosition(Servo.MIN_POSITION);
         }
 
         //Controls for the lift rotate
-        //if (gamepad2.right_stick_x > 0.5)
-        //liftRotate.setPosition(Servo.MAX_POSITION);
+        if (gamepad2.right_stick_x > 0.5)
+            liftRotate.setPosition(Servo.MAX_POSITION);
 
-        //if (gamepad2.right_stick_x < -0.5)
-        //liftRotate.setPosition(Servo.MIN_POSITION);
+        if (gamepad2.right_stick_x < -0.5)
+            liftRotate.setPosition(Servo.MIN_POSITION);
 
     }
 
