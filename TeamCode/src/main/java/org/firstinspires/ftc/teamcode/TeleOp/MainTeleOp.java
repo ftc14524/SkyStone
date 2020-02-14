@@ -171,17 +171,30 @@ public class MainTeleOp extends OpMode {
         final int UPPER_LIFT_LIMIT = 3000;
         final int LOWER_LIFT_LIMIT = 0;
 
+        int count = 0;
+        final int BLOCK_DISTANCE = 50;
         //Run lift
         lift.setPower(gamepad2.left_stick_y);
-
+/*
         //Run lift with encoders in mind
-        if(gamepad2.left_stick_y > 0)
-            while(lift.getCurrentPosition() < UPPER_LIFT_LIMIT && lift.getCurrentPosition() > LOWER_LIFT_LIMIT)
+        if(gamepad2.left_stick_y > 0) {
+            while (lift.getCurrentPosition() < UPPER_LIFT_LIMIT && lift.getCurrentPosition() > LOWER_LIFT_LIMIT)
                 lift.setPower(1);
-            else
-                lift.setPower(0);
+        }
 
+        else if(gamepad2.left_stick_y < 0) {
+            while (lift.getCurrentPosition() < UPPER_LIFT_LIMIT && lift.getCurrentPosition() > LOWER_LIFT_LIMIT)
+                lift.setPower(-1);
+        }
+        else if(gamepad2.dpad_up)
+        {
+            while(lift.getCurrentPosition() < (count + BLOCK_DISTANCE))
+                lift.setPower(1);
+            count+=BLOCK_DISTANCE;
+        }
+        else lift.setPower(0);
 
+*/
 
         //Controls for the block holders
         if(gamepad2.left_bumper)
