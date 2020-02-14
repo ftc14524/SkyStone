@@ -6,9 +6,8 @@ import com.qualcomm.robotcore.hardware.Servo;
  * This class contains the code the robot executes if CameraRed determines the SkyStones are in positions 3 and 6
  */
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Chosen Mode - Third Red", group = "Camera Red")
-public class ThirdSkyStoneRed extends CameraRed{
-    public ThirdSkyStoneRed()
-    {
+public class ThirdSkyStoneRed extends CameraRed {
+    public ThirdSkyStoneRed() {
         //First Block
         //Strafe left and forward 1 second.
         strafe(1, -1, .6);

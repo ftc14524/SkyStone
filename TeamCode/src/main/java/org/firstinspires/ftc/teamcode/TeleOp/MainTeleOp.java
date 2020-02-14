@@ -2,9 +2,12 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.teamcode.Hardware;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Servo;
+
 import java.lang.Math;
 
 /*
@@ -113,9 +116,7 @@ public class MainTeleOp extends OpMode {
         if (gamepad1.right_trigger > 0) {
             greenWheelRight.setPower(1);
             greenWheelLeft.setPower(-1);
-        }
-        else if(gamepad1.left_trigger > 0)
-        {
+        } else if (gamepad1.left_trigger > 0) {
             greenWheelRight.setPower(-1 * speed);
             greenWheelLeft.setPower(speed);
         }
@@ -135,7 +136,7 @@ public class MainTeleOp extends OpMode {
         //Use trig to convert coordinates into a direction and radius
         double magnitude = Math.sqrt(Math.pow(gamepad1.left_stick_x, 2) + Math.pow(gamepad1.left_stick_y, 2));
         double direction = Math.atan2(-gamepad1.left_stick_x, gamepad1.left_stick_y);
-        double rotation = gamepad1.right_stick_x *1.2; //INFO the below line of code makes the robot's rotation a little more sensitive (faster)
+        double rotation = gamepad1.right_stick_x * 1.2; //INFO the below line of code makes the robot's rotation a little more sensitive (faster)
 
         //INFO Increasing speed to maximum of 1
         //Calculate the power of each motor based on radius and direction
@@ -174,7 +175,12 @@ public class MainTeleOp extends OpMode {
         int count = 0;
         final int BLOCK_DISTANCE = 50;
         //Run lift
-        lift.setPower(gamepad2.left_stick_y);
+        //lift.setPower(gamepad2.left_stick_y);
+
+        float power = gamepad2.left_stick_y;
+        lift.setPower((lift.getCurrentPosition() >= 0 || power > 0) ? power : 0);
+        lift.setPower((lift.getCurrentPosition() >= 0 || power < 0) ? power : 0);
+
 /*
         //Run lift with encoders in mind
         if(gamepad2.left_stick_y > 0) {
@@ -197,20 +203,17 @@ public class MainTeleOp extends OpMode {
 */
 
         //Controls for the block holders
-        if(gamepad2.left_bumper)
-        {
+        if (gamepad2.left_bumper) {
             //Close
             liftLeft.setPosition(Servo.MIN_POSITION);
             liftRight.setPosition(Servo.MAX_POSITION);
         }
-        if(gamepad2.right_bumper)
-        {
+        if (gamepad2.right_bumper) {
             //Open
             liftLeft.setPosition(Servo.MAX_POSITION);
             liftRight.setPosition(Servo.MIN_POSITION);
         }
-        if(gamepad2.left_bumper && gamepad2.right_bumper)
-        {
+        if (gamepad2.left_bumper && gamepad2.right_bumper) {
             //Ready for intake
             liftLeft.setPosition(0.25);
             liftRight.setPosition(0.75);
@@ -238,9 +241,9 @@ public class MainTeleOp extends OpMode {
             armPivot.setPosition(Servo.MIN_POSITION);
 
         //Grasper Control
-        if(gamepad1.dpad_up)
+        if (gamepad1.dpad_up)
             armClasp.setPosition(Servo.MIN_POSITION);
-        if(gamepad1.dpad_down)
+        if (gamepad1.dpad_down)
             armClasp.setPosition(Servo.MAX_POSITION);
 
         //Platform Control

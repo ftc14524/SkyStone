@@ -12,7 +12,6 @@ public class PlatformBlue extends org.firstinspires.ftc.teamcode.Autonomous.Auto
 
     @Override
     public void runOpMode() {
-
         super.runOpMode();
         waitForStart();
         //Approach foundation
@@ -36,6 +35,5 @@ public class PlatformBlue extends org.firstinspires.ftc.teamcode.Autonomous.Auto
         //Park under alliance bridge
         strafe(-1, 0,2.7);
         stop();
-
     }
 }
