@@ -36,11 +36,15 @@ public class MainTeleOp extends OpMode {
     DcMotor leftFront, rightFront, leftBack, rightBack, greenWheelLeft, greenWheelRight, lift;
     Servo liftLeft, liftRight, liftRotate, armPivot, armClasp, platform;
 
+    final double LEFT_SERVO_POSITION = 0.3;
+    final double RIGHT_SERVO_POSITION = 0.85;
 
     /**
      * Initializes the robot by mapping the hardware, resetting encoders, and setting servos to the correct starting positions
      * Runs when pressing "init" button for a TeleOp Mode
      */
+    public int UPPER_LIFT_LIMIT, LOWER_LIFT_LIMIT;
+
     @Override
     public void init() {
 
@@ -68,9 +72,12 @@ public class MainTeleOp extends OpMode {
         platform.setPosition(Servo.MAX_POSITION);
         armPivot.setPosition(Servo.MAX_POSITION);
         armClasp.setPosition(Servo.MAX_POSITION);
-        liftLeft.setPosition(Servo.MIN_POSITION);
-        liftRight.setPosition(Servo.MAX_POSITION);
+        liftLeft.setPosition(LEFT_SERVO_POSITION);
+        liftRight.setPosition(RIGHT_SERVO_POSITION);
         liftRotate.setPosition(Servo.MIN_POSITION);
+
+        LOWER_LIFT_LIMIT = lift.getCurrentPosition();
+        UPPER_LIFT_LIMIT = LOWER_LIFT_LIMIT - 6000;
 
     }
 
@@ -169,8 +176,6 @@ public class MainTeleOp extends OpMode {
     public void LiftControl() {
 
         //Encoder limits to prevent breaking the lift
-        final int UPPER_LIFT_LIMIT = -6000;
-        final int LOWER_LIFT_LIMIT = 0;
 
         int count = 0;
         final int BLOCK_DISTANCE = 50;
@@ -178,11 +183,17 @@ public class MainTeleOp extends OpMode {
         //lift.setPower(gamepad2.left_stick_y);
 
         float power = gamepad2.left_stick_y;
-        if(lift.getCurrentPosition() >= LOWER_LIFT_LIMIT)
+        //0
+        if (lift.getCurrentPosition() > LOWER_LIFT_LIMIT && power >= 0)
             lift.setPower(0);
-        else if(lift.getCurrentPosition() <= UPPER_LIFT_LIMIT){
+        else if (lift.getCurrentPosition() > LOWER_LIFT_LIMIT && power < 0)
+            lift.setPower(power);
+        else if (lift.getCurrentPosition() < UPPER_LIFT_LIMIT && power <= 0) {
+            //-6000
             lift.setPower(0);
-        }else{
+        } else if(lift.getCurrentPosition() < UPPER_LIFT_LIMIT && power >0)
+            lift.setPower(power);
+        else if (!(lift.getCurrentPosition() > LOWER_LIFT_LIMIT || lift.getCurrentPosition() < UPPER_LIFT_LIMIT)) {
             lift.setPower(power);
         }
         /*lift.setPower((lift.getCurrentPosition() >= 0 || power > 0) ? power : 0);
@@ -210,20 +221,20 @@ public class MainTeleOp extends OpMode {
 */
 
         //Controls for the block holders
-        if (gamepad2.left_bumper) {
+        if (gamepad2.x) {
             //Close
-            liftLeft.setPosition(Servo.MIN_POSITION);
-            liftRight.setPosition(Servo.MAX_POSITION);
+            liftLeft.setPosition(LEFT_SERVO_POSITION);
+            liftRight.setPosition(RIGHT_SERVO_POSITION);
         }
-        if (gamepad2.right_bumper) {
+        if (gamepad2.y) {
             //Open
             liftLeft.setPosition(Servo.MAX_POSITION);
             liftRight.setPosition(Servo.MIN_POSITION);
         }
-        if (gamepad2.left_bumper && gamepad2.right_bumper) {
-            //Ready for intake
-            liftLeft.setPosition(0.25);
-            liftRight.setPosition(0.75);
+        if (gamepad2.right_trigger > 0) {
+            //Clamp
+            liftLeft.setPosition(Servo.MIN_POSITION);
+            liftRight.setPosition(Servo.MAX_POSITION);
         }
 
         //Controls for the lift rotate
