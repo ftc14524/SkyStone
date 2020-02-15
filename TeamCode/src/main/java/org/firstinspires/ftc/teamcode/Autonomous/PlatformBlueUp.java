@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 /**
  * This class makes the park the foundation in the building zone on the Red Alliance
  */
-@Autonomous(name = "Platform Red", group = "Autonomous")
-public class PlatformRed extends org.firstinspires.ftc.teamcode.Autonomous.Autonomous{
+@Autonomous(name = "Platform Blue Up", group = "Autonomous")
+public class PlatformBlueUp extends org.firstinspires.ftc.teamcode.Autonomous.Autonomous{
 
     @Override
     public void runOpMode() {
@@ -16,18 +16,17 @@ public class PlatformRed extends org.firstinspires.ftc.teamcode.Autonomous.Auton
         super.runOpMode();
         waitForStart();
         //Approach foundation
-        strafe(1, -1, 3);
+        strafe(1, 1, 2.8);
         //waitFor(1);
         //Grab foundation
-        waitFor(1);
         platform.setPosition(0.3);
         //waitFor(1);
         //Pull foundation back
-        strafe(-0.5, 0.4, 10);
+        strafe(-0.5, -0.4, 10);
         //strafe(-1, 0, 1.3);
         //waitFor(0.5);
         //Rotate foundation horizontally
-        rotate(true, 2.5, 1);
+        rotate(false, 2.5, 1);
         //waitFor(1);
         strafe(1,0,0.5);
         //Let go of platform
@@ -37,7 +36,8 @@ public class PlatformRed extends org.firstinspires.ftc.teamcode.Autonomous.Auton
         strafe(1, 0, 0.8);
         //waitFor(1);
         //Park under alliance bridge
-        strafe(-1, 0,2.7);
+        strafe(-1, 1,1.5);
+        strafe(-1, 0,1.3);
         stop();
 
     }

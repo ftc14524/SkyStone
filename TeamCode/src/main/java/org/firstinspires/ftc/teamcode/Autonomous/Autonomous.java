@@ -51,7 +51,7 @@ public class Autonomous extends LinearOpMode {
         //Set Beginning Position Servos
         platform.setPosition(Servo.MAX_POSITION);
         armPivot.setPosition(Servo.MAX_POSITION);
-        armClasp.setPosition(Servo.MAX_POSITION);
+        armClasp.setPosition(Servo.MIN_POSITION);
 
     }
 

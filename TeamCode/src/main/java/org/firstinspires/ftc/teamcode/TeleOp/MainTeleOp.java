@@ -36,7 +36,7 @@ public class MainTeleOp extends OpMode {
     DcMotor leftFront, rightFront, leftBack, rightBack, greenWheelLeft, greenWheelRight, lift;
     Servo liftLeft, liftRight, liftRotate, armPivot, armClasp, platform;
 
-    final double LEFT_SERVO_POSITION = 0.3;
+    final double LEFT_SERVO_POSITION = 0.35;
     final double RIGHT_SERVO_POSITION = 0.85;
 
     /**
@@ -49,6 +49,7 @@ public class MainTeleOp extends OpMode {
     public void init() {
 
         //Map hardware
+        precision = false;
         robot = new Hardware(hardwareMap);
         //Assign the motors and servos to the ones on the robot to not require calling "robot" every time a method or servo needs to be called.
         leftFront = robot.leftFront;
@@ -71,7 +72,7 @@ public class MainTeleOp extends OpMode {
         //Set starting position for the servos so they don't exceed the limit
         platform.setPosition(Servo.MAX_POSITION);
         armPivot.setPosition(Servo.MAX_POSITION);
-        armClasp.setPosition(Servo.MAX_POSITION);
+        armClasp.setPosition(Servo.MIN_POSITION);
         liftLeft.setPosition(LEFT_SERVO_POSITION);
         liftRight.setPosition(RIGHT_SERVO_POSITION);
         liftRotate.setPosition(Servo.MIN_POSITION);
@@ -134,6 +135,8 @@ public class MainTeleOp extends OpMode {
      * The right joystick controls rotation --- pushing right leads to turning right and pushing left leads to turning left
      * The left joystick controls strafing --- the direction pushed is the direction the robot moves, taking into account how far the joystick is being pushed
      */
+    boolean precision;
+
     public void DriveControl() {
 
         //Get movement and directions from the joysticks
@@ -161,13 +164,14 @@ public class MainTeleOp extends OpMode {
             ratio = hypot / (Math.max(Math.max(Math.max(Math.abs(lf), Math.abs(lb)), Math.abs(rb)), Math.abs(rf)));
 
         //Motor power and ration combined
-        if(gamepad1.left_stick_button || gamepad1.right_stick_button){
-            ratio *= 0.3;
+        if (gamepad1.right_bumper) {
+            precision = !precision;
         }
-            leftFront.setPower(ratio * lf);
-            leftBack.setPower(ratio * lb);
-            rightFront.setPower(ratio * rf);
-            rightBack.setPower(ratio * rb);
+        if (precision) ratio *= 0.3;
+        leftFront.setPower(ratio * lf);
+        leftBack.setPower(ratio * lb);
+        rightFront.setPower(ratio * rf);
+        rightBack.setPower(ratio * rb);
     }
 
     /**
@@ -193,7 +197,7 @@ public class MainTeleOp extends OpMode {
         else if (lift.getCurrentPosition() < UPPER_LIFT_LIMIT && power <= 0) {
             //-6000
             lift.setPower(0);
-        } else if(lift.getCurrentPosition() < UPPER_LIFT_LIMIT && power >0)
+        } else if (lift.getCurrentPosition() < UPPER_LIFT_LIMIT && power > 0)
             lift.setPower(power);
         else if (!(lift.getCurrentPosition() > LOWER_LIFT_LIMIT || lift.getCurrentPosition() < UPPER_LIFT_LIMIT)) {
             lift.setPower(power);
@@ -255,7 +259,7 @@ public class MainTeleOp extends OpMode {
     public void ArmAndPlatformControl() {
 
         //Main Arm Control
-        if(gamepad1.left_stick_button) {
+        if (gamepad1.left_bumper) {
             greenWheelRight.setPower(0);
             greenWheelLeft.setPower(0);
         }
