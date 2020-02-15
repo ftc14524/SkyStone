@@ -161,6 +161,9 @@ public class MainTeleOp extends OpMode {
             ratio = hypot / (Math.max(Math.max(Math.max(Math.abs(lf), Math.abs(lb)), Math.abs(rb)), Math.abs(rf)));
 
         //Motor power and ration combined
+        if(gamepad1.left_stick_button || gamepad2.right_stick_button){
+            ratio *= 0.3;
+        }
             leftFront.setPower(ratio * lf);
             leftBack.setPower(ratio * lb);
             rightFront.setPower(ratio * rf);
