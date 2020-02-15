@@ -169,7 +169,7 @@ public class MainTeleOp extends OpMode {
     public void LiftControl() {
 
         //Encoder limits to prevent breaking the lift
-        final int UPPER_LIFT_LIMIT = 3000;
+        final int UPPER_LIFT_LIMIT = -6000;
         final int LOWER_LIFT_LIMIT = 0;
 
         int count = 0;
@@ -178,8 +178,15 @@ public class MainTeleOp extends OpMode {
         //lift.setPower(gamepad2.left_stick_y);
 
         float power = gamepad2.left_stick_y;
-        lift.setPower((lift.getCurrentPosition() >= 0 || power > 0) ? power : 0);
-        lift.setPower((lift.getCurrentPosition() >= 0 || power < 0) ? power : 0);
+        if(lift.getCurrentPosition() >= LOWER_LIFT_LIMIT)
+            lift.setPower(0);
+        else if(lift.getCurrentPosition() <= UPPER_LIFT_LIMIT){
+            lift.setPower(0);
+        }else{
+            lift.setPower(power);
+        }
+        /*lift.setPower((lift.getCurrentPosition() >= 0 || power > 0) ? power : 0);
+        lift.setPower((lift.getCurrentPosition() >= 0 || power < 0) ? power : 0);*/
 
 /*
         //Run lift with encoders in mind
