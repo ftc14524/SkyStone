@@ -161,11 +161,10 @@ public class MainTeleOp extends OpMode {
             ratio = hypot / (Math.max(Math.max(Math.max(Math.abs(lf), Math.abs(lb)), Math.abs(rb)), Math.abs(rf)));
 
         //Motor power and ration combined
-        leftFront.setPower(ratio * lf);
-        leftBack.setPower(ratio * lb);
-        rightFront.setPower(ratio * rf);
-        rightBack.setPower(ratio * rb);
-
+            leftFront.setPower(ratio * lf);
+            leftBack.setPower(ratio * lb);
+            rightFront.setPower(ratio * rf);
+            rightBack.setPower(ratio * rb);
     }
 
     /**
@@ -231,7 +230,7 @@ public class MainTeleOp extends OpMode {
             liftLeft.setPosition(Servo.MAX_POSITION);
             liftRight.setPosition(Servo.MIN_POSITION);
         }
-        if (gamepad2.right_trigger > 0) {
+        if (gamepad2.b) {
             //Clamp
             liftLeft.setPosition(Servo.MIN_POSITION);
             liftRight.setPosition(Servo.MAX_POSITION);
@@ -253,6 +252,10 @@ public class MainTeleOp extends OpMode {
     public void ArmAndPlatformControl() {
 
         //Main Arm Control
+        if(gamepad1.left_stick_button) {
+            greenWheelRight.setPower(0);
+            greenWheelLeft.setPower(0);
+        }
         if (gamepad1.a)
             armPivot.setPosition(Servo.MAX_POSITION);
         if (gamepad1.b)
