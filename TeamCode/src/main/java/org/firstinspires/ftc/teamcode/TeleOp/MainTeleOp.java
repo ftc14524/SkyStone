@@ -78,7 +78,7 @@ public class MainTeleOp extends OpMode {
         liftRotate.setPosition(Servo.MIN_POSITION);
 
         LOWER_LIFT_LIMIT = lift.getCurrentPosition();
-        UPPER_LIFT_LIMIT = LOWER_LIFT_LIMIT - 6000;
+        UPPER_LIFT_LIMIT = LOWER_LIFT_LIMIT - 6300;
 
     }
 
